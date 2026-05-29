@@ -186,7 +186,7 @@ function ImageFrame({
           alt={alt}
           onError={() => setBroken(true)}
           loading="lazy"
-          className={`h-full w-full object-cover grayscale contrast-125 saturate-0 transition-transform duration-1000 group-hover:scale-105 ${imgClassName}`}
+          className={`h-full w-full object-cover brightness-95 contrast-110 saturate-110 transition-transform duration-1000 group-hover:scale-105 ${imgClassName}`}
         />
       ) : (
         <div className="flex h-full min-h-[220px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center">
@@ -196,8 +196,8 @@ function ImageFrame({
         </div>
       )}
 
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.72))]" />
-      <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_120px_rgba(0,0,0,0.84)] sm:shadow-[inset_0_0_150px_rgba(0,0,0,0.86)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.45))]" />
+      <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_105px_rgba(0,0,0,0.68)] sm:shadow-[inset_0_0_135px_rgba(0,0,0,0.72)]" />
     </div>
   );
 }
