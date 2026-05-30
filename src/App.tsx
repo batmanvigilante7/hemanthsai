@@ -300,7 +300,7 @@ function Hero() {
           </button>
 
           <div className="hidden lg:block">
-            <Button href="mailto:hemanthsairoyal7@gmail.com">Build with me</Button>
+            <Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button>
           </div>
         </div>
       </nav>
@@ -313,7 +313,7 @@ function Hero() {
             </a>
           ))}
           <div className="mt-7">
-            <Button href="mailto:hemanthsairoyal7@gmail.com">Build with me</Button>
+            <Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button>
           </div>
         </div>
       )}
@@ -323,7 +323,7 @@ function Hero() {
           <FadeIn>
             <p className="mb-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.21em] text-white/60 sm:gap-3 sm:text-xs sm:tracking-[0.32em]">
               <Zap className="h-4 w-4 shrink-0" />
-              AI / Product / Design / Execution / Storytelling
+              AI / Software / Design / Writing / Discipline
             </p>
           </FadeIn>
 
@@ -333,12 +333,12 @@ function Hero() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-[10ch] text-[clamp(3.7rem,17vw,8.2rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white"
           >
-            I build proof, not noise.
+            Building proof, not noise.
           </motion.h1>
 
           <FadeIn delay={0.12}>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/72 sm:mt-7 sm:text-xl">
-              AI-native builder shaping products, systems, and stories that survive reality.
+              I’m still early, but I’m building in public — turning curiosity across AI, software, design, and storytelling into visible proof.
             </p>
           </FadeIn>
 
@@ -346,12 +346,12 @@ function Hero() {
             <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-7">
               <span className="liquid-glass inline-flex max-w-full items-center gap-3 rounded-full px-4 py-3 text-[10px] uppercase tracking-[0.16em] text-white/70 sm:text-xs sm:tracking-[0.22em]">
                 <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-white" />
-                <span>Currently building intelligent systems</span>
+                <span>Currently turning scattered ideas into visible projects</span>
               </span>
             </div>
             <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap sm:gap-4">
-              <Button href="#work">Enter the Proof Hub</Button>
-              <Button href="mailto:hemanthsairoyal7@gmail.com">Build with me</Button>
+              <Button href="#work">See what I’m building</Button>
+              <Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button>
             </div>
           </FadeIn>
         </div>
