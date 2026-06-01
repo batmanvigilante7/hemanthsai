@@ -3,14 +3,13 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, Mail, Menu, PenTool, Target, X, Zap } from 'lucide-react';
 
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
-const rootAsset = (fileName: string) => `${import.meta.env.BASE_URL}${fileName}`;
 
 const images = {
   hero: asset('hero-current.webp.webp'),
   martial: asset('karate-roots.webp.webp'),
   stage: asset('stage.webp'),
   shotput: asset('shotput.webp'),
-  blazer: rootAsset('blazer-v2.webp.webp'),
+  blazer: asset('blazer-v2.webp.webp'),
 };
 
 const navLinks = [
