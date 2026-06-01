@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type ComponentType, type ReactNode } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect, useState, type ComponentType, type ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
   BrainCircuit,
@@ -37,6 +37,17 @@ type DashboardItem = {
   text: string;
 };
 
+type EvidenceItem = {
+  title: string;
+  caption: string;
+  src: string;
+  alt: string;
+  label: string;
+  className: string;
+  imgClassName?: string;
+  tone?: 'natural' | 'soft' | 'mono';
+};
+
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
 const images = {
@@ -67,26 +78,26 @@ const projects: Project[] = [
   {
     number: '01',
     name: 'Proof Hub',
-    type: 'Personal OS',
+    type: 'In progress',
     description:
-      'A living identity and proof-of-work hub that consolidates projects, frameworks, experiments, sports discipline, writing, and builder journey into one public system.',
+      'This website is my first public attempt at turning scattered interests, experiences, notes, and experiments into one visible identity.',
     tags: ['Portfolio', 'Identity', 'Proof'],
   },
   {
     number: '02',
     name: 'AI Workflow Lab',
-    type: 'Product Sprint',
+    type: 'Exploring',
     description:
-      'A lab for building AI tools, automations, prototypes, and workflow systems around real problems — using AI as leverage, not just as a toy.',
+      'Experiments with AI tools, automations, agents, and workflows that can become practical leverage instead of just curiosity.',
     tags: ['AI', 'Automation', 'Systems'],
   },
   {
     number: '03',
     name: 'UX Field Notes',
-    type: 'Writing System',
+    type: 'Collecting',
     description:
-      'A library of observations, UX principles, product thinking, and frameworks from learning, experiments, and real interface breakdowns.',
-    tags: ['UX', 'Writing', 'Frameworks'],
+      'A growing collection of interface observations, product thinking, design breakdowns, and notes from learning how better digital experiences are made.',
+    tags: ['UX', 'Writing', 'Product'],
   },
 ];
 
@@ -96,19 +107,19 @@ const dashboard: DashboardItem[] = [
     text: 'GITAM CSE · IIT Madras BS learner · Sainik School Korukonda alumnus',
   },
   {
-    title: 'Current Mission',
-    text: 'Build the Hemanth Sai Proof Hub — AI products, UX case studies, frameworks, experiments, writing, and visible artifacts.',
+    title: 'Current Direction',
+    text: 'Building a visible proof hub around AI, software, design, writing, and learning in public.',
   },
   {
     title: 'Builder Stack',
-    text: 'React · TypeScript · Tailwind · Python · AI tools · GitHub · Figma · UX thinking · product strategy',
+    text: 'React · TypeScript · Tailwind · Python · AI tools · GitHub · Figma · UX thinking',
   },
   {
     title: 'Performance Proof',
-    text: 'Athlete and martial artist with medals across sports. Competitive discipline shapes how I learn and execute.',
+    text: 'Sports and martial arts shaped my relationship with repetition, pressure, and feedback.',
   },
   {
-    title: 'Operating Mode',
+    title: 'Learning Loop',
     text: 'Project → Problem → Skill → Artifact → Explanation → Feedback',
   },
   {
@@ -138,14 +149,14 @@ const pillars: Pillar[] = [
   },
   {
     number: '04',
-    title: 'Storytelling / Content',
-    text: 'Turning ideas into narratives, posts, frameworks, and visual communication.',
+    title: 'Writing / Storytelling',
+    text: 'Turning ideas into narratives, notes, frameworks, and visual communication.',
     icon: Brush,
   },
   {
     number: '05',
     title: 'Execution Systems',
-    text: 'Using campaigns, sprints, proof loops, and feedback cycles to convert ideas into output.',
+    text: 'Using sprints, proof loops, and feedback cycles to convert ideas into output.',
     icon: Target,
   },
 ];
@@ -157,11 +168,54 @@ const obsessions = [
   'Cinematic storytelling',
   'Investing mental models',
   'Execution psychology',
-  'Native advertising',
-  'Personal brand systems',
+  'Product communication',
+  'Personal proof systems',
 ];
 
-const systemSteps = ['Obsession', 'Structure', 'Critique', 'MVP', 'Proof', 'Feedback', 'Iteration'];
+const systemSteps = ['Project', 'Problem', 'Skill', 'Artifact', 'Explanation', 'Feedback', 'Iteration'];
+
+const evidence: EvidenceItem[] = [
+  {
+    title: 'Discipline',
+    caption: 'Martial arts shaped repetition before ambition had words.',
+    src: images.martial,
+    alt: 'Martial arts discipline',
+    label: 'Martial arts',
+    className: 'md:col-span-2 md:row-span-2 h-[360px] sm:h-[520px] md:h-full',
+    imgClassName: 'object-[50%_24%]',
+    tone: 'soft',
+  },
+  {
+    title: 'Voice',
+    caption: 'Public speaking turned ideas into presence.',
+    src: images.stage,
+    alt: 'Stage speaking',
+    label: 'Stage speaking',
+    className: 'md:col-span-3 h-[250px] sm:h-[340px]',
+    imgClassName: 'object-[50%_34%]',
+    tone: 'natural',
+  },
+  {
+    title: 'Pressure',
+    caption: 'Sport taught me that execution reveals character.',
+    src: images.shotput,
+    alt: 'Shotput action',
+    label: 'Shotput',
+    className: 'md:col-span-3 h-[300px] sm:h-[420px]',
+    imgClassName: 'object-[54%_center]',
+    tone: 'soft',
+  },
+  {
+    title: 'Current frame',
+    caption: 'Still early. Still building. Trying to make the work visible.',
+    src: images.blazer,
+    alt: 'Blazer portrait',
+    label: 'Blazer portrait',
+    className: 'md:col-span-2 h-[360px] sm:h-[420px]',
+    imgClassName: 'object-[50%_18%]',
+    tone: 'natural',
+  },
+];
 
 function FadeIn({
   children,
@@ -194,6 +248,8 @@ function ImageFrame({
   className = '',
   imgClassName = '',
   priority = false,
+  fit = 'cover',
+  tone = 'natural',
 }: {
   src: string;
   alt: string;
@@ -201,8 +257,17 @@ function ImageFrame({
   className?: string;
   imgClassName?: string;
   priority?: boolean;
+  fit?: 'cover' | 'contain';
+  tone?: 'natural' | 'soft' | 'mono';
 }) {
   const [broken, setBroken] = useState(false);
+  const toneClass =
+    tone === 'mono'
+      ? 'grayscale brightness-105 contrast-110 saturate-0'
+      : tone === 'soft'
+        ? 'brightness-100 contrast-105 saturate-[0.92]'
+        : 'brightness-100 contrast-105 saturate-100';
+  const fitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
 
   return (
     <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>
@@ -212,7 +277,7 @@ function ImageFrame({
           alt={alt}
           onError={() => setBroken(true)}
           loading={priority ? 'eager' : 'lazy'}
-          className={`h-full w-full object-cover brightness-95 contrast-110 saturate-110 transition-transform duration-700 group-hover:scale-[1.025] md:duration-1000 md:group-hover:scale-105 ${imgClassName}`}
+          className={`h-full w-full ${fitClass} ${toneClass} transition-transform duration-700 group-hover:scale-[1.018] md:duration-1000 md:group-hover:scale-[1.035] ${imgClassName}`}
         />
       ) : (
         <div className="flex h-full min-h-[220px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center">
@@ -222,8 +287,8 @@ function ImageFrame({
         </div>
       )}
 
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),rgba(0,0,0,0.42))]" />
-      <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,0.6)] sm:shadow-[inset_0_0_120px_rgba(0,0,0,0.68)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" />
+      <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" />
     </div>
   );
 }
@@ -254,9 +319,9 @@ function SectionHeading({ children, light = false }: { children: ReactNode; ligh
 
 function Divider({ text }: { text: string }) {
   return (
-    <section className="relative overflow-hidden border-y border-white/10 bg-[#050505] py-10 sm:py-16 md:py-20">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.07),transparent_55%)]" />
-      <div className="relative flex animate-marquee-left whitespace-nowrap text-[24vw] font-black uppercase leading-none tracking-[-0.08em] text-white/[0.08] sm:text-[13vw] lg:text-[10vw]">
+    <section className="relative overflow-hidden border-y border-white/10 bg-[#050505] py-9 sm:py-14 md:py-16">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_55%)]" />
+      <div className="relative flex animate-marquee-left whitespace-nowrap text-[22vw] font-black uppercase leading-none tracking-[-0.08em] text-white/[0.075] sm:text-[12vw] lg:text-[8vw]">
         {[0, 1, 2, 3].map((item) => (
           <span key={item} className="mx-5 sm:mx-8">
             {text}
@@ -279,7 +344,7 @@ function Hero() {
 
   return (
     <section id="arrival" className="noise relative min-h-[100svh] overflow-hidden bg-[#050505] text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(255,255,255,0.12),transparent_28%),radial-gradient(circle_at_10%_85%,rgba(255,255,255,0.08),transparent_34%),linear-gradient(180deg,#050505,#0b0b0b)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.11),transparent_28%),radial-gradient(circle_at_10%_86%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505,#0b0b0b)]" />
 
       <nav className="fixed left-0 right-0 top-0 z-40 px-3 py-3 sm:px-6 sm:py-4">
         <div className="liquid-glass mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-2.5 sm:px-5 sm:py-3">
@@ -318,7 +383,7 @@ function Hero() {
         </div>
       )}
 
-      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl content-center gap-8 px-5 pb-10 pt-24 sm:px-7 sm:pb-12 sm:pt-28 lg:grid-cols-[1.06fr_0.94fr] lg:items-end lg:px-10">
+      <div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl content-center gap-10 px-5 pb-10 pt-24 sm:px-7 sm:pb-12 sm:pt-28 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:px-10">
         <div className="relative z-10">
           <FadeIn>
             <p className="mb-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.21em] text-white/60 sm:gap-3 sm:text-xs sm:tracking-[0.32em]">
@@ -331,7 +396,7 @@ function Hero() {
             initial={{ opacity: 0, y: 56 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-[10ch] text-[clamp(3.7rem,17vw,8.2rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white"
+            className="max-w-[10ch] text-[clamp(3.5rem,16vw,8.15rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white"
           >
             Building proof, not noise.
           </motion.h1>
@@ -356,16 +421,20 @@ function Hero() {
           </FadeIn>
         </div>
 
-        <FadeIn delay={0.08} className="relative mx-auto w-full max-w-[min(76vw,320px)] sm:max-w-[380px] lg:max-w-[430px]">
-          <div className="absolute inset-8 rounded-full bg-white/10 blur-3xl" />
-          <ImageFrame
-            src={images.hero}
-            alt="Hemanth Sai cutout portrait"
-            label="Hero portrait"
-            priority
-            className="relative aspect-[0.82] rounded-[2rem] border border-white/10 sm:rounded-[3rem]"
-            imgClassName="object-contain scale-105"
-          />
+        <FadeIn delay={0.08} className="relative mx-auto w-full max-w-[min(78vw,360px)] sm:max-w-[410px] lg:max-w-[500px]">
+          <div className="absolute inset-x-6 bottom-2 top-16 rounded-full bg-white/10 blur-3xl" />
+          <div className="relative rounded-[2.4rem] border border-white/10 bg-white/[0.035] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.5)] sm:rounded-[3.2rem] sm:p-4">
+            <ImageFrame
+              src={images.hero}
+              alt="Hemanth Sai cutout portrait"
+              label="Hero portrait"
+              priority
+              fit="contain"
+              tone="natural"
+              className="relative aspect-[4/5] rounded-[1.8rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_58%)] sm:rounded-[2.5rem]"
+              imgClassName="scale-[1.03] object-bottom"
+            />
+          </div>
         </FadeIn>
       </div>
     </section>
@@ -386,30 +455,49 @@ function Identity() {
     <section id="identity" className="bg-[#070707] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
-          <h2 className="text-[20vw] font-black uppercase leading-none tracking-[-0.09em] text-white/10 sm:text-[16vw] lg:text-[9rem]">
+          <h2 className="text-[18vw] font-black uppercase leading-none tracking-[-0.09em] text-white/10 sm:text-[14vw] lg:text-[8rem]">
             Identity
           </h2>
         </FadeIn>
 
-        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
-          <ImageFrame src={images.martial} alt="Martial arts discipline" label="Martial arts" className="h-[min(82svh,460px)] rounded-[2rem] border border-white/10 sm:h-[520px] sm:rounded-[3rem]" />
+        <div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8">
+          <div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] lg:block">
+            <ImageFrame
+              src={images.martial}
+              alt="Martial arts discipline"
+              label="Martial arts"
+              tone="soft"
+              className="aspect-[4/5] rounded-[2rem] border border-white/10 sm:aspect-auto sm:h-[520px] sm:rounded-[3rem] lg:h-[620px]"
+              imgClassName="object-[50%_22%]"
+            />
+            <div className="liquid-glass rounded-[2rem] p-5 sm:hidden">
+              <p className="text-sm leading-relaxed text-white/62">Discipline is where the story started — repetition, feedback, and showing up when it is uncomfortable.</p>
+            </div>
+          </div>
 
           <div className="flex flex-col justify-end">
             <FadeIn>
-              <p className="max-w-4xl text-[clamp(1.65rem,7.3vw,3rem)] font-light leading-[1.12] tracking-[-0.055em] text-white/86">
-                I’m not trying to be boxed into one title. I’m wiring AI, software, design, storytelling, investing-style thinking, and athletic discipline into one compounding proof-of-work machine.
+              <p className="max-w-4xl text-[clamp(1.55rem,6.4vw,2.7rem)] font-light leading-[1.13] tracking-[-0.055em] text-white/86">
+                I’m still early, but the pattern is clear: discipline from sport, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.
               </p>
             </FadeIn>
 
             <FadeIn delay={0.1}>
               <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                <Glass title="Discipline" text="Not a personality trait. An operating system." />
-                <Glass title="Leadership" text="Ideas only matter when they survive public reality." />
+                <Glass title="Discipline" text="Repetition, pressure, and physical practice shaped how I learn." />
+                <Glass title="Voice" text="Speaking and writing help me make ideas clearer before I build around them." />
               </div>
             </FadeIn>
 
             <FadeIn delay={0.16}>
-              <ImageFrame src={images.stage} alt="Podium speaking" label="Podium speaking" className="mt-5 h-[240px] rounded-[1.75rem] border border-white/10 sm:h-[310px] sm:rounded-[2.2rem]" />
+              <ImageFrame
+                src={images.stage}
+                alt="Podium speaking"
+                label="Podium speaking"
+                tone="natural"
+                className="mt-5 aspect-[16/10] rounded-[1.75rem] border border-white/10 sm:rounded-[2.2rem]"
+                imgClassName="object-[50%_34%]"
+              />
             </FadeIn>
           </div>
         </div>
@@ -420,20 +508,29 @@ function Identity() {
 
 function Pressure() {
   return (
-    <section id="pressure" className="relative min-h-[100svh] overflow-hidden bg-black text-white">
-      <ImageFrame src={images.shotput} alt="Shotput action" label="Shotput performance" className="absolute inset-0 h-full w-full" imgClassName="object-[52%_center]" />
-      <div className="absolute inset-0 bg-black/48 sm:bg-black/38" />
-      <div className="relative z-10 flex min-h-[100svh] items-end px-5 pb-14 sm:px-10 sm:pb-16">
-        <FadeIn>
+    <section id="pressure" className="overflow-hidden bg-black px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.86fr] lg:items-center">
+        <FadeIn className="order-2 lg:order-1">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/55 sm:mb-5 sm:tracking-[0.34em]">
             Forged under pressure
           </p>
-          <h2 className="max-w-6xl text-[clamp(3.2rem,15vw,10rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">
+          <h2 className="max-w-5xl text-[clamp(3rem,13vw,8.2rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">
             Execution reveals character.
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/68 sm:mt-6 sm:text-lg">
             Pressure has been one of my oldest teachers — from sports and martial arts to leadership and building. I trust repetition, feedback, and performance more than empty motivation.
           </p>
+        </FadeIn>
+
+        <FadeIn delay={0.08} className="order-1 lg:order-2">
+          <ImageFrame
+            src={images.shotput}
+            alt="Shotput action"
+            label="Shotput performance"
+            tone="soft"
+            className="aspect-[4/5] rounded-[2rem] border border-white/10 shadow-[0_50px_140px_rgba(0,0,0,0.55)] sm:aspect-[16/11] sm:rounded-[3rem] lg:aspect-[4/5] lg:min-h-[680px]"
+            imgClassName="object-[54%_center]"
+          />
         </FadeIn>
       </div>
     </section>
@@ -474,7 +571,7 @@ function System() {
             The System
           </h2>
           <p className="mt-5 max-w-3xl text-xl font-light leading-relaxed text-white/75 sm:mt-6 sm:text-2xl">
-            I don’t learn best by passively collecting courses. I learn through building. I capture ideas, break them down, criticize them, test reality, and convert the serious ones into artifacts.
+            I learn best through building. A project exposes the problem, the problem forces the skill, and the artifact gives me something real to improve.
           </p>
         </FadeIn>
 
@@ -491,42 +588,30 @@ function System() {
   );
 }
 
-function ProjectCard({ project, index, total }: { project: Project; index: number; total: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const scale = useTransform(scrollYProgress, [0, 0.38, 1], [1, 1, 1 - (total - index - 1) * 0.06]);
-
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <div ref={ref} className={`relative py-5 lg:h-[108vh] lg:min-h-[820px] lg:py-0 ${index === 0 ? '' : 'lg:-mt-[58vh]'}`}>
-      <motion.article
-        style={{ scale, zIndex: 30 + index }}
-        className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090909] p-5 shadow-[0_40px_120px_rgba(0,0,0,0.58)] sm:rounded-[2.5rem] sm:p-7 lg:sticky lg:top-24 lg:rounded-[4rem] lg:p-10 lg:shadow-[0_80px_220px_rgba(0,0,0,0.78)]"
-      >
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8">
-          <span className="text-6xl font-black tracking-[-0.08em] text-white/15 sm:text-8xl">{project.number}</span>
-
-          <div className="max-w-3xl">
-            <span className="liquid-glass mb-4 inline-flex rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.24em] text-white/60">In progress</span>
-            <p className="text-xs uppercase tracking-[0.3em] text-white/45">{project.type}</p>
-            <h3 className="mt-3 text-[clamp(2.2rem,10vw,4.5rem)] font-black uppercase leading-none tracking-[-0.07em]">{project.name}</h3>
-            <p className="mt-5 text-base leading-relaxed text-white/64 sm:text-lg">{project.description}</p>
-            <div className="mt-6 flex flex-wrap gap-2.5 sm:gap-3">
-              {project.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-white/10 px-3.5 py-2 text-[10px] uppercase tracking-[0.16em] text-white/55 sm:px-4 sm:text-xs sm:tracking-[0.2em]">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+    <FadeIn delay={index * 0.06}>
+      <article className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090909] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] transition duration-300 hover:-translate-y-1 hover:border-white/18 sm:rounded-[2.5rem] sm:p-7 lg:p-8">
+        <div className="flex items-start justify-between gap-5">
+          <span className="text-6xl font-black tracking-[-0.08em] text-white/13 sm:text-7xl">{project.number}</span>
+          <span className="liquid-glass rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/60">{project.type}</span>
         </div>
-
-        <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-3">
-          {[0, 1, 2].map((item) => (
-            <div key={item} className="h-28 rounded-[1.35rem] border border-white/10 bg-[linear-gradient(135deg,#171717,#050505)] sm:h-40 sm:rounded-[2rem] lg:h-64" />
+        <h3 className="mt-8 text-[clamp(2.1rem,9vw,4.1rem)] font-black uppercase leading-none tracking-[-0.07em]">{project.name}</h3>
+        <p className="mt-5 text-base leading-relaxed text-white/64 sm:text-lg">{project.description}</p>
+        <div className="mt-7 flex flex-wrap gap-2.5 sm:gap-3">
+          {project.tags.map((tag) => (
+            <span key={tag} className="rounded-full border border-white/10 px-3.5 py-2 text-[10px] uppercase tracking-[0.16em] text-white/55 sm:px-4 sm:text-xs sm:tracking-[0.2em]">
+              {tag}
+            </span>
           ))}
         </div>
-      </motion.article>
-    </div>
+        <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          {[0, 1, 2].map((item) => (
+            <div key={item} className="aspect-[4/3] rounded-[1.25rem] border border-white/10 bg-[linear-gradient(135deg,#171717,#050505)] sm:rounded-[1.6rem]" />
+          ))}
+        </div>
+      </article>
+    </FadeIn>
   );
 }
 
@@ -535,12 +620,16 @@ function Work() {
     <section id="work" className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
-          <h2 className="text-[21vw] font-black uppercase leading-none tracking-[-0.09em] text-white/10 sm:text-[16vw] lg:text-[9rem]">Work</h2>
+          <SectionLabel>Work in progress</SectionLabel>
+          <h2 className="text-[18vw] font-black uppercase leading-none tracking-[-0.09em] text-white/10 sm:text-[14vw] lg:text-[8rem]">Taking Shape</h2>
+          <p className="mt-5 max-w-3xl text-xl font-light leading-relaxed text-white/72 sm:text-2xl">
+            I’m not showing a fake wall of finished products. These are the initiatives I’m actively trying to turn into visible proof.
+          </p>
         </FadeIn>
 
-        <div className="mt-6 lg:mt-0">
+        <div className="mt-10 grid gap-5 lg:mt-14 lg:grid-cols-3">
           {projects.map((project, index) => (
-            <ProjectCard key={project.name} project={project} index={index} total={projects.length} />
+            <ProjectCard key={project.name} project={project} index={index} />
           ))}
         </div>
       </div>
@@ -579,8 +668,8 @@ function Obsessions() {
     <section className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
-          <SectionLabel>Current obsessions</SectionLabel>
-          <SectionHeading light>Building systems that compound identity into leverage.</SectionHeading>
+          <SectionLabel>Current explorations</SectionLabel>
+          <SectionHeading light>The ideas I keep returning to.</SectionHeading>
         </FadeIn>
 
         <div className="mt-10 grid gap-3.5 sm:mt-14 md:grid-cols-2">
@@ -605,15 +694,22 @@ function Evidence() {
         <FadeIn>
           <SectionHeading>Proof is not always digital.</SectionHeading>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-black/55 sm:mt-6 sm:text-lg">
-            The same operating system shows up everywhere: discipline, performance, communication, and execution.
+            These images are not decoration. They are reminders of discipline, pressure, communication, and the person behind the screen.
           </p>
         </FadeIn>
 
-        <div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-5">
-          <ImageFrame src={images.martial} alt="Martial arts" label="Martial arts" className="h-60 rounded-[1.5rem] sm:h-80 sm:rounded-[2rem] md:col-span-2" />
-          <ImageFrame src={images.stage} alt="Stage" label="Stage" className="h-60 rounded-[1.5rem] sm:h-80 sm:rounded-[2rem] md:col-span-3" />
-          <ImageFrame src={images.shotput} alt="Shotput" label="Shotput" className="h-72 rounded-[1.5rem] sm:h-96 sm:rounded-[2rem] md:col-span-3" imgClassName="object-[52%_center]" />
-          <ImageFrame src={images.blazer} alt="Blazer" label="Blazer" className="h-72 rounded-[1.5rem] sm:h-96 sm:rounded-[2rem] md:col-span-2" />
+        <div className="mt-10 grid auto-rows-[220px] gap-4 sm:mt-14 sm:auto-rows-[260px] md:grid-cols-5 md:auto-rows-[220px]">
+          {evidence.map((item) => (
+            <FadeIn key={item.title} className={item.className}>
+              <article className="group relative h-full overflow-hidden rounded-[1.5rem] border border-black/10 bg-black/[0.035] sm:rounded-[2rem]">
+                <ImageFrame src={item.src} alt={item.alt} label={item.label} tone={item.tone} className="absolute inset-0 h-full w-full" imgClassName={item.imgClassName} />
+                <div className="absolute inset-x-0 bottom-0 z-10 p-5 text-white sm:p-6">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-white/58">{item.title}</p>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-white/78 sm:text-base">{item.caption}</p>
+                </div>
+              </article>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>
@@ -623,16 +719,16 @@ function Evidence() {
 function Contact() {
   return (
     <section id="contact" className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
-      <div className="liquid-glass mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] md:grid-cols-[0.9fr_1.1fr] md:rounded-[4rem]">
-        <ImageFrame src={images.blazer} alt="Blazer portrait" label="Blazer portrait" className="h-[420px] md:min-h-[520px]" />
+      <div className="liquid-glass mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] md:grid-cols-[0.86fr_1.14fr] md:rounded-[4rem]">
+        <ImageFrame src={images.blazer} alt="Blazer portrait" label="Blazer portrait" tone="natural" className="aspect-[4/5] md:min-h-[580px]" imgClassName="object-[50%_18%]" />
 
         <div className="flex flex-col justify-center p-6 sm:p-8 md:p-16">
           <FadeIn>
             <h2 className="text-[clamp(2.4rem,11vw,5.8rem)] font-black uppercase leading-[0.88] tracking-[-0.08em]">
-              Let’s build things that survive reality.
+              Still early. Still building.
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/66 sm:mt-7 sm:text-lg">
-              I’m interested in AI products, design-led software, startup ideas, product thinking, systems, and ambitious people who care about proof.
+              I’m interested in AI, software, design, writing, product thinking, and ambitious people who care about visible proof.
             </p>
             <div className="mt-8 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:gap-4">
               <Button href="mailto:hemanthsairoyal7@gmail.com">Email me</Button>
