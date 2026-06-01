@@ -10,7 +10,7 @@ const images = {
   stage: asset('stage.webp'),
   shotput: asset('shotput.webp'),
   blazer: asset('blazer-v2.webp.webp'),
-  tepe: asset('tepe_exhibition.webp'),
+  tepe: asset('tepe-exhibition.webp'),
   sainik: asset('sainik-school.webp'),
   gitam: asset('gitam-sign.webp'),
   ncc: asset('ncc.webp'),
