@@ -51,8 +51,8 @@ type EvidenceItem = {
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
 const images = {
-  hero: asset('hero-cutout.png'),
-  martial: asset('martial.webp'),
+  hero: asset('hero-current.webp.webp'),
+  martial: asset('karate-roots.webp.webp'),
   stage: asset('stage.webp'),
   shotput: asset('shotput.webp'),
   blazer: asset('blazer.webp'),
@@ -133,13 +133,13 @@ const systemSteps = ['Project', 'Problem', 'Skill', 'Artifact', 'Explanation', '
 
 const evidence: EvidenceItem[] = [
   {
-    title: 'Discipline',
-    caption: 'Martial arts shaped repetition before ambition had words.',
+    title: 'Karate roots',
+    caption: 'Karate gave me my first relationship with repetition, discipline, and physical confidence.',
     src: images.martial,
-    alt: 'Martial arts discipline',
-    label: 'Martial arts',
-    className: 'md:col-span-2 h-[340px] sm:h-[440px]',
-    imgClassName: 'object-[50%_24%]',
+    alt: 'Karate training collage',
+    label: 'Karate roots',
+    className: 'md:col-span-2 h-[390px] sm:h-[520px]',
+    imgClassName: 'object-[50%_50%]',
     tone: 'soft',
   },
   {
@@ -355,13 +355,13 @@ function Hero() {
           <div className="relative rounded-[2.4rem] border border-white/10 bg-white/[0.035] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.5)] sm:rounded-[3.2rem] sm:p-4">
             <ImageFrame
               src={images.hero}
-              alt="Hemanth Sai cutout portrait"
+              alt="Hemanth Sai outdoor portrait"
               label="Hero portrait"
               priority
-              fit="contain"
+              fit="cover"
               tone="natural"
               className="relative aspect-[4/5] rounded-[1.8rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_58%)] sm:rounded-[2.5rem]"
-              imgClassName="scale-[1.03] object-bottom"
+              imgClassName="object-[43%_50%]"
             />
           </div>
         </FadeIn>
@@ -392,11 +392,11 @@ function Identity() {
           <div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] lg:block">
             <ImageFrame
               src={images.martial}
-              alt="Martial arts discipline"
-              label="Martial arts"
+              alt="Karate roots collage"
+              label="Karate roots"
               tone="soft"
               className="aspect-[4/5] rounded-[2rem] border border-white/10 sm:aspect-auto sm:h-[520px] sm:rounded-[3rem] lg:h-[620px]"
-              imgClassName="object-[50%_22%]"
+              imgClassName="object-[50%_50%]"
             />
             <div className="liquid-glass rounded-[2rem] p-5 sm:hidden">
               <p className="text-sm leading-relaxed text-white/62">Discipline is where the story started — repetition, feedback, and showing up when it is uncomfortable.</p>
@@ -405,12 +405,12 @@ function Identity() {
           <div className="flex flex-col justify-end">
             <FadeIn>
               <p className="max-w-4xl text-[clamp(1.55rem,6.4vw,2.7rem)] font-light leading-[1.13] tracking-[-0.055em] text-white/86">
-                I’m still early, but the pattern is clear: discipline from sport, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.
+                I’m still early, but the pattern is clear: discipline from karate, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.
               </p>
             </FadeIn>
             <FadeIn delay={0.1}>
               <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                <Glass title="Discipline" text="Repetition, pressure, and physical practice shaped how I learn." />
+                <Glass title="Discipline" text="Karate gave me my first relationship with repetition and physical confidence." />
                 <Glass title="Voice" text="Speaking and writing help me make ideas clearer before I build around them." />
               </div>
             </FadeIn>
