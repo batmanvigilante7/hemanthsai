@@ -51,8 +51,8 @@ type EvidenceItem = {
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
 const images = {
-  hero: asset('hero-current.svg'),
-  martial: asset('karate-roots.svg'),
+  hero: asset('hero-cutout.png'),
+  martial: asset('martial.webp'),
   stage: asset('stage.webp'),
   shotput: asset('shotput.webp'),
   blazer: asset('blazer.webp'),
@@ -133,13 +133,13 @@ const systemSteps = ['Project', 'Problem', 'Skill', 'Artifact', 'Explanation', '
 
 const evidence: EvidenceItem[] = [
   {
-    title: 'Karate roots',
-    caption: 'Karate gave me my first relationship with repetition, discipline, and physical confidence.',
+    title: 'Discipline',
+    caption: 'Martial arts shaped repetition before ambition had words.',
     src: images.martial,
-    alt: 'Karate training collage',
-    label: 'Karate roots',
-    className: 'md:col-span-2 md:row-span-2 h-[390px] sm:h-[540px] md:h-full',
-    imgClassName: 'object-[50%_50%]',
+    alt: 'Martial arts discipline',
+    label: 'Martial arts',
+    className: 'md:col-span-2 h-[340px] sm:h-[440px]',
+    imgClassName: 'object-[50%_24%]',
     tone: 'soft',
   },
   {
@@ -148,7 +148,7 @@ const evidence: EvidenceItem[] = [
     src: images.stage,
     alt: 'Stage speaking',
     label: 'Stage speaking',
-    className: 'md:col-span-3 h-[250px] sm:h-[340px]',
+    className: 'md:col-span-3 h-[280px] sm:h-[360px]',
     imgClassName: 'object-[50%_34%]',
     tone: 'natural',
   },
@@ -158,19 +158,9 @@ const evidence: EvidenceItem[] = [
     src: images.shotput,
     alt: 'Shotput action',
     label: 'Shotput',
-    className: 'md:col-span-3 h-[300px] sm:h-[420px]',
-    imgClassName: 'object-[54%_center]',
+    className: 'md:col-span-5 h-[280px] sm:h-[430px]',
+    imgClassName: 'object-[52%_center]',
     tone: 'soft',
-  },
-  {
-    title: 'Current frame',
-    caption: 'Still early. Still building. Trying to make the work visible.',
-    src: images.blazer,
-    alt: 'Blazer portrait',
-    label: 'Blazer portrait',
-    className: 'md:col-span-2 h-[360px] sm:h-[420px]',
-    imgClassName: 'object-[46%_18%]',
-    tone: 'natural',
   },
 ];
 
@@ -365,13 +355,13 @@ function Hero() {
           <div className="relative rounded-[2.4rem] border border-white/10 bg-white/[0.035] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.5)] sm:rounded-[3.2rem] sm:p-4">
             <ImageFrame
               src={images.hero}
-              alt="Hemanth Sai outdoor portrait"
+              alt="Hemanth Sai cutout portrait"
               label="Hero portrait"
               priority
-              fit="cover"
+              fit="contain"
               tone="natural"
               className="relative aspect-[4/5] rounded-[1.8rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_58%)] sm:rounded-[2.5rem]"
-              imgClassName="object-[50%_48%]"
+              imgClassName="scale-[1.03] object-bottom"
             />
           </div>
         </FadeIn>
@@ -402,11 +392,11 @@ function Identity() {
           <div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] lg:block">
             <ImageFrame
               src={images.martial}
-              alt="Karate roots collage"
-              label="Karate roots"
+              alt="Martial arts discipline"
+              label="Martial arts"
               tone="soft"
               className="aspect-[4/5] rounded-[2rem] border border-white/10 sm:aspect-auto sm:h-[520px] sm:rounded-[3rem] lg:h-[620px]"
-              imgClassName="object-[50%_50%]"
+              imgClassName="object-[50%_22%]"
             />
             <div className="liquid-glass rounded-[2rem] p-5 sm:hidden">
               <p className="text-sm leading-relaxed text-white/62">Discipline is where the story started — repetition, feedback, and showing up when it is uncomfortable.</p>
@@ -415,12 +405,12 @@ function Identity() {
           <div className="flex flex-col justify-end">
             <FadeIn>
               <p className="max-w-4xl text-[clamp(1.55rem,6.4vw,2.7rem)] font-light leading-[1.13] tracking-[-0.055em] text-white/86">
-                I’m still early, but the pattern is clear: discipline from karate, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.
+                I’m still early, but the pattern is clear: discipline from sport, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.
               </p>
             </FadeIn>
             <FadeIn delay={0.1}>
               <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                <Glass title="Discipline" text="Karate gave me my first relationship with repetition and physical confidence." />
+                <Glass title="Discipline" text="Repetition, pressure, and physical practice shaped how I learn." />
                 <Glass title="Voice" text="Speaking and writing help me make ideas clearer before I build around them." />
               </div>
             </FadeIn>
@@ -444,7 +434,7 @@ function Identity() {
 function Pressure() {
   return (
     <section id="pressure" className="overflow-hidden bg-black px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.86fr] lg:items-center">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <FadeIn className="order-2 lg:order-1">
           <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/55 sm:mb-5 sm:tracking-[0.34em]">Forged under pressure</p>
           <h2 className="max-w-5xl text-[clamp(3rem,13vw,8.2rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">
@@ -460,8 +450,8 @@ function Pressure() {
             alt="Shotput action"
             label="Shotput performance"
             tone="soft"
-            className="aspect-[4/5] rounded-[2rem] border border-white/10 shadow-[0_50px_140px_rgba(0,0,0,0.55)] sm:aspect-[16/11] sm:rounded-[3rem] lg:aspect-[4/5] lg:min-h-[680px]"
-            imgClassName="object-[54%_center]"
+            className="aspect-[16/10] rounded-[2rem] border border-white/10 shadow-[0_50px_140px_rgba(0,0,0,0.55)] sm:aspect-[16/9] sm:rounded-[3rem] lg:aspect-[16/10]"
+            imgClassName="object-[52%_center]"
           />
         </FadeIn>
       </div>
@@ -518,24 +508,19 @@ function System() {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <FadeIn delay={index * 0.06}>
-      <article className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090909] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] transition duration-300 hover:-translate-y-1 hover:border-white/18 sm:rounded-[2.5rem] sm:p-7 lg:p-8">
+    <FadeIn delay={index * 0.06} className={index % 2 === 1 ? 'lg:ml-auto' : ''}>
+      <article className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090909] p-5 shadow-[0_30px_90px_rgba(0,0,0,0.45)] transition duration-300 hover:-translate-y-1 hover:border-white/18 sm:rounded-[2.5rem] sm:p-7 lg:max-w-4xl lg:p-8">
         <div className="flex items-start justify-between gap-5">
           <span className="text-6xl font-black tracking-[-0.08em] text-white/13 sm:text-7xl">{project.number}</span>
           <span className="liquid-glass rounded-full px-4 py-2 text-[10px] uppercase tracking-[0.22em] text-white/60">{project.type}</span>
         </div>
         <h3 className="mt-8 text-[clamp(2.1rem,9vw,4.1rem)] font-black uppercase leading-none tracking-[-0.07em]">{project.name}</h3>
-        <p className="mt-5 text-base leading-relaxed text-white/64 sm:text-lg">{project.description}</p>
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/64 sm:text-lg">{project.description}</p>
         <div className="mt-7 flex flex-wrap gap-2.5 sm:gap-3">
           {project.tags.map((tag) => (
             <span key={tag} className="rounded-full border border-white/10 px-3.5 py-2 text-[10px] uppercase tracking-[0.16em] text-white/55 sm:px-4 sm:text-xs sm:tracking-[0.2em]">
               {tag}
             </span>
-          ))}
-        </div>
-        <div className="mt-8 grid gap-3 sm:grid-cols-3">
-          {[0, 1, 2].map((item) => (
-            <div key={item} className="aspect-[4/3] rounded-[1.25rem] border border-white/10 bg-[linear-gradient(135deg,#171717,#050505)] sm:rounded-[1.6rem]" />
           ))}
         </div>
       </article>
@@ -554,7 +539,7 @@ function Work() {
             I’m not showing a fake wall of finished products. These are the initiatives I’m actively trying to turn into visible proof.
           </p>
         </FadeIn>
-        <div className="mt-10 grid gap-5 lg:mt-14 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 lg:mt-14 lg:gap-7">
           {projects.map((project, index) => (
             <ProjectCard key={project.name} project={project} index={index} />
           ))}
@@ -622,7 +607,7 @@ function Evidence() {
             These images are not decoration. They are reminders of discipline, pressure, communication, and the person behind the screen.
           </p>
         </FadeIn>
-        <div className="mt-10 grid auto-rows-[220px] gap-4 sm:mt-14 sm:auto-rows-[260px] md:grid-cols-5 md:auto-rows-[220px]">
+        <div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-5">
           {evidence.map((item) => (
             <FadeIn key={item.title} className={item.className}>
               <article className="group relative h-full overflow-hidden rounded-[1.5rem] border border-black/10 bg-black/[0.035] sm:rounded-[2rem]">
@@ -642,7 +627,7 @@ function Evidence() {
 
 function Contact() {
   return (
-    <section id="contact" className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
+    <section id="contact" className="bg-[#050505] px-5 py-20 text-white sm:px-8 sm:py-28 md:px-10">
       <div className="liquid-glass mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] md:grid-cols-[0.86fr_1.14fr] md:rounded-[4rem]">
         <ImageFrame src={images.blazer} alt="Blazer portrait" label="Blazer portrait" tone="natural" className="aspect-[4/5] md:min-h-[580px]" imgClassName="object-[42%_18%] scale-[1.08]" />
         <div className="flex flex-col justify-center p-6 sm:p-8 md:p-16">
