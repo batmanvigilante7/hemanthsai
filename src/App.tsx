@@ -277,24 +277,6 @@ function System() {
                 );
               })}
 
-              {(() => {
-                const closeStart = pointOnOrbit(-90 + (learningLoop.length - 1) * stepAngle + 13);
-                const closeEnd = pointOnOrbit(-90 - 13);
-
-                return (
-                  <path
-                    key="stage-arrow-close-emphasis"
-                    d={`M ${closeStart.x} ${closeStart.y} A ${orbitRadius} ${orbitRadius} 0 0 0 ${closeEnd.x} ${closeEnd.y}`}
-                    fill="none"
-                    stroke="rgba(255,255,255,0.42)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    markerEnd="url(#stageArrow)"
-                    filter="url(#orbitGlow)"
-                  />
-                );
-              })()}
-
               {activeArc && (
                 <motion.path
                   key={activeArc}
