@@ -97,17 +97,20 @@ function Glass({ title, text }: { title: string; text: string }) { return <div c
 function Identity() { return <section id="identity" className="bg-[#070707] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><h2 className="text-[18vw] font-black uppercase leading-none tracking-[-0.09em] text-white/10 sm:text-[14vw] lg:text-[8rem]">Identity</h2></FadeIn><div className="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-8"><div className="grid gap-4 sm:grid-cols-[0.85fr_1.15fr] lg:block"><ImageFrame src={images.martial} alt="Karate roots collage" label="Karate roots" tone="soft" className="aspect-[4/5] rounded-[2rem] border border-white/10 sm:aspect-auto sm:h-[520px] sm:rounded-[3rem] lg:h-[620px]" imgClassName="object-[50%_50%]" /><div className="liquid-glass rounded-[2rem] p-5 sm:hidden"><p className="text-sm leading-relaxed text-white/62">Discipline is where the story started — repetition, feedback, and showing up when it is uncomfortable.</p></div></div><div className="flex flex-col justify-end"><FadeIn><p className="max-w-4xl text-[clamp(1.55rem,6.4vw,2.7rem)] font-light leading-[1.13] tracking-[-0.055em] text-white/86">I’m still early, but the pattern is clear: discipline from karate, voice from speaking, curiosity from technology, and a growing need to turn ideas into visible work.</p></FadeIn><FadeIn delay={0.1}><div className="mt-7 grid gap-4 sm:grid-cols-2"><Glass title="Discipline" text="Karate gave me my first relationship with repetition and physical confidence." /><Glass title="Voice" text="Speaking and writing help me make ideas clearer before I build around them." /></div></FadeIn><FadeIn delay={0.16}><ImageFrame src={images.stage} alt="Podium speaking" label="Podium speaking" tone="natural" className="mt-5 aspect-[16/10] rounded-[1.75rem] border border-white/10 sm:rounded-[2.2rem]" imgClassName="object-[50%_34%]" /></FadeIn></div></div></div></section>; }
 function Pressure() { return <section id="pressure" className="overflow-hidden bg-black px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10"><div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center"><FadeIn className="order-2 lg:order-1"><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/55 sm:mb-5 sm:tracking-[0.34em]">Forged under pressure</p><h2 className="max-w-5xl text-[clamp(3rem,13vw,8.2rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">Execution reveals character.</h2><p className="mt-5 max-w-2xl text-base leading-relaxed text-white/68 sm:mt-6 sm:text-lg">Pressure has been one of my oldest teachers — from sports and martial arts to leadership and building. I trust repetition, feedback, and performance more than empty motivation.</p></FadeIn><FadeIn delay={0.08} className="order-1 lg:order-2"><ImageFrame src={images.shotput} alt="Shotput action" label="Shotput performance" tone="soft" className="aspect-[16/10] rounded-[2rem] border border-white/10 shadow-[0_50px_140px_rgba(0,0,0,0.55)] sm:aspect-[16/9] sm:rounded-[3rem] lg:aspect-[16/10]" imgClassName="object-[52%_center]" /></FadeIn></div></section>; }
 function Proof() { return <section id="proof" className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Proof dashboard</SectionLabel><SectionHeading>Credibility without resume noise.</SectionHeading></FadeIn><div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">{dashboard.map(([title, text], index) => <FadeIn key={title} delay={index * 0.035}><div className="min-h-[180px] rounded-[1.5rem] border border-black/10 bg-black/[0.035] p-5 sm:min-h-[220px] sm:rounded-[2rem] sm:p-7"><p className="mb-6 text-xs uppercase tracking-[0.28em] text-black/35 sm:mb-8">0{index + 1}</p><h3 className="mb-3 text-xl font-black uppercase tracking-[-0.05em] sm:text-2xl">{title}</h3><p className="text-sm leading-relaxed text-black/60 sm:text-base">{text}</p></div></FadeIn>)}</div></div></section>; }
-function SvgLoopNode({ item, index, active, onOpen }: { item: typeof learningLoop[number]; index: number; active: boolean; onOpen: () => void }) {
+function SvgLoopNode({ item, index, active, isNext, intensity, onOpen }: { item: typeof learningLoop[number]; index: number; active: boolean; isNext: boolean; intensity: number; onOpen: () => void }) {
   const [number, title] = item;
   const angle = -90 + index * (360 / learningLoop.length);
   const radius = 278;
   const x = 380 + radius * Math.cos((angle * Math.PI) / 180);
   const y = 380 + radius * Math.sin((angle * Math.PI) / 180);
   const nodeRadius = active ? 54 : 48;
+  const nextGlowRadius = 76 + intensity * 18;
 
   return <motion.g role="button" tabIndex={0} aria-label={`Open ${title} learning loop step`} onClick={onOpen} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') onOpen(); }} className="cursor-pointer outline-none" initial={{ opacity: 0, scale: 0.86 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.42, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }} whileHover={{ scale: 1.045 }} style={{ transformOrigin: `${x}px ${y}px` }}>
-    <circle cx={x} cy={y} r={nodeRadius + 14} fill="rgba(255,255,255,0.055)" opacity={active ? 1 : 0.55} />
-    <circle cx={x} cy={y} r={nodeRadius} fill={active ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.075)'} stroke={active ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.2)'} strokeWidth={active ? 2 : 1.4} />
+    {isNext && <motion.circle cx={x} cy={y} r={nextGlowRadius} fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.34)" strokeWidth="1.4" initial={false} animate={{ r: [nextGlowRadius - 8, nextGlowRadius + 8, nextGlowRadius - 8], opacity: [0.38, 0.9, 0.38] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }} />}
+    {isNext && <motion.circle cx={x} cy={y} r={nodeRadius + 28} fill="rgba(255,255,255,0.12)" initial={false} animate={{ opacity: [0.18, 0.52, 0.18], scale: [0.92, 1.08, 0.92] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }} style={{ transformOrigin: `${x}px ${y}px` }} />}
+    <circle cx={x} cy={y} r={nodeRadius + 14} fill="rgba(255,255,255,0.055)" opacity={active ? 1 : isNext ? 0.88 : 0.55} />
+    <circle cx={x} cy={y} r={nodeRadius} fill={active ? 'rgba(255,255,255,0.18)' : isNext ? 'rgba(255,255,255,0.13)' : 'rgba(255,255,255,0.075)'} stroke={active ? 'rgba(255,255,255,0.62)' : isNext ? 'rgba(255,255,255,0.48)' : 'rgba(255,255,255,0.2)'} strokeWidth={active ? 2 : isNext ? 1.8 : 1.4} />
     <circle cx={x} cy={y} r={nodeRadius - 9} fill="rgba(5,5,5,0.34)" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
     {active && <circle cx={x} cy={y} r={nodeRadius + 22} fill="none" stroke="rgba(255,255,255,0.26)" strokeWidth="1" strokeDasharray="5 8" />}
     <text x={x} y={y - 9} textAnchor="middle" className="select-none fill-white/50 text-[10px] font-black uppercase tracking-[0.24em]">{number}</text>
@@ -123,6 +126,12 @@ function System() {
   const circumference = 2 * Math.PI * orbitRadius;
   const activeProgress = activeLoop === null ? 1 / learningLoop.length : (activeLoop + 1) / learningLoop.length;
   const progressOffset = circumference * (1 - activeProgress);
+  const nextLoop = activeLoop === null ? 0 : (activeLoop + 1) % learningLoop.length;
+  const sunIntensity = activeLoop === null ? 0.16 : (activeLoop + 1) / learningLoop.length;
+  const sunOuterRadius = 144 + sunIntensity * 38;
+  const sunMiddleRadius = 106 + sunIntensity * 28;
+  const sunCoreRadius = 82 + sunIntensity * 20;
+  const beamOpacity = 0.10 + sunIntensity * 0.26;
   const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Starting point';
   const centerTitle = activeItem ? activeItem[1] : 'Curiosity';
   const centerSubtitle = activeItem ? activeItem[2] : 'creates direction';
@@ -132,6 +141,11 @@ function System() {
     if (!lines.length) return [word];
     return [...lines.slice(0, -1), next];
   }, []);
+  const nextAngle = -90 + nextLoop * (360 / learningLoop.length);
+  const beamEnd = {
+    x: 380 + (orbitRadius - 64) * Math.cos((nextAngle * Math.PI) / 180),
+    y: 380 + (orbitRadius - 64) * Math.sin((nextAngle * Math.PI) / 180),
+  };
 
   return (
     <section
@@ -179,10 +193,16 @@ function System() {
                 </filter>
 
                 <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
-                  <stop offset="58%" stopColor="rgba(255,255,255,0.09)" />
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.38)" />
+                  <stop offset="52%" stopColor="rgba(255,255,255,0.13)" />
                   <stop offset="100%" stopColor="rgba(255,255,255,0)" />
                 </radialGradient>
+
+                <linearGradient id="sunBeam" x1="380" y1="380" x2={beamEnd.x} y2={beamEnd.y} gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor={`rgba(255,255,255,${beamOpacity})`} />
+                  <stop offset="64%" stopColor={`rgba(255,255,255,${beamOpacity * 0.42})`} />
+                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+                </linearGradient>
               </defs>
 
               <g opacity="0.75">
@@ -200,6 +220,7 @@ function System() {
 
               <circle cx="380" cy="380" r="314" fill="none" stroke="rgba(255,255,255,0.035)" strokeWidth="1" />
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
+              <motion.line x1="380" y1="380" x2={beamEnd.x} y2={beamEnd.y} stroke="url(#sunBeam)" strokeWidth={34 + sunIntensity * 22} strokeLinecap="round" filter="url(#orbitGlow)" initial={false} animate={{ opacity: [beamOpacity * 0.55, beamOpacity, beamOpacity * 0.55] }} transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }} />
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.8" strokeLinecap="round" filter="url(#orbitGlow)" />
               <motion.circle
                 cx="380"
@@ -221,14 +242,14 @@ function System() {
               <motion.circle
                 cx="380"
                 cy="380"
-                r={activeItem ? 166 : 150}
                 fill="url(#sunGlow)"
-                animate={{ r: activeItem ? 166 : 150, opacity: activeItem ? 1 : 0.9 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                filter={activeItem ? 'url(#sunActiveGlow)' : undefined}
+                animate={{ r: sunOuterRadius, opacity: 0.78 + sunIntensity * 0.22 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                filter="url(#sunActiveGlow)"
               />
-              <motion.circle cx="380" cy="380" animate={{ r: activeItem ? 124 : 112 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)" strokeWidth="1.4" />
-              <motion.circle cx="380" cy="380" animate={{ r: activeItem ? 96 : 86 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }} fill="rgba(5,5,5,0.42)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
+              <motion.circle cx="380" cy="380" animate={{ r: sunMiddleRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.08)" stroke={`rgba(255,255,255,${0.16 + sunIntensity * 0.16})`} strokeWidth="1.4" />
+              <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,255,255,${0.04 + sunIntensity * 0.06})`} stroke={`rgba(255,255,255,${0.12 + sunIntensity * 0.12})`} strokeWidth="1" />
+              <motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.16 + sunIntensity * 0.34 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.055)" />
 
               <motion.text
                 key={`eyebrow-${centerEyebrow}`}
@@ -277,6 +298,8 @@ function System() {
                   item={item}
                   index={index}
                   active={activeLoop === index}
+                  isNext={nextLoop === index}
+                  intensity={sunIntensity}
                   onOpen={() => setActiveLoop(index)}
                 />
               ))}
