@@ -119,6 +119,19 @@ function MobileLoopCard({ item, index, active, onToggle }: { item: typeof learni
 function System() {
   const [activeLoop, setActiveLoop] = useState<number | null>(null);
   const activeItem = activeLoop !== null ? learningLoop[activeLoop] : null;
+  const orbitRadius = 278;
+  const circumference = 2 * Math.PI * orbitRadius;
+  const activeProgress = activeLoop === null ? 0 : (activeLoop + 1) / learningLoop.length;
+  const progressOffset = circumference * (1 - activeProgress);
+  const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Core method';
+  const centerTitle = activeItem ? activeItem[1] : 'Learning';
+  const centerSubtitle = activeItem ? activeItem[2] : 'by Building';
+  const centerSubtitleLines = activeItem ? centerSubtitle.split(' ').reduce<string[]>((lines, word) => {
+    const next = lines.length ? `${lines[lines.length - 1]} ${word}` : word;
+    if (next.length > 22 && lines.length < 2) return [...lines, word];
+    if (!lines.length) return [word];
+    return [...lines.slice(0, -1), next];
+  }, []) : ['by Building'];
 
   return (
     <section
@@ -149,30 +162,6 @@ function System() {
               aria-label="Learning loop solar system diagram"
             >
               <defs>
-                <marker
-                  id="loopArrowCinematic"
-                  markerWidth="12"
-                  markerHeight="12"
-                  refX="8"
-                  refY="3"
-                  orient="auto"
-                  markerUnits="strokeWidth"
-                >
-                  <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.62)" />
-                </marker>
-
-                <marker
-                  id="stageArrow"
-                  markerWidth="8"
-                  markerHeight="8"
-                  refX="5.2"
-                  refY="2.5"
-                  orient="auto"
-                  markerUnits="strokeWidth"
-                >
-                  <path d="M0,0 L0,5 L6,2.5 z" fill="rgba(255,255,255,0.34)" />
-                </marker>
-
                 <filter id="orbitGlow">
                   <feGaussianBlur stdDeviation="4" result="blur" />
                   <feMerge>
@@ -181,9 +170,17 @@ function System() {
                   </feMerge>
                 </filter>
 
+                <filter id="sunActiveGlow">
+                  <feGaussianBlur stdDeviation="10" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+
                 <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.24)" />
-                  <stop offset="62%" stopColor="rgba(255,255,255,0.08)" />
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.28)" />
+                  <stop offset="58%" stopColor="rgba(255,255,255,0.09)" />
                   <stop offset="100%" stopColor="rgba(255,255,255,0)" />
                 </radialGradient>
               </defs>
@@ -197,60 +194,82 @@ function System() {
                 <circle cx="528" cy="684" r="1" fill="rgba(255,255,255,0.26)" />
                 <circle cx="690" cy="356" r="0.85" fill="rgba(255,255,255,0.2)" />
                 <circle cx="76" cy="344" r="0.9" fill="rgba(255,255,255,0.18)" />
-
-                <motion.circle
-                  cx="588"
-                  cy="92"
-                  r="1.2"
-                  fill="rgba(255,255,255,0.28)"
-                  animate={{ opacity: [0.18, 0.62, 0.18] }}
-                  transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut' }}
-                />
-
-                <motion.circle
-                  cx="198"
-                  cy="648"
-                  r="1.25"
-                  fill="rgba(255,255,255,0.24)"
-                  animate={{ opacity: [0.12, 0.55, 0.12] }}
-                  transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
-                />
+                <motion.circle cx="588" cy="92" r="1.2" fill="rgba(255,255,255,0.28)" animate={{ opacity: [0.18, 0.62, 0.18] }} transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut' }} />
+                <motion.circle cx="198" cy="648" r="1.25" fill="rgba(255,255,255,0.24)" animate={{ opacity: [0.12, 0.55, 0.12] }} transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }} />
               </g>
 
               <circle cx="380" cy="380" r="314" fill="none" stroke="rgba(255,255,255,0.035)" strokeWidth="1" />
-              <circle cx="380" cy="380" r="278" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
+              <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
+              <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.8" strokeLinecap="round" filter="url(#orbitGlow)" />
+              <motion.circle
+                cx="380"
+                cy="380"
+                r={orbitRadius}
+                fill="none"
+                stroke="rgba(255,255,255,0.72)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                initial={false}
+                animate={{ strokeDashoffset: progressOffset, opacity: activeLoop === null ? 0.18 : 1 }}
+                transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+                transform="rotate(-90 380 380)"
+                filter="url(#orbitGlow)"
+              />
               <circle cx="380" cy="380" r="218" fill="none" stroke="rgba(141,162,255,0.13)" strokeWidth="1" />
 
-              <circle cx="380" cy="380" r="150" fill="url(#sunGlow)" />
-              <circle cx="380" cy="380" r="112" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.4" />
-              <circle cx="380" cy="380" r="86" fill="rgba(5,5,5,0.42)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
+              <motion.circle
+                cx="380"
+                cy="380"
+                r={activeItem ? 166 : 150}
+                fill="url(#sunGlow)"
+                animate={{ r: activeItem ? 166 : 150, opacity: activeItem ? 1 : 0.82 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                filter={activeItem ? 'url(#sunActiveGlow)' : undefined}
+              />
+              <motion.circle cx="380" cy="380" animate={{ r: activeItem ? 124 : 112 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.22)" strokeWidth="1.4" />
+              <motion.circle cx="380" cy="380" animate={{ r: activeItem ? 96 : 86 }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }} fill="rgba(5,5,5,0.42)" stroke="rgba(255,255,255,0.13)" strokeWidth="1" />
 
-              <text
+              <motion.text
+                key={`eyebrow-${centerEyebrow}`}
                 x="380"
-                y="354"
+                y={activeItem ? 335 : 354}
                 textAnchor="middle"
                 className="select-none fill-white/45 text-[10px] font-black uppercase tracking-[0.28em]"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.28 }}
               >
-                Core method
-              </text>
+                {centerEyebrow}
+              </motion.text>
 
-              <text
+              <motion.text
+                key={`title-${centerTitle}`}
                 x="380"
-                y="383"
+                y={activeItem ? 376 : 383}
                 textAnchor="middle"
                 className="select-none fill-white text-[22px] font-black uppercase tracking-[-0.07em]"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.28 }}
               >
-                Learning
-              </text>
+                {centerTitle}
+              </motion.text>
 
-              <text
-                x="380"
-                y="410"
-                textAnchor="middle"
-                className="select-none fill-white text-[22px] font-black uppercase tracking-[-0.07em]"
-              >
-                by Building
-              </text>
+              {centerSubtitleLines.map((line, index) => (
+                <motion.text
+                  key={`${centerSubtitle}-${index}`}
+                  x="380"
+                  y={activeItem ? 405 + index * 18 : 410}
+                  textAnchor="middle"
+                  className="select-none fill-white/72 text-[12px] font-bold uppercase tracking-[0.06em]"
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.28, delay: index * 0.04 }}
+                >
+                  {line}
+                </motion.text>
+              ))}
 
               {learningLoop.map((item, index) => (
                 <SvgLoopNode
