@@ -63,13 +63,13 @@ const pillars = [
 
 const obsessions = ['AI leverage', 'UX psychology', 'Startup validation', 'Cinematic storytelling', 'Investing mental models', 'Execution psychology', 'Product communication', 'Personal proof systems'];
 const learningLoop = [
-  ['01', 'Project', 'Start with something real.', 'I begin with a project because vague curiosity needs a container. A real project exposes what I actually know, what I only think I know, and what needs to be learned next.'],
-  ['02', 'Problem', 'Let the work reveal the gap.', 'The project surfaces friction. Bugs, unclear designs, weak explanations, missing skills, and user confusion become signals instead of excuses.'],
-  ['03', 'Skill', 'Learn what the problem demands.', 'I avoid collecting theory for the sake of it. The problem decides what I study next, so learning stays tied to output.'],
-  ['04', 'Artifact', 'Make the learning visible.', 'The skill becomes something external: a page, prototype, repo, note, case study, demo, or framework that can be seen and improved.'],
-  ['05', 'Explanation', 'Clarify the work.', 'Explaining forces structure. If I cannot explain what I built, why it matters, and how it works, the artifact is not sharp enough yet.'],
-  ['06', 'Feedback', 'Let reality correct the assumption.', 'Feedback shows where the idea is unclear, weak, overbuilt, or useful. It turns private confidence into tested judgment.'],
-  ['07', 'Iteration', 'Sharpen and restart.', 'The output becomes cleaner, simpler, and more useful. Then the loop begins again with a sharper project and better instincts.'],
+  ['01', 'Project', 'Curiosity creates direction.', 'Curiosity becomes real only when it finds a container. I start with a project because a project gives curiosity direction, pressure, and a place to turn into visible work.'],
+  ['02', 'Problem', 'Work reveals friction.', 'Once the project begins, the vague idea meets reality. Bugs, unclear structure, weak design, and missing logic reveal the real problem that needs attention.'],
+  ['03', 'Skill', 'Friction demands skill.', 'The problem decides what I need to learn next. Instead of collecting random theory, I build the skill that removes the friction in front of me.'],
+  ['04', 'Artifact', 'Skill becomes proof.', 'A skill becomes valuable when it leaves my head. It turns into a page, prototype, repo, note, demo, case study, or system that can be seen and improved.'],
+  ['05', 'Explanation', 'Proof needs clarity.', 'An artifact is not finished if I cannot explain it. Explanation forces me to clarify what I built, why it matters, and how the thinking works.'],
+  ['06', 'Feedback', 'Clarity invites correction.', 'Once the work is explained, reality can respond. Feedback shows what is unclear, weak, useful, overbuilt, or worth sharpening.'],
+  ['07', 'Iteration', 'Correction sparks curiosity.', 'Feedback sharpens the next version. Iteration closes one loop, but it also opens a new question, a better angle, and the next thing worth exploring.'],
 ] as const;
 
 function FadeIn({ children, delay = 0, y = 24, className = '' }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
@@ -114,24 +114,24 @@ function SvgLoopNode({ item, index, active, onOpen }: { item: typeof learningLoo
     <text x={x} y={y + 17} textAnchor="middle" className="select-none fill-white text-[13px] font-black uppercase tracking-[-0.04em]">{title}</text>
   </motion.g>;
 }
-function LoopDetailPanel({ item }: { item: typeof learningLoop[number] }) { const [number, title, belief, story] = item; return <motion.article key={title} initial={{ opacity: 0, x: 24, scale: 0.96 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="noise relative overflow-hidden rounded-[2.25rem] border border-white/14 bg-white/[0.065] p-7 text-white shadow-[0_34px_130px_rgba(0,0,0,0.52)] backdrop-blur-3xl"><div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-white/10 blur-3xl" /><p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/42">{number} / Selected orbit</p><h3 className="mt-5 text-[clamp(2.4rem,6vw,4.6rem)] font-black uppercase leading-[0.82] tracking-[-0.08em]">{title}</h3><p className="mt-6 text-xl font-black leading-snug tracking-[-0.045em] text-white/88">{belief}</p><p className="mt-5 text-sm font-medium leading-relaxed text-white/64 sm:text-base">{story}</p><div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Loop path</p><p className="mt-2 text-xs font-black uppercase tracking-[0.15em] text-white/62">Project → Problem → Skill → Artifact → Explanation → Feedback → Iteration → Project</p></div></motion.article>; }
-function MobileLoopCard({ item, index, active, onToggle }: { item: typeof learningLoop[number]; index: number; active: boolean; onToggle: () => void }) { const [number, title, belief, story] = item; return <FadeIn delay={index * 0.035}><button type="button" onClick={onToggle} className={`group w-full overflow-hidden rounded-[1.5rem] border p-5 text-left shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl transition duration-300 ${active ? 'border-white/28 bg-white/[0.105]' : 'border-white/10 bg-white/[0.045]'}`}><span className="flex items-start gap-4"><span className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border text-xs font-black transition ${active ? 'border-white/40 bg-white/15 text-white' : 'border-white/10 bg-white/[0.06] text-white/60'}`}>{number}</span><span className="flex-1"><span className="block text-2xl font-black uppercase tracking-[-0.055em] text-white">{title}</span><span className="mt-2 block text-sm leading-relaxed text-white/58">{belief}</span></span><span className="text-xl text-white/45">{active ? '−' : '+'}</span></span><motion.div initial={false} animate={{ height: active ? 'auto' : 0, opacity: active ? 1 : 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden"><p className="mt-5 border-t border-white/10 pt-5 text-sm font-medium leading-relaxed text-white/66">{story}</p></motion.div></button></FadeIn>; }
+function LoopDetailPanel({ item, onReset }: { item: typeof learningLoop[number]; onReset: () => void }) { const [number, title, belief, story] = item; return <motion.article key={title} initial={{ opacity: 0, x: 24, scale: 0.96 }} animate={{ opacity: 1, x: 0, scale: 1 }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className="noise relative overflow-hidden rounded-[2.25rem] border border-white/14 bg-white/[0.065] p-7 text-white shadow-[0_34px_130px_rgba(0,0,0,0.52)] backdrop-blur-3xl"><div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-white/10 blur-3xl" /><div className="relative"><div className="flex items-start justify-between gap-5"><p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/42">{number} / Selected orbit</p><button type="button" onClick={onReset} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-2 text-[9px] font-black uppercase tracking-[0.18em] text-white/45 transition hover:border-white/20 hover:bg-white/[0.09] hover:text-white/72">Reset</button></div><h3 className="mt-5 text-[clamp(2.4rem,6vw,4.6rem)] font-black uppercase leading-[0.82] tracking-[-0.08em]">{title}</h3><p className="mt-6 text-xl font-black leading-snug tracking-[-0.045em] text-white/88">{belief}</p><p className="mt-5 text-sm font-medium leading-relaxed text-white/64 sm:text-base">{story}</p><div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Transition</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/76">{belief}</p></div></div></motion.article>; }
+function MobileLoopCard({ item, index, active, onToggle }: { item: typeof learningLoop[number]; index: number; active: boolean; onToggle: () => void }) { const [number, title, belief, story] = item; return <FadeIn delay={index * 0.035}><button type="button" onClick={onToggle} className={`group w-full overflow-hidden rounded-[1.5rem] border p-5 text-left shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl transition duration-300 ${active ? 'border-white/28 bg-white/[0.105]' : 'border-white/10 bg-white/[0.045]'}`}><span className="flex items-start gap-4"><span className={`grid h-12 w-12 shrink-0 place-items-center rounded-full border text-xs font-black transition ${active ? 'border-white/40 bg-white/15 text-white' : 'border-white/10 bg-white/[0.06] text-white/60'}`}>{number}</span><span className="flex-1"><span className="block text-2xl font-black uppercase tracking-[-0.055em] text-white">{title}</span><span className="mt-2 block text-sm leading-relaxed text-white/58">{belief}</span></span><span className="text-xl text-white/45">{active ? '−' : '+'}</span></span><motion.div initial={false} animate={{ height: active ? 'auto' : 0, opacity: active ? 1 : 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden"><p className="mt-5 border-t border-white/10 pt-5 text-sm font-medium leading-relaxed text-white/66">{story}</p><div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Transition</p><p className="mt-2 text-xs font-black uppercase tracking-[0.14em] text-white/70">{belief}</p></div></motion.div></button></FadeIn>; }
 function System() {
   const [activeLoop, setActiveLoop] = useState<number | null>(null);
   const activeItem = activeLoop !== null ? learningLoop[activeLoop] : null;
   const orbitRadius = 278;
   const circumference = 2 * Math.PI * orbitRadius;
-  const activeProgress = activeLoop === null ? 0 : (activeLoop + 1) / learningLoop.length;
+  const activeProgress = activeLoop === null ? 1 / learningLoop.length : (activeLoop + 1) / learningLoop.length;
   const progressOffset = circumference * (1 - activeProgress);
-  const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Core method';
-  const centerTitle = activeItem ? activeItem[1] : 'Learning';
-  const centerSubtitle = activeItem ? activeItem[2] : 'by Building';
-  const centerSubtitleLines = activeItem ? centerSubtitle.split(' ').reduce<string[]>((lines, word) => {
+  const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Starting point';
+  const centerTitle = activeItem ? activeItem[1] : 'Curiosity';
+  const centerSubtitle = activeItem ? activeItem[2] : 'creates direction';
+  const centerSubtitleLines = centerSubtitle.split(' ').reduce<string[]>((lines, word) => {
     const next = lines.length ? `${lines[lines.length - 1]} ${word}` : word;
     if (next.length > 22 && lines.length < 2) return [...lines, word];
     if (!lines.length) return [word];
     return [...lines.slice(0, -1), next];
-  }, []) : ['by Building'];
+  }, []);
 
   return (
     <section
@@ -150,7 +150,7 @@ function System() {
             My Learning Loop
           </h2>
           <p className="mt-5 max-w-3xl text-xl font-light leading-relaxed text-white/72 sm:text-2xl">
-            I learn by turning curiosity into projects, projects into problems, and problems into visible artifacts.
+            Curiosity starts the system. Projects expose the path. Iteration brings the next question back into focus.
           </p>
         </FadeIn>
 
@@ -211,7 +211,7 @@ function System() {
                 strokeLinecap="round"
                 strokeDasharray={circumference}
                 initial={false}
-                animate={{ strokeDashoffset: progressOffset, opacity: activeLoop === null ? 0.18 : 1 }}
+                animate={{ strokeDashoffset: progressOffset, opacity: activeLoop === null ? 0.42 : 1 }}
                 transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
                 transform="rotate(-90 380 380)"
                 filter="url(#orbitGlow)"
@@ -223,7 +223,7 @@ function System() {
                 cy="380"
                 r={activeItem ? 166 : 150}
                 fill="url(#sunGlow)"
-                animate={{ r: activeItem ? 166 : 150, opacity: activeItem ? 1 : 0.82 }}
+                animate={{ r: activeItem ? 166 : 150, opacity: activeItem ? 1 : 0.9 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 filter={activeItem ? 'url(#sunActiveGlow)' : undefined}
               />
@@ -285,7 +285,7 @@ function System() {
 
           <div>
             {activeItem ? (
-              <LoopDetailPanel item={activeItem} />
+              <LoopDetailPanel item={activeItem} onReset={() => setActiveLoop(null)} />
             ) : (
               <motion.article
                 initial={{ opacity: 0, x: 24, scale: 0.96 }}
@@ -295,24 +295,29 @@ function System() {
                 className="noise relative overflow-hidden rounded-[2.25rem] border border-white/14 bg-white/[0.055] p-7 text-white shadow-[0_34px_130px_rgba(0,0,0,0.52)] backdrop-blur-3xl"
               >
                 <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-white/10 blur-3xl" />
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/42">
-                  Select an orbit
-                </p>
+                <div className="flex items-start justify-between gap-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/42">
+                    Starting point
+                  </p>
+                  <button type="button" onClick={() => setActiveLoop(null)} className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-2 text-[9px] font-black uppercase tracking-[0.18em] text-white/35 transition hover:border-white/20 hover:bg-white/[0.09] hover:text-white/62">
+                    Reset
+                  </button>
+                </div>
                 <h3 className="mt-5 text-[clamp(2.4rem,6vw,4.6rem)] font-black uppercase leading-[0.82] tracking-[-0.08em]">
-                  Project-first learning.
+                  Curiosity.
                 </h3>
                 <p className="mt-6 text-xl font-black leading-snug tracking-[-0.045em] text-white/88">
-                  Every loop begins with something real enough to expose the next gap.
+                  Curiosity creates direction before the first project begins.
                 </p>
                 <p className="mt-5 text-sm font-medium leading-relaxed text-white/64 sm:text-base">
-                  Tap any stage in the orbit to see how that part of the learning system works.
+                  The loop starts when something feels interesting enough to test. That spark becomes a project, and the project begins exposing the next stage.
                 </p>
                 <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-4">
                   <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">
-                    Loop path
+                    Transition
                   </p>
-                  <p className="mt-2 text-xs font-black uppercase tracking-[0.15em] text-white/62">
-                    Project → Problem → Skill → Artifact → Explanation → Feedback → Iteration → Project
+                  <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/76">
+                    Curiosity creates direction
                   </p>
                 </div>
               </motion.article>
@@ -330,6 +335,9 @@ function System() {
               onToggle={() => setActiveLoop(activeLoop === index ? null : index)}
             />
           ))}
+          <button type="button" onClick={() => setActiveLoop(null)} className="mx-auto mt-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/45 transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white/72">
+            Reset to curiosity
+          </button>
         </div>
       </div>
     </section>
