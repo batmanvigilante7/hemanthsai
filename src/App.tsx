@@ -120,27 +120,6 @@ function System() {
   const [activeLoop, setActiveLoop] = useState<number | null>(null);
   const activeItem = activeLoop !== null ? learningLoop[activeLoop] : null;
 
-  const orbitRadius = 278;
-  const stepAngle = 360 / learningLoop.length;
-
-  const pointOnOrbit = (angle: number) => ({
-    x: 380 + orbitRadius * Math.cos((angle * Math.PI) / 180),
-    y: 380 + orbitRadius * Math.sin((angle * Math.PI) / 180),
-  });
-
-  const orbitPoints = learningLoop.map((_, index) => {
-    const angle = -90 + index * stepAngle;
-    return { angle, ...pointOnOrbit(angle) };
-  });
-
-  const activeArc =
-    activeLoop !== null && activeLoop > 0
-      ? (() => {
-          const end = pointOnOrbit(-90 + activeLoop * stepAngle);
-          return `M 380 102 A ${orbitRadius} ${orbitRadius} 0 ${activeLoop > 3 ? 1 : 0} 1 ${end.x} ${end.y}`;
-        })()
-      : '';
-
   return (
     <section
       id="system"
@@ -241,57 +220,6 @@ function System() {
               <circle cx="380" cy="380" r="314" fill="none" stroke="rgba(255,255,255,0.035)" strokeWidth="1" />
               <circle cx="380" cy="380" r="278" fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
               <circle cx="380" cy="380" r="218" fill="none" stroke="rgba(141,162,255,0.13)" strokeWidth="1" />
-
-              {orbitPoints.map((_, index) => {
-                const startAngle = -90 + index * stepAngle + 13;
-
-                if (index === learningLoop.length - 1) {
-                  const start = pointOnOrbit(startAngle);
-                  const end = pointOnOrbit(-90 - 13);
-
-                  return (
-                    <path
-                      key="stage-arrow-close"
-                      d={`M ${start.x} ${start.y} A ${orbitRadius} ${orbitRadius} 0 0 0 ${end.x} ${end.y}`}
-                      fill="none"
-                      stroke="rgba(255,255,255,0.22)"
-                      strokeWidth="1.2"
-                      markerEnd="url(#stageArrow)"
-                    />
-                  );
-                }
-
-                const endAngle = -90 + (index + 1) * stepAngle - 13;
-                const start = pointOnOrbit(startAngle);
-                const end = pointOnOrbit(endAngle);
-
-                return (
-                  <path
-                    key={`stage-arrow-${index}`}
-                    d={`M ${start.x} ${start.y} A ${orbitRadius} ${orbitRadius} 0 0 1 ${end.x} ${end.y}`}
-                    fill="none"
-                    stroke="rgba(255,255,255,0.22)"
-                    strokeWidth="1.2"
-                    markerEnd="url(#stageArrow)"
-                  />
-                );
-              })}
-
-              {activeArc && (
-                <motion.path
-                  key={activeArc}
-                  d={activeArc}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.58)"
-                  strokeWidth="2.6"
-                  strokeLinecap="round"
-                  markerEnd="url(#loopArrowCinematic)"
-                  filter="url(#orbitGlow)"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                />
-              )}
 
               <circle cx="380" cy="380" r="150" fill="url(#sunGlow)" />
               <circle cx="380" cy="380" r="112" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" strokeWidth="1.4" />
