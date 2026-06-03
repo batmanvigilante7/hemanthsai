@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, Mail, Menu, PenTool, Target, X, Zap } from 'lucide-react';
 
@@ -117,11 +117,32 @@ function FadeIn({ children, delay = 0, y = 24, className = '' }: { children: Rea
   return <motion.div initial={{ opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>{children}</motion.div>;
 }
 
-function ImageFrame({ src, alt, label, className = '', imgClassName = '', priority = false, fit = 'cover', tone = 'natural' }: { src: string; alt: string; label: string; className?: string; imgClassName?: string; priority?: boolean; fit?: 'cover' | 'contain'; tone?: 'natural' | 'soft' | 'mono' }) {
+function ImageFrame({
+  src,
+  alt,
+  label,
+  className = '',
+  imgClassName = '',
+  imgStyle,
+  priority = false,
+  fit = 'cover',
+  tone = 'natural',
+}: {
+  src: string;
+  alt: string;
+  label: string;
+  className?: string;
+  imgClassName?: string;
+  imgStyle?: CSSProperties;
+  priority?: boolean;
+  fit?: 'cover' | 'contain';
+  tone?: 'natural' | 'soft' | 'mono';
+}) {
   const [broken, setBroken] = useState(false);
   const toneClass = tone === 'mono' ? 'grayscale brightness-105 contrast-110 saturate-0' : tone === 'soft' ? 'brightness-100 contrast-105 saturate-[0.92]' : 'brightness-100 contrast-105 saturate-100';
   const fitClass = fit === 'contain' ? 'object-contain' : 'object-cover';
-  return <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>{!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading={priority ? 'eager' : 'lazy'} className={`h-full w-full ${fitClass} ${toneClass} transition-transform duration-700 group-hover:scale-[1.018] md:duration-1000 md:group-hover:scale-[1.035] ${imgClassName}`} /> : <div className="flex h-full min-h-[220px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-[10px] uppercase tracking-[0.24em] text-white/55 sm:text-xs sm:tracking-[0.35em]">{label}</span></div>}<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" /><div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" /></div>;
+  return <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>{!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading={priority ? 'eager' : 'lazy'}
+                                                                                                         style={imgStyle} className={`h-full w-full ${fitClass} ${toneClass} transition-transform duration-700 group-hover:scale-[1.018] md:duration-1000 md:group-hover:scale-[1.035] ${imgClassName}`} /> : <div className="flex h-full min-h-[220px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-[10px] uppercase tracking-[0.24em] text-white/55 sm:text-xs sm:tracking-[0.35em]">{label}</span></div>}<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" /><div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" /></div>;
 }
 
 function Button({ children, href = '#' }: { children: ReactNode; href?: string }) { return <a href={href} className="liquid-glass group inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-white transition duration-300 hover:scale-[1.02] hover:bg-white/[0.07] sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.2em]">{children}<ArrowUpRight className="h-4 w-4 shrink-0 transition group-hover:-translate-y-1 group-hover:translate-x-1" /></a>; }
@@ -132,7 +153,14 @@ function Divider({ text }: { text: string }) { return <section className="relati
 function Hero() {
   const [open, setOpen] = useState(false);
   useEffect(() => { document.body.style.overflow = open ? 'hidden' : ''; return () => { document.body.style.overflow = ''; }; }, [open]);
-  return <section id="arrival" className="noise relative min-h-[100svh] overflow-hidden bg-[#050505] text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.11),transparent_28%),radial-gradient(circle_at_10%_86%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505,#0b0b0b)]" /><nav className="fixed left-0 right-0 top-0 z-40 px-3 py-3 sm:px-6 sm:py-4"><div className="liquid-glass mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-2.5 sm:px-5 sm:py-3"><a href="#arrival" className="max-w-[58vw] truncate text-sm font-black uppercase tracking-[-0.04em] sm:text-base">Hemanth Sai<span className="text-white/50">.</span></a><div className="hidden items-center gap-7 lg:flex">{navLinks.map(([label, href]) => <a key={label} href={href} className="text-xs font-medium uppercase tracking-[0.24em] text-white/65 transition hover:text-white">{label}</a>)}</div><button onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full text-white lg:hidden" aria-label="Menu">{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button><div className="hidden lg:block"><Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button></div></div></nav>{open && <div className="fixed inset-0 z-30 overflow-y-auto bg-black/95 px-6 pb-10 pt-24 backdrop-blur-xl lg:hidden">{navLinks.map(([label, href]) => <a onClick={() => setOpen(false)} key={label} href={href} className="block border-b border-white/10 py-5 text-[clamp(2rem,10vw,3rem)] font-black uppercase leading-none tracking-[-0.06em]">{label}</a>)}<div className="mt-7"><Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button></div></div>}<div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl content-center gap-10 px-5 pb-10 pt-24 sm:px-7 sm:pb-12 sm:pt-28 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:px-10"><div className="relative z-10"><FadeIn><p className="mb-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.21em] text-white/60 sm:gap-3 sm:text-xs sm:tracking-[0.32em]"><Zap className="h-4 w-4 shrink-0" />AI / Software / Design / Writing / Discipline</p></FadeIn><motion.h1 initial={{ opacity: 0, y: 56 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="max-w-[10ch] text-[clamp(3.5rem,16vw,8.15rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white">Learning by building.</motion.h1><FadeIn delay={0.12}><p className="mt-5 max-w-xl text-base leading-relaxed text-white/72 sm:mt-7 sm:text-xl">Turning curiosity into craft.</p></FadeIn><FadeIn delay={0.2}><div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-7"><span className="liquid-glass inline-flex max-w-full items-center gap-3 rounded-full px-4 py-3 text-[10px] uppercase tracking-[0.16em] text-white/70 sm:text-xs sm:tracking-[0.22em]"><span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-white" />2nd-year B.Tech CSE student exploring AI, software, design and product thinking</span></div><div className="mt-6 grid gap-3 sm:flex sm:flex-wrap sm:gap-4"><Button href="#work">See what I’m building</Button><Button href="#before-code">Explore my story</Button></div></FadeIn></div><FadeIn delay={0.08} className="relative mx-auto w-full max-w-[min(78vw,360px)] sm:max-w-[410px] lg:max-w-[500px]"><div className="absolute inset-x-6 bottom-2 top-16 rounded-full bg-white/10 blur-3xl" /><div className="relative rounded-[2.4rem] border border-white/10 bg-white/[0.035] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.5)] sm:rounded-[3.2rem] sm:p-4"><ImageFrame src={images.hero} alt="Hemanth Sai outdoor portrait" label="Hero portrait" priority fit="cover" tone="natural" className="relative aspect-[4/5] rounded-[1.8rem] border border-white/10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_58%)] sm:rounded-[2.5rem]" imgClassName="object-[43%_50%]" /></div></FadeIn></div></section>;
+  return <section id="arrival" className="noise relative min-h-[100svh] overflow-hidden bg-[#050505] text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(255,255,255,0.11),transparent_28%),radial-gradient(circle_at_10%_86%,rgba(255,255,255,0.07),transparent_34%),linear-gradient(180deg,#050505,#0b0b0b)]" /><nav className="fixed left-0 right-0 top-0 z-40 px-3 py-3 sm:px-6 sm:py-4"><div className="liquid-glass mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-2.5 sm:px-5 sm:py-3"><a href="#arrival" className="max-w-[58vw] truncate text-sm font-black uppercase tracking-[-0.04em] sm:text-base">Hemanth Sai<span className="text-white/50">.</span></a><div className="hidden items-center gap-7 lg:flex">{navLinks.map(([label, href]) => <a key={label} href={href} className="text-xs font-medium uppercase tracking-[0.24em] text-white/65 transition hover:text-white">{label}</a>)}</div><button onClick={() => setOpen(!open)} className="grid h-10 w-10 place-items-center rounded-full text-white lg:hidden" aria-label="Menu">{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button><div className="hidden lg:block"><Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button></div></div></nav>{open && <div className="fixed inset-0 z-30 overflow-y-auto bg-black/95 px-6 pb-10 pt-24 backdrop-blur-xl lg:hidden">{navLinks.map(([label, href]) => <a onClick={() => setOpen(false)} key={label} href={href} className="block border-b border-white/10 py-5 text-[clamp(2rem,10vw,3rem)] font-black uppercase leading-none tracking-[-0.06em]">{label}</a>)}<div className="mt-7"><Button href="mailto:hemanthsairoyal7@gmail.com">Connect with me</Button></div></div>}<div className="relative z-10 mx-auto grid min-h-[100svh] max-w-7xl content-center gap-10 px-5 pb-10 pt-24 sm:px-7 sm:pb-12 sm:pt-28 lg:grid-cols-[1.04fr_0.96fr] lg:items-center lg:px-10"><div className="relative z-10"><FadeIn><p className="mb-4 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.21em] text-white/60 sm:gap-3 sm:text-xs sm:tracking-[0.32em]"><Zap className="h-4 w-4 shrink-0" />AI / Software / Design / Writing / Discipline</p></FadeIn><motion.h1 initial={{ opacity: 0, y: 56 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="max-w-[10ch] text-[clamp(3.5rem,16vw,8.15rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white">Learning by building.</motion.h1><FadeIn delay={0.12}><p className="mt-5 max-w-xl text-base leading-relaxed text-white/72 sm:mt-7 sm:text-xl">Turning curiosity into craft.</p></FadeIn><FadeIn delay={0.2}><div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-7"><span className="liquid-glass inline-flex max-w-full items-center gap-3 rounded-full px-4 py-3 text-[10px] uppercase tracking-[0.16em] text-white/70 sm:text-xs sm:tracking-[0.22em]"><span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-white" />2nd-year B.Tech CSE student exploring AI, software, design and product thinking</span></div><div className="mt-6 grid gap-3 sm:flex sm:flex-wrap sm:gap-4"><Button href="#work">See what I’m building</Button><Button href="#before-code">Explore my story</Button></div></FadeIn></div><FadeIn delay={0.08} className="relative mx-auto w-full max-w-[min(78vw,360px)] sm:max-w-[410px] lg:max-w-[500px]"><div className="absolute inset-x-6 bottom-2 top-16 rounded-full bg-white/10 blur-3xl" /><div className="relative rounded-[2.4rem] border border-white/10 bg-white/[0.035] p-3 shadow-[0_40px_140px_rgba(0,0,0,0.5)] sm:rounded-[3.2rem] sm:p-4"><ImageFrame <img
+  src={src}
+  alt={alt}
+  onError={() => setBroken(true)}
+  loading={priority ? 'eager' : 'lazy'}
+  style={imgStyle}
+  className={`h-full w-full ${fitClass} ${toneClass} transition-transform duration-700 group-hover:scale-[1.018] md:duration-1000 md:group-hover:scale-[1.035] ${imgClassName}`}
+/>
 }
 function Glass({ title, text }: { title: string; text: string }) { return <div className="liquid-glass rounded-[1.5rem] p-5 sm:rounded-[2rem] sm:p-6"><h3 className="mb-3 text-lg font-black uppercase tracking-[-0.04em] sm:text-xl">{title}</h3><p className="text-sm leading-relaxed text-white/62">{text}</p></div>; }
 function Identity() {
@@ -166,22 +194,14 @@ function Identity() {
           {identitySignals.map((signal, index) => (
             <FadeIn key={signal.title} delay={index * 0.05}>
               <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-[0_34px_120px_rgba(0,0,0,0.38)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.07] sm:rounded-[2.5rem]">
-                <ImageFrame
-                  src={signal.image}
-                  alt={signal.alt}
-                  label={signal.title}
-                  tone="soft"
-                  className="aspect-[4/3] border-b border-white/10"
-                  imgClassName={
-                    signal.title === 'Structure'
-                      ? 'object-[50%_36%]'
-                      : signal.title === 'Discipline'
-                        ? 'object-[50%_45%]'
-                        : signal.title === 'Voice'
-                          ? 'object-[50%_32%]'
-                          : 'object-[50%_45%]'
-                  }
-                />
+               <ImageFrame
+  src={signal.image}
+  alt={signal.alt}
+  label={signal.title}
+  tone="soft"
+  className="aspect-[4/5] border-b border-white/10 sm:aspect-[16/11]"
+  imgStyle={{ objectPosition: signal.objectPosition }}
+/>
 
                 <div className="p-5 sm:p-7">
                   <div className="flex items-start justify-between gap-5">
