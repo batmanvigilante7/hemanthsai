@@ -28,6 +28,7 @@ const identitySignals = [
     title: 'Structure',
     line: 'Standards before speed.',
     text: 'Structured environments taught me accountability, presence, and the value of carrying myself with seriousness before chasing outcomes.',
+    story: 'Structure is the part of me that came before ambition. It is the habit of respecting routines, showing up with presence, and understanding that standards are not decoration — they are the operating system. This signal connects Sainik School, NCC, and every environment that taught me to take myself seriously before asking the world to do the same.',
     image: images.identityStructure,
     alt: 'Hemanth Sai in NCC uniform on horseback',
     objectPosition: '50% 30%',
@@ -37,6 +38,7 @@ const identitySignals = [
     title: 'Discipline',
     line: 'Practice before confidence.',
     text: 'Karate taught me repetition, body control, discomfort, and the quiet confidence that comes from doing hard things before anyone is watching.',
+    story: 'Discipline is not a motivational quote for me. It is physical. It came from repetition, training, correction, fatigue, and the silent work nobody claps for. Karate made confidence feel earned, not borrowed. That same pattern now moves into learning, coding, design, and building — repeat, refine, sharpen, return.',
     image: images.identityDiscipline,
     alt: 'Karate training collage from Hemanth Sai’s early years',
     objectPosition: '50% 35%',
@@ -46,6 +48,7 @@ const identitySignals = [
     title: 'Voice',
     line: 'Ideas need expression.',
     text: 'Speaking taught me that clarity is power. A thought becomes more useful when it can be communicated, understood, and remembered.',
+    story: 'Voice is the bridge between thinking and impact. Public speaking trained me to hold an idea in front of people and make it clear enough to land. This matters because building is not only about making things; it is also about explaining why they matter, what they change, and why someone should care.',
     image: images.identityVoice,
     alt: 'Hemanth Sai speaking at a podium',
     objectPosition: '50% 28%',
@@ -55,6 +58,7 @@ const identitySignals = [
     title: 'Builder Mode',
     line: 'Visible work beats hidden potential.',
     text: 'Now the same pattern moves into technology: turning curiosity into projects, systems, pages, notes, prototypes, and proof that can be seen and improved.',
+    story: 'Builder Mode is where all the earlier signals become visible. Structure gives the base, discipline keeps the rhythm, voice explains the work, and technology becomes the arena. I am learning to convert curiosity into artifacts: interfaces, repos, systems, notes, demos, case studies, and products that can survive feedback.',
     image: images.identityBuilder,
     alt: 'Hemanth Sai working on a laptop',
     objectPosition: '50% 45%',
@@ -169,7 +173,97 @@ function Hero() {
             </section>;
 }
 function Glass({ title, text }: { title: string; text: string }) { return <div className="liquid-glass rounded-[1.5rem] p-5 sm:rounded-[2rem] sm:p-6"><h3 className="mb-3 text-lg font-black uppercase tracking-[-0.04em] sm:text-xl">{title}</h3><p className="text-sm leading-relaxed text-white/62">{text}</p></div>; }
+function IdentitySignalModal({ signal, onClose }: { signal: typeof identitySignals[number]; onClose: () => void }) {
+  useEffect(() => {
+    const closeOnKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', closeOnKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', closeOnKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.article
+        initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }}
+        animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+        onClick={(event) => event.stopPropagation()}
+        className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]"
+      >
+        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/18 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-[#8da2ff]/18 blur-3xl" />
+
+        <div className="relative min-h-[280px] p-3 md:min-h-[620px] md:p-4">
+          <ImageFrame
+            src={signal.image}
+            alt={signal.alt}
+            label={signal.title}
+            tone="soft"
+            className="h-full min-h-[280px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]"
+            imgStyle={{ objectPosition: signal.objectPosition }}
+          />
+        </div>
+
+        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12">
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white"
+            aria-label="Close identity signal"
+          >
+            <X className="h-5 w-5" />
+          </button>
+
+          <p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">
+            {signal.number} / Identity Signal
+          </p>
+
+          <h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">
+            {signal.title}
+          </h3>
+
+          <p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">
+            {signal.line}
+          </p>
+
+          <p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">
+            {signal.story}
+          </p>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl">
+              <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Signal</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.title}</p>
+            </div>
+            <div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl">
+              <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">Visible proof</p>
+            </div>
+          </div>
+
+          <p className="mt-8 text-[10px] font-black uppercase tracking-[0.24em] text-white/34">
+            Tap outside or press Esc to close
+          </p>
+        </div>
+      </motion.article>
+    </motion.div>
+  );
+}
 function Identity() {
+  const [activeSignal, setActiveSignal] = useState<number | null>(null);
+
   return (
     <section id="identity" className="relative overflow-hidden bg-[#070707] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)]" />
@@ -199,44 +293,51 @@ function Identity() {
         <div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2">
           {identitySignals.map((signal, index) => (
             <FadeIn key={signal.title} delay={index * 0.05}>
-              <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-[0_34px_120px_rgba(0,0,0,0.38)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.07] sm:rounded-[2.5rem]">
-               <ImageFrame
-  src={signal.image}
-  alt={signal.alt}
-  label={signal.title}
-  tone="soft"
-  className="aspect-[4/5] border-b border-white/10 md:aspect-[4/5]"
-  imgStyle={{ objectPosition: signal.objectPosition }}
-/>
+              <button type="button" onClick={() => setActiveSignal(index)} className="block h-full w-full cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707]">
+                <article className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.045] shadow-[0_34px_120px_rgba(0,0,0,0.38)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.07] hover:shadow-[0_44px_150px_rgba(141,162,255,0.16)] sm:rounded-[2.5rem]">
+                  <ImageFrame
+                    src={signal.image}
+                    alt={signal.alt}
+                    label={signal.title}
+                    tone="soft"
+                    className="aspect-[4/5] border-b border-white/10 md:aspect-[4/5]"
+                    imgStyle={{ objectPosition: signal.objectPosition }}
+                  />
 
-                <div className="p-5 sm:p-7">
-                  <div className="flex items-start justify-between gap-5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/38">
-                      {signal.number}
+                  <div className="p-5 sm:p-7">
+                    <div className="flex items-start justify-between gap-5">
+                      <p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/38">
+                        {signal.number}
+                      </p>
+
+                      <p className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-white/45 transition group-hover:border-white/20 group-hover:bg-white/[0.10] group-hover:text-white/70">
+                        Open Signal
+                      </p>
+                    </div>
+
+                    <h3 className="mt-6 text-[clamp(2rem,7vw,3.5rem)] font-black uppercase leading-[0.86] tracking-[-0.075em] text-white">
+                      {signal.title}
+                    </h3>
+
+                    <p className="mt-4 text-lg font-black leading-snug tracking-[-0.04em] text-white/86">
+                      {signal.line}
                     </p>
 
-                    <p className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-white/45">
-                      Signal
+                    <p className="mt-4 text-sm font-medium leading-relaxed text-white/58 sm:text-base">
+                      {signal.text}
+                    </p>
+
+                    <p className="mt-5 text-[9px] font-black uppercase tracking-[0.24em] text-white/36 transition group-hover:text-white/58">
+                      Tap to reveal deeper layer
                     </p>
                   </div>
-
-                  <h3 className="mt-6 text-[clamp(2rem,7vw,3.5rem)] font-black uppercase leading-[0.86] tracking-[-0.075em] text-white">
-                    {signal.title}
-                  </h3>
-
-                  <p className="mt-4 text-lg font-black leading-snug tracking-[-0.04em] text-white/86">
-                    {signal.line}
-                  </p>
-
-                  <p className="mt-4 text-sm font-medium leading-relaxed text-white/58 sm:text-base">
-                    {signal.text}
-                  </p>
-                </div>
-              </article>
+                </article>
+              </button>
             </FadeIn>
           ))}
         </div>
       </div>
+      {activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}
     </section>
   );
 }
