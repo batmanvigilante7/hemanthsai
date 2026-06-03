@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent, type ReactNode } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence, type MotionValue } from 'framer-motion';
 import { X } from 'lucide-react';
 
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
@@ -65,7 +65,20 @@ function ImageFrame({ src, alt, label, className = '', imgStyle }: { src: string
   const [broken, setBroken] = useState(false);
   return (
     <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>
-      {!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading="lazy" style={imgStyle} className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]" /> : <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span></div>}
+      {!broken ? (
+        <img
+          src={src}
+          alt={alt}
+          onError={() => setBroken(true)}
+          loading="lazy"
+          style={imgStyle}
+          className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]"
+        />
+      ) : (
+        <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center">
+          <span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span>
+        </div>
+      )}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.36))]" />
       <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_rgba(0,0,0,0.5)]" />
     </div>
@@ -89,39 +102,217 @@ function IdentitySignalModal({ signal, onClose }: { signal: IdentitySignal; onCl
     <motion.div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
       <motion.article initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }} animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]">
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" />
-        <div className="relative min-h-[300px] p-3 md:min-h-[620px] md:p-4"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[300px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} /></div>
-        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12"><button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white" aria-label="Close identity signal"><X className="h-5 w-5" /></button><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p><h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p><div className="mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div><div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div></div></div>
+        <div className="relative min-h-[300px] p-3 md:min-h-[620px] md:p-4">
+          <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[300px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} />
+        </div>
+        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12">
+          <button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white" aria-label="Close identity signal"><X className="h-5 w-5" /></button>
+          <p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p>
+          <h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3>
+          <p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p>
+          <p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div>
+            <div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div>
+          </div>
+        </div>
       </motion.article>
     </motion.div>
   );
 }
 
-function IdentityStackCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const total = identitySignals.length;
-  const segment = 1 / total;
-  const start = index * segment;
-  const end = Math.min(1, start + segment * 1.35);
-  const scale = useTransform(progress, [start, end, 1], [1, 0.94 - index * 0.018, 0.86 - index * 0.012]);
-  const y = useTransform(progress, [start, end, 1], [index * 26, index * 12, -index * 10]);
-  const rotateX = useTransform(progress, [start, end], [0, -7]);
-  const opacity = useTransform(progress, [Math.max(0, start - 0.08), start, 1], [0.72, 1, 1]);
+const fanPositions: Array<{ x: number; y: number; rotate: number }> = [
+  { x: -36, y: 14, rotate: -8 },
+  { x: -12, y: -4, rotate: -2 },
+  { x: 12, y: -4, rotate: 2 },
+  { x: 36, y: 14, rotate: 8 },
+];
+
+interface IdentityFanCardProps {
+  signal: IdentitySignal;
+  index: number;
+  progress: MotionValue<number>;
+  screenType: 'desktop' | 'tablet' | 'mobile';
+  onOpen: () => void;
+}
+
+function IdentityFanCard({
+  signal,
+  index,
+  progress,
+  screenType,
+  onOpen,
+}: IdentityFanCardProps) {
+  const [hovered, setHovered] = useState(false);
+  const xVal = useMotionValue(0);
+  const yVal = useMotionValue(0);
+
+  // Smooth springs for mouse hover tilt
+  const rotateXMouse = useSpring(useTransform(yVal, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 });
+  const rotateYMouse = useSpring(useTransform(xVal, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 });
+
+  const pos = fanPositions[index];
+
+  // Responsive layout values
+  let xTarget = pos.x;
+  let yTarget = pos.y;
+  const rotateTarget = pos.rotate;
+
+  if (screenType === 'desktop') {
+    xTarget = pos.x * 0.9;
+    yTarget = pos.y * 1.5;
+  } else if (screenType === 'tablet') {
+    xTarget = pos.x * 0.65;
+    yTarget = pos.y * 1.2;
+  } else {
+    xTarget = pos.x * 0.42;
+    yTarget = pos.y * 0.8;
+  }
+
+  // Scroll animations
+  const x = useTransform(progress, [0, 0.85], ["0vw", `${xTarget}vw`]);
+  const y = useTransform(progress, [0, 0.85], ["0%", `${yTarget}%`]);
+  const rotate = useTransform(progress, [0, 0.85], [0, rotateTarget]);
+  const scale = useTransform(progress, [0, 0.85], [0.82, 1.0]);
+  const z = useTransform(progress, [0, 0.85], [-120, 0]);
+  const rotateX = useTransform(progress, [0, 0.85], [10, 0]);
+  
+  // Fade in at the start, fade out at the end of the section scroll
+  const opacity = useTransform(progress, [0, 0.12, 0.9, 0.98], [0.4, 1, 1, 0]);
+
+  const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const width = rect.width;
+    const height = rect.height;
+    
+    xVal.set((mouseX - width / 2) / width);
+    yVal.set((mouseY - height / 2) / height);
+
+    e.currentTarget.style.setProperty('--glare-x', `${mouseX}px`);
+    e.currentTarget.style.setProperty('--glare-y', `${mouseY}px`);
+  };
+
+  const handleMouseLeave = () => {
+    xVal.set(0);
+    yVal.set(0);
+    setHovered(false);
+  };
+
+  const glowColors = [
+    "rgba(99, 102, 241, 0.12)",  // Indigo glow for Structure
+    "rgba(139, 92, 246, 0.12)", // Purple glow for Discipline
+    "rgba(6, 182, 212, 0.12)",   // Cyan glow for Voice
+    "rgba(16, 185, 129, 0.12)",  // Emerald glow for Builder
+  ];
+  const hoverGlowColors = [
+    "rgba(99, 102, 241, 0.22)",
+    "rgba(139, 92, 246, 0.22)",
+    "rgba(6, 182, 212, 0.22)",
+    "rgba(16, 185, 129, 0.22)",
+  ];
 
   return (
-    <motion.button
-      type="button"
-      style={{ scale, y, rotateX, opacity, transformPerspective: 1200, zIndex: 20 + index }}
-      onClick={onOpen}
-      className="group absolute inset-x-0 top-0 mx-auto grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_34px_140px_rgba(0,0,0,0.48)] outline-none backdrop-blur-3xl transition duration-300 hover:border-white/24 hover:bg-white/[0.08] focus-visible:ring-2 focus-visible:ring-white/55 focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:grid-cols-[0.98fr_1.02fr] md:rounded-[3rem]"
+    <motion.div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      className="absolute inset-0 m-auto w-[36vw] max-w-[150px] h-[52vw] max-h-[220px] md:w-[26vw] md:max-w-[210px] md:h-[38vw] md:max-h-[300px] lg:w-[21vw] lg:max-w-[270px] lg:h-[32vw] lg:max-h-[400px] pointer-events-auto"
+      style={{
+        x,
+        y,
+        rotate,
+        scale,
+        z,
+        rotateX,
+        opacity,
+        zIndex: hovered ? 50 : index + 10,
+        transformStyle: "preserve-3d",
+      }}
     >
-      <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10 md:aspect-[16/10] md:border-b-0 md:border-r" imgStyle={{ objectPosition: signal.objectPosition }} />
-      <div className="flex min-h-[310px] flex-col justify-center p-5 sm:p-7 md:min-h-[420px] md:p-9 lg:p-11">
-        <div className="flex items-start justify-between gap-5"><p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/38">{signal.number}</p><p className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-white/45 transition group-hover:border-white/20 group-hover:bg-white/[0.10] group-hover:text-white/70">Open Signal</p></div>
-        <h3 className="mt-7 text-[clamp(2.4rem,8vw,5.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white md:mt-8">{signal.title}</h3>
-        <p className="mt-5 max-w-xl text-xl font-black leading-snug tracking-[-0.05em] text-white/88 sm:text-2xl">{signal.line}</p>
-        <p className="mt-5 max-w-2xl text-sm font-medium leading-relaxed text-white/58 sm:text-base">{signal.text}</p>
-        <p className="mt-7 text-[9px] font-black uppercase tracking-[0.24em] text-white/36 transition group-hover:text-white/58">Layer {index + 1} of 4 · Tap to reveal deeper layer</p>
-      </div>
-    </motion.button>
+      <motion.button
+        type="button"
+        onClick={onOpen}
+        onMouseMove={handleMouseMove}
+        whileHover={{
+          scale: 1.05,
+          boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.7)",
+        }}
+        transition={{ type: "spring", stiffness: 350, damping: 22 }}
+        className="group relative w-full h-full rounded-2xl md:rounded-[2rem] border border-white/10 hover:border-white/20 bg-gradient-to-b from-white/[0.08] to-white/[0.01] hover:from-white/[0.12] hover:to-white/[0.03] text-left overflow-hidden select-none cursor-pointer outline-none transition-colors duration-500 flex flex-col"
+        style={{
+          rotateX: rotateXMouse,
+          rotateY: rotateYMouse,
+          transformPerspective: 800,
+          ['--glare-x' as any]: '50%',
+          ['--glare-y' as any]: '50%',
+        }}
+      >
+        {/* Glow backdrop */}
+        <div 
+          className="absolute -bottom-16 -left-16 -right-16 h-40 rounded-full blur-[48px] pointer-events-none transition-colors duration-500 z-0" 
+          style={{ backgroundColor: hovered ? hoverGlowColors[index] : glowColors[index] }} 
+        />
+
+        {/* Hover Glare Reflection */}
+        <div className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_var(--glare-x)_var(--glare-y),rgba(255,255,255,0.10),transparent_40%)]" />
+
+        {/* Top Image Frame */}
+        <div className="relative w-full h-[50%] overflow-hidden rounded-t-[1.4rem] md:rounded-t-[1.8rem] bg-white/[0.02] z-10 flex-shrink-0">
+          <img
+            src={signal.image}
+            alt={signal.alt}
+            className="h-full w-full object-cover brightness-95 contrast-[1.03] saturate-[0.88] transition-transform duration-700 group-hover:scale-105"
+            style={{ objectPosition: signal.objectPosition }}
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/30 to-transparent opacity-90" />
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+        </div>
+
+        {/* Bottom Text Area */}
+        <div className="relative flex flex-col justify-between flex-1 p-3 sm:p-4 lg:p-5 h-[50%] bg-[#090909]/40 rounded-b-[inherit] z-10">
+          {/* Top row: Number and Origin */}
+          <div className="flex items-center justify-between">
+            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
+              {signal.number}
+            </span>
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.15em] text-white/40 truncate max-w-[70%]">
+              {signal.origin}
+            </span>
+          </div>
+
+          {/* Title & Tagline */}
+          <div className="my-auto">
+            <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-black uppercase tracking-[-0.05em] text-white group-hover:text-white transition-colors duration-300">
+              {signal.title}
+            </h3>
+            <p className="mt-0.5 text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.05em] text-white/70 group-hover:text-white transition-colors duration-300 line-clamp-1">
+              {signal.line}
+            </p>
+            <p className="mt-2 hidden md:block text-[11px] lg:text-[12px] font-medium leading-relaxed text-white/50 line-clamp-2 lg:line-clamp-3">
+              {signal.text}
+            </p>
+          </div>
+
+          {/* Bottom row: "Reveal Detail" and action */}
+          <div className="flex items-center justify-between pt-1.5 border-t border-white/5 mt-1">
+            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.18em] text-white/40 group-hover:text-white/80 transition-colors duration-300">
+              Reveal Details
+            </span>
+            <svg
+              className="h-3 w-3 text-white/30 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={3}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+      </motion.button>
+    </motion.div>
   );
 }
 
@@ -129,19 +320,75 @@ export default function IdentityStack() {
   const container = useRef<HTMLElement | null>(null);
   const [activeSignal, setActiveSignal] = useState<number | null>(null);
   const { scrollYProgress } = useScroll({ target: container, offset: ['start start', 'end end'] });
+  const [screenType, setScreenType] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setScreenType('desktop');
+      } else if (window.innerWidth >= 768) {
+        setScreenType('tablet');
+      } else {
+        setScreenType('mobile');
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <section id="identity" ref={container} className="relative min-h-[420vh] overflow-visible bg-[#070707] px-5 py-16 text-white sm:min-h-[440vh] sm:px-8 sm:py-24 md:px-10">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)]" />
-      <div className="relative mx-auto max-w-7xl">
-        <FadeIn><p className="mb-4 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p><h2 className="max-w-6xl text-[clamp(3rem,13vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-6 max-w-4xl text-lg font-light leading-relaxed text-white/72 sm:text-2xl">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p><p className="mt-5 max-w-4xl text-base leading-relaxed text-white/56 sm:text-lg">The environments changed — training grounds, uniforms, stages, classrooms, and laptops — but the pattern stayed the same: learn under pressure, communicate with clarity, and turn intent into visible work.</p></FadeIn>
-        <div className="sticky top-[5.5rem] mt-12 h-[78svh] min-h-[650px] overflow-visible py-4 sm:top-24 sm:mt-16 sm:h-[82vh] lg:top-28" style={{ perspective: 1200 }}>
-          <div className="relative mx-auto h-full w-full max-w-6xl">
-            {identitySignals.map((signal, index) => <IdentityStackCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => setActiveSignal(index)} />)}
+    <section id="identity" ref={container} className="relative min-h-[240vh] bg-[#070707] text-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)] pointer-events-none" />
+      
+      <div className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden py-12 md:py-16">
+        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 z-10">
+          <FadeIn>
+            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p>
+            <h2 className="text-[clamp(2.2rem,6vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.09em] text-white">The pattern behind the proof.</h2>
+            <p className="mt-4 max-w-3xl text-sm font-light leading-relaxed text-white/72 sm:text-lg md:text-xl">
+              Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.
+            </p>
+          </FadeIn>
+        </div>
+
+        <div className="relative flex-1 w-full flex items-center justify-center">
+          <div className="relative w-full max-w-7xl h-[45vh] md:h-[50vh] flex items-center justify-center" style={{ perspective: 1200, transformStyle: "preserve-3d" }}>
+            {identitySignals.map((signal, index) => (
+              <IdentityFanCard
+                key={signal.title}
+                signal={signal}
+                index={index}
+                progress={scrollYProgress}
+                screenType={screenType}
+                onOpen={() => setActiveSignal(index)}
+              />
+            ))}
           </div>
         </div>
+
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 text-[8px] font-black uppercase tracking-[0.16em] text-white/30 sm:px-8 sm:text-[9px] sm:tracking-[0.2em] md:px-10">
+          <span>Scroll to fan out</span>
+          <div className="h-[2px] min-w-16 flex-1 max-w-24 overflow-hidden rounded-full bg-white/10">
+            <motion.div
+              className="h-full bg-white/50"
+              style={{
+                width: useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"])
+              }}
+            />
+          </div>
+          <span className="text-right">4 Layers</span>
+        </div>
       </div>
-      {activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}
+
+      <AnimatePresence>
+        {activeSignal !== null && (
+          <IdentitySignalModal
+            signal={identitySignals[activeSignal]}
+            onClose={() => setActiveSignal(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
