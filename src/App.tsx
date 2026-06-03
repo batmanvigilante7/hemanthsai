@@ -250,7 +250,7 @@ const beamTip = {
                 cy="380"
                 r={orbitRadius}
                 fill="none"
-                stroke="rgba(255,255,255,0.72)"
+                stroke="rgba(255,226,136,0.85)"
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
@@ -270,9 +270,9 @@ const beamTip = {
                 transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 filter="url(#sunActiveGlow)"
               />
-              <motion.circle cx="380" cy="380" animate={{ r: sunMiddleRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.08)" stroke={`rgba(255,255,255,${0.16 + sunIntensity * 0.16})`} strokeWidth="1.4" />
-              <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,214,74,${0.16 + sunIntensity * 0.14})`} stroke={`rgba(255,238,160,${0.22 + sunIntensity * 0.2})`} strokeWidth="1" />
-              <motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.16 + sunIntensity * 0.34 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,196,54,0.14)"
+              <motion.circle cx="380" cy="380" animate={{ r: sunMiddleRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,196,54,${0.24 + sunIntensity * 0.12})`} stroke={`rgba(255,238,160,${0.36 + sunIntensity * 0.24})`} strokeWidth="1.6" />
+              <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,214,74,${0.34 + sunIntensity * 0.18})`} stroke={`rgba(255,248,190,${0.48 + sunIntensity * 0.24})`} strokeWidth="1.4" />
+<motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.34 + sunIntensity * 0.42 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,230,120,0.28)"
 
               <motion.text
                 key={`eyebrow-${centerEyebrow}`}
