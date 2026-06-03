@@ -214,7 +214,39 @@ function Identity() {
     </section>
   );
 }
-function Proof() { return <section id="proof" className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Proof dashboard</SectionLabel><SectionHeading>Credibility without resume noise.</SectionHeading></FadeIn><div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">{dashboard.map(([title, text], index) => <FadeIn key={title} delay={index * 0.035}><div className="min-h-[180px] rounded-[1.5rem] border border-black/10 bg-black/[0.035] p-5 sm:min-h-[220px] sm:rounded-[2rem] sm:p-7"><p className="mb-6 text-xs uppercase tracking-[0.28em] text-black/35 sm:mb-8">0{index + 1}</p><h3 className="mb-3 text-xl font-black uppercase tracking-[-0.05em] sm:text-2xl">{title}</h3><p className="text-sm leading-relaxed text-black/60 sm:text-base">{text}</p></div></FadeIn>)}</div></div></section>; }
+function Pressure() {
+  return (
+    <section id="pressure" className="overflow-hidden bg-black px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <FadeIn className="order-2 lg:order-1">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/55 sm:mb-5 sm:tracking-[0.34em]">
+            Forged under pressure
+          </p>
+
+          <h2 className="max-w-5xl text-[clamp(3rem,13vw,8.2rem)] font-black uppercase leading-[0.84] tracking-[-0.08em]">
+            Execution reveals character.
+          </h2>
+
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/68 sm:mt-6 sm:text-lg">
+            Pressure has been one of my oldest teachers — from sports and martial arts to leadership and building.
+            I trust repetition, feedback, and performance more than empty motivation.
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.08} className="order-1 lg:order-2">
+          <ImageFrame
+            src={images.shotput}
+            alt="Shotput action"
+            label="Shotput performance"
+            tone="soft"
+            className="aspect-[16/10] rounded-[2rem] border border-white/10 shadow-[0_50px_140px_rgba(0,0,0,0.55)] sm:aspect-[16/9] sm:rounded-[3rem] lg:aspect-[16/10]"
+            imgClassName="object-[52%_center]"
+          />
+        </FadeIn>
+      </div>
+    </section>
+  );
+}function Proof() { return <section id="proof" className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Proof dashboard</SectionLabel><SectionHeading>Credibility without resume noise.</SectionHeading></FadeIn><div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">{dashboard.map(([title, text], index) => <FadeIn key={title} delay={index * 0.035}><div className="min-h-[180px] rounded-[1.5rem] border border-black/10 bg-black/[0.035] p-5 sm:min-h-[220px] sm:rounded-[2rem] sm:p-7"><p className="mb-6 text-xs uppercase tracking-[0.28em] text-black/35 sm:mb-8">0{index + 1}</p><h3 className="mb-3 text-xl font-black uppercase tracking-[-0.05em] sm:text-2xl">{title}</h3><p className="text-sm leading-relaxed text-black/60 sm:text-base">{text}</p></div></FadeIn>)}</div></div></section>; }
 function SvgLoopNode({ item, index, active, isNext, intensity, onOpen }: { item: typeof learningLoop[number]; index: number; active: boolean; isNext: boolean; intensity: number; onOpen: () => void }) {
   const [number, title] = item;
   const angle = -90 + index * (360 / learningLoop.length);
