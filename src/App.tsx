@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type ReactNode, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, Mail, Menu, PenTool, Target, X, Zap } from 'lucide-react';
 import MobileSemiOrbitLoop from './components/MobileSemiOrbitLoop';
@@ -46,7 +46,7 @@ const identitySignals = [
     compound: 'Consistent execution',
     image: images.identityDiscipline,
     alt: 'Karate training collage from Hemanth Sai’s early years',
-    objectPosition: '50% 35%',
+    objectPosition: '50% 22%',
   },
   {
     number: '03',
