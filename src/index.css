@@ -7,7 +7,8 @@
 @media (min-width: 641px){
   #identity [class*="grid"]{gap:1rem!important}
   #identity article{border-radius:2rem!important}
-  #identity [class*="aspect-[4/5]"]{aspect-ratio:16/10!important;max-height:310px!important;min-height:0!important}
+  #identity [class*="aspect-[4/5]"]{aspect-ratio:3/2!important;max-height:390px!important;min-height:0!important}
+  #identity [class*="aspect-[4/5]"] img{object-fit:cover!important;transform:scale(.96)!important}
   #identity article [class*="p-5"],#identity article [class*="p-7"]{padding:1.35rem!important}
   #identity h3{font-size:clamp(2rem,4vw,3rem)!important;margin-top:1.15rem!important}
   #identity article p[class*="text-lg"]{font-size:1.05rem!important;margin-top:.85rem!important}
@@ -34,7 +35,8 @@
   [class*="text-[clamp(2.45rem,12vw,5.8rem)]"]{font-size:clamp(2.5rem,14vw,4.1rem)!important;line-height:.9!important}
   #identity [class*="grid"]{gap:.85rem!important}
   #identity article{border-radius:1.35rem!important}
-  #identity [class*="aspect-[4/5]"]{aspect-ratio:16/9!important;max-height:168px!important;min-height:0!important}
+  #identity [class*="aspect-[4/5]"]{aspect-ratio:4/3!important;max-height:230px!important;min-height:0!important}
+  #identity [class*="aspect-[4/5]"] img{object-fit:cover!important;transform:scale(.96)!important}
   #identity article [class*="p-5"],#identity article [class*="p-7"]{padding:.95rem!important}
   #identity h3{font-size:clamp(1.65rem,9vw,2.45rem)!important;line-height:.88!important;margin-top:1rem!important}
   #identity article p[class*="text-lg"]{font-size:.98rem!important;line-height:1.15!important;margin-top:.7rem!important}
@@ -71,7 +73,7 @@
 @media (max-width: 390px){
   [class*="text-[clamp(3.5rem,16vw,8.15rem)]"]{font-size:clamp(3rem,17vw,4.2rem)!important}
   [class*="text-[clamp(3rem,13vw,8rem)]"],[class*="text-[clamp(3rem,14vw,8rem)]"],[class*="text-[clamp(3rem,13vw,8.2rem)]"]{font-size:clamp(2.45rem,15vw,4rem)!important}
-  #identity [class*="aspect-[4/5]"]{aspect-ratio:16/9!important;max-height:142px!important}
+  #identity [class*="aspect-[4/5]"]{aspect-ratio:4/3!important;max-height:205px!important}
   #identity h3{font-size:clamp(1.5rem,8.5vw,2.15rem)!important}
   #before-code article{min-height:330px!important}
 }
