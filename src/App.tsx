@@ -69,9 +69,10 @@ const socials = [
 ] as const;
 
 const navLinks = [
-  ['Work', '#work'],
-  ['About', '#before-code'],
-  ['Stack', '#stack'],
+  ['Identity', '#identity'],
+  ['Proof', '#proof'],
+  ['Stack', '#work'],
+  ['Story', '#before-code'],
   ['Contact', '#contact'],
 ] as const;
 
