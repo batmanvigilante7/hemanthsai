@@ -21,11 +21,14 @@
   [class*="aspect-[4/5]"]{aspect-ratio:4/5!important}
   [class*="text-[clamp(3rem,13vw,8rem)]"],[class*="text-[clamp(3rem,14vw,8rem)]"],[class*="text-[clamp(3rem,13vw,8.2rem)]"]{font-size:clamp(2.75rem,16vw,4.6rem)!important;line-height:.86!important}
   [class*="text-[clamp(2.45rem,12vw,5.8rem)]"]{font-size:clamp(2.5rem,14vw,4.1rem)!important;line-height:.9!important}
-  #identity [class*="grid"]{gap:1rem!important}
-  #identity article{border-radius:1.55rem!important}
-  #identity [class*="aspect-[4/5]"]{aspect-ratio:5/4!important;min-height:0!important}
-  #identity article [class*="p-5"]{padding:1.1rem!important}
-  #identity h3{font-size:clamp(2.15rem,13vw,3.25rem)!important;line-height:.86!important}
+  #identity [class*="grid"]{gap:.85rem!important}
+  #identity article{border-radius:1.35rem!important}
+  #identity [class*="aspect-[4/5]"]{aspect-ratio:16/9!important;max-height:168px!important;min-height:0!important}
+  #identity article [class*="p-5"],#identity article [class*="p-7"]{padding:.95rem!important}
+  #identity h3{font-size:clamp(1.65rem,9vw,2.45rem)!important;line-height:.88!important;margin-top:1rem!important}
+  #identity article p[class*="text-lg"]{font-size:.98rem!important;line-height:1.15!important;margin-top:.7rem!important}
+  #identity article p[class*="text-sm"]{font-size:.82rem!important;line-height:1.55!important;margin-top:.65rem!important}
+  #identity article p[class*="mt-5"]{margin-top:.8rem!important}
   #identity button{touch-action:manipulation}
   [class*="z-[95]"],[class*="z-[90]"]{align-items:flex-end!important;padding:.75rem!important}
   [class*="z-[95]"] article,[class*="z-[90]"] article{width:100%!important;max-height:calc(100dvh - 1.5rem)!important;border-radius:1.65rem!important;overflow-y:auto!important}
@@ -57,7 +60,8 @@
 @media (max-width: 390px){
   [class*="text-[clamp(3.5rem,16vw,8.15rem)]"]{font-size:clamp(3rem,17vw,4.2rem)!important}
   [class*="text-[clamp(3rem,13vw,8rem)]"],[class*="text-[clamp(3rem,14vw,8rem)]"],[class*="text-[clamp(3rem,13vw,8.2rem)]"]{font-size:clamp(2.45rem,15vw,4rem)!important}
-  #identity [class*="aspect-[4/5]"]{aspect-ratio:1/1!important}
+  #identity [class*="aspect-[4/5]"]{aspect-ratio:16/9!important;max-height:142px!important}
+  #identity h3{font-size:clamp(1.5rem,8.5vw,2.15rem)!important}
   #before-code article{min-height:330px!important}
 }
 
