@@ -271,8 +271,8 @@ const beamTip = {
                 filter="url(#sunActiveGlow)"
               />
               <motion.circle cx="380" cy="380" animate={{ r: sunMiddleRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.08)" stroke={`rgba(255,255,255,${0.16 + sunIntensity * 0.16})`} strokeWidth="1.4" />
-              <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,255,255,${0.04 + sunIntensity * 0.06})`} stroke={`rgba(255,255,255,${0.12 + sunIntensity * 0.12})`} strokeWidth="1" />
-              <motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.16 + sunIntensity * 0.34 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,255,255,0.055)" />
+              <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,214,74,${0.16 + sunIntensity * 0.14})`} stroke={`rgba(255,238,160,${0.22 + sunIntensity * 0.2})`} strokeWidth="1" />
+              <motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.16 + sunIntensity * 0.34 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,196,54,0.14)"
 
               <motion.text
                 key={`eyebrow-${centerEyebrow}`}
