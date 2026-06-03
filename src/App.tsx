@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode, type CSSProperties } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, Mail, Menu, PenTool, Target, X, Zap } from 'lucide-react';
+import MobileSemiOrbitLoop from './components/MobileSemiOrbitLoop';
 
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
@@ -662,19 +663,8 @@ const beamTip = {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-4 lg:hidden">
-          {learningLoop.map((item, index) => (
-            <MobileLoopCard
-              key={item[1]}
-              item={item}
-              index={index}
-              active={activeLoop === index}
-              onToggle={() => setActiveLoop(activeLoop === index ? null : index)}
-            />
-          ))}
-          <button type="button" onClick={() => setActiveLoop(null)} className="mx-auto mt-2 rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/45 transition hover:border-white/20 hover:bg-white/[0.08] hover:text-white/72">
-            Reset to curiosity
-          </button>
+        <div className="lg:hidden">
+          <MobileSemiOrbitLoop />
         </div>
       </div>
     </section>
