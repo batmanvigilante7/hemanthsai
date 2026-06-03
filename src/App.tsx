@@ -130,7 +130,7 @@ function System() {
   const sunOuterRadius = 144 + sunIntensity * 38;
   const sunMiddleRadius = 106 + sunIntensity * 28;
   const sunCoreRadius = 82 + sunIntensity * 20;
-  const startBeamOpacity = activeLoop === null ? 0.22 : 0;
+  const startBeamOpacity = activeLoop === null ? 0.72 : 0;
   const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Starting point';
   const centerTitle = activeItem ? activeItem[1] : 'Curiosity';
   const centerSubtitle = activeItem ? activeItem[2] : 'creates direction';
@@ -145,11 +145,15 @@ function System() {
     x: 380 + (orbitRadius - 62) * Math.cos(((projectAngle - 7) * Math.PI) / 180),
     y: 380 + (orbitRadius - 62) * Math.sin(((projectAngle - 7) * Math.PI) / 180),
   };
-  const beamRight = {
-    x: 380 + (orbitRadius - 62) * Math.cos(((projectAngle + 7) * Math.PI) / 180),
-    y: 380 + (orbitRadius - 62) * Math.sin(((projectAngle + 7) * Math.PI) / 180),
-  };
+ const beamRight = {
+  x: 380 + (orbitRadius - 62) * Math.cos(((projectAngle + 7) * Math.PI) / 180),
+  y: 380 + (orbitRadius - 62) * Math.sin(((projectAngle + 7) * Math.PI) / 180),
+};
 
+const beamTip = {
+  x: 380 + (orbitRadius - 10) * Math.cos((projectAngle * Math.PI) / 180),
+  y: 380 + (orbitRadius - 10) * Math.sin((projectAngle * Math.PI) / 180),
+};
   return (
     <section
       id="system"
@@ -195,11 +199,12 @@ function System() {
                   </feMerge>
                 </filter>
 
-                <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.38)" />
-                  <stop offset="52%" stopColor="rgba(255,255,255,0.13)" />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                </radialGradient>
+               <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+  <stop offset="0%" stopColor="rgba(255,248,178,0.96)" />
+  <stop offset="38%" stopColor="rgba(255,213,74,0.62)" />
+  <stop offset="72%" stopColor="rgba(255,151,38,0.25)" />
+  <stop offset="100%" stopColor="rgba(255,151,38,0)" />
+</radialGradient>
               </defs>
 
               <g opacity="0.75">
@@ -217,7 +222,28 @@ function System() {
 
               <circle cx="380" cy="380" r="314" fill="none" stroke="rgba(255,255,255,0.035)" strokeWidth="1" />
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
-              {activeLoop === null && <motion.path d={`M 380 380 L ${beamLeft.x} ${beamLeft.y} Q 380 332 ${beamRight.x} ${beamRight.y} Z`} fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.14)" strokeWidth="1" filter="url(#orbitGlow)" initial={false} animate={{ opacity: [startBeamOpacity * 0.5, startBeamOpacity, startBeamOpacity * 0.5] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }} />}
+              {activeLoop === null && (
+  <motion.g
+    initial={false}
+    animate={{ opacity: [startBeamOpacity * 0.6, startBeamOpacity, startBeamOpacity * 0.6] }}
+    transition={{ duration: 2.15, repeat: Infinity, ease: 'easeInOut' }}
+  >
+    <path
+      d={`M 380 380 L ${beamLeft.x} ${beamLeft.y} Q ${beamTip.x} ${beamTip.y - 18} ${beamRight.x} ${beamRight.y} Z`}
+      fill="rgba(255,203,64,0.24)"
+      stroke="rgba(255,232,146,0.48)"
+      strokeWidth="1.4"
+      filter="url(#orbitGlow)"
+    />
+    <path
+      d={`M 380 380 L ${beamTip.x} ${beamTip.y}`}
+      stroke="rgba(255,244,180,0.72)"
+      strokeWidth="6"
+      strokeLinecap="round"
+      filter="url(#orbitGlow)"
+    />
+  </motion.g>
+)}
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.8" strokeLinecap="round" filter="url(#orbitGlow)" />
               <motion.circle
                 cx="380"
