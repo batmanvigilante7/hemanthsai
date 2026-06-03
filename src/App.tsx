@@ -272,7 +272,13 @@ const beamTip = {
               />
               <motion.circle cx="380" cy="380" animate={{ r: sunMiddleRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,196,54,${0.24 + sunIntensity * 0.12})`} stroke={`rgba(255,238,160,${0.36 + sunIntensity * 0.24})`} strokeWidth="1.6" />
               <motion.circle cx="380" cy="380" animate={{ r: sunCoreRadius }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill={`rgba(255,214,74,${0.34 + sunIntensity * 0.18})`} stroke={`rgba(255,248,190,${0.48 + sunIntensity * 0.24})`} strokeWidth="1.4" />
-<motion.circle cx="380" cy="380" animate={{ r: 76 + sunIntensity * 18, opacity: 0.34 + sunIntensity * 0.42 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} fill="rgba(255,230,120,0.28)"
+<motion.circle
+  cx="380"
+  cy="380"
+  animate={{ r: 76 + sunIntensity * 18, opacity: 0.34 + sunIntensity * 0.42 }}
+  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+  fill="rgba(255,230,120,0.28)"
+/>
 
               <motion.text
                 key={`eyebrow-${centerEyebrow}`}
