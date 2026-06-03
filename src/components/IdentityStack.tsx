@@ -65,20 +65,7 @@ function ImageFrame({ src, alt, label, className = '', imgStyle }: { src: string
   const [broken, setBroken] = useState(false);
   return (
     <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>
-      {!broken ? (
-        <img
-          src={src}
-          alt={alt}
-          onError={() => setBroken(true)}
-          loading="lazy"
-          style={imgStyle}
-          className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]"
-        />
-      ) : (
-        <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center">
-          <span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span>
-        </div>
-      )}
+      {!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading="lazy" style={imgStyle} className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]" /> : <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span></div>}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.36))]" />
       <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_rgba(0,0,0,0.5)]" />
     </div>
@@ -102,47 +89,39 @@ function IdentitySignalModal({ signal, onClose }: { signal: IdentitySignal; onCl
     <motion.div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
       <motion.article initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }} animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]">
         <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" />
-        <div className="relative min-h-[300px] p-3 md:min-h-[620px] md:p-4">
-          <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[300px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} />
-        </div>
-        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12">
-          <button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white" aria-label="Close identity signal"><X className="h-5 w-5" /></button>
-          <p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p>
-          <h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3>
-          <p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p>
-          <p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div>
-            <div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div>
-          </div>
-        </div>
+        <div className="relative min-h-[300px] p-3 md:min-h-[620px] md:p-4"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[300px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} /></div>
+        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12"><button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white" aria-label="Close identity signal"><X className="h-5 w-5" /></button><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p><h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p><div className="mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div><div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div></div></div>
       </motion.article>
     </motion.div>
   );
 }
 
 function IdentityStackCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const start = index / identitySignals.length;
-  const scale = useTransform(progress, [start, 1], [1, 0.88 + index * 0.018]);
-  const y = useTransform(progress, [start, 1], [0, -index * 18]);
-  const rotateX = useTransform(progress, [start, 1], [0, -4]);
+  const total = identitySignals.length;
+  const segment = 1 / total;
+  const start = index * segment;
+  const end = Math.min(1, start + segment * 1.35);
+  const scale = useTransform(progress, [start, end, 1], [1, 0.94 - index * 0.018, 0.86 - index * 0.012]);
+  const y = useTransform(progress, [start, end, 1], [index * 26, index * 12, -index * 10]);
+  const rotateX = useTransform(progress, [start, end], [0, -7]);
+  const opacity = useTransform(progress, [Math.max(0, start - 0.08), start, 1], [0.72, 1, 1]);
 
   return (
-    <div className="sticky top-[5.5rem] flex min-h-[78svh] items-start justify-center py-4 sm:top-24 sm:min-h-[82vh] lg:top-28">
-      <motion.button type="button" style={{ scale, y, rotateX, transformPerspective: 1200 }} onClick={onOpen} className="group grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.055] text-left text-white shadow-[0_34px_140px_rgba(0,0,0,0.45)] outline-none backdrop-blur-3xl transition duration-300 hover:border-white/24 hover:bg-white/[0.075] focus-visible:ring-2 focus-visible:ring-white/55 focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:grid-cols-[0.98fr_1.02fr] md:rounded-[3rem]">
-        <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10 md:aspect-[16/10] md:border-b-0 md:border-r" imgStyle={{ objectPosition: signal.objectPosition }} />
-        <div className="flex min-h-[310px] flex-col justify-center p-5 sm:p-7 md:min-h-[420px] md:p-9 lg:p-11">
-          <div className="flex items-start justify-between gap-5">
-            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/38">{signal.number}</p>
-            <p className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-white/45 transition group-hover:border-white/20 group-hover:bg-white/[0.10] group-hover:text-white/70">Open Signal</p>
-          </div>
-          <h3 className="mt-7 text-[clamp(2.4rem,8vw,5.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white md:mt-8">{signal.title}</h3>
-          <p className="mt-5 max-w-xl text-xl font-black leading-snug tracking-[-0.05em] text-white/88 sm:text-2xl">{signal.line}</p>
-          <p className="mt-5 max-w-2xl text-sm font-medium leading-relaxed text-white/58 sm:text-base">{signal.text}</p>
-          <p className="mt-7 text-[9px] font-black uppercase tracking-[0.24em] text-white/36 transition group-hover:text-white/58">Layer {index + 1} of 4 · Tap to reveal deeper layer</p>
-        </div>
-      </motion.button>
-    </div>
+    <motion.button
+      type="button"
+      style={{ scale, y, rotateX, opacity, transformPerspective: 1200, zIndex: 20 + index }}
+      onClick={onOpen}
+      className="group absolute inset-x-0 top-0 mx-auto grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_34px_140px_rgba(0,0,0,0.48)] outline-none backdrop-blur-3xl transition duration-300 hover:border-white/24 hover:bg-white/[0.08] focus-visible:ring-2 focus-visible:ring-white/55 focus-visible:ring-offset-4 focus-visible:ring-offset-[#070707] md:grid-cols-[0.98fr_1.02fr] md:rounded-[3rem]"
+    >
+      <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10 md:aspect-[16/10] md:border-b-0 md:border-r" imgStyle={{ objectPosition: signal.objectPosition }} />
+      <div className="flex min-h-[310px] flex-col justify-center p-5 sm:p-7 md:min-h-[420px] md:p-9 lg:p-11">
+        <div className="flex items-start justify-between gap-5"><p className="text-[10px] font-black uppercase tracking-[0.28em] text-white/38">{signal.number}</p><p className="rounded-full border border-white/10 bg-white/[0.055] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-white/45 transition group-hover:border-white/20 group-hover:bg-white/[0.10] group-hover:text-white/70">Open Signal</p></div>
+        <h3 className="mt-7 text-[clamp(2.4rem,8vw,5.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white md:mt-8">{signal.title}</h3>
+        <p className="mt-5 max-w-xl text-xl font-black leading-snug tracking-[-0.05em] text-white/88 sm:text-2xl">{signal.line}</p>
+        <p className="mt-5 max-w-2xl text-sm font-medium leading-relaxed text-white/58 sm:text-base">{signal.text}</p>
+        <p className="mt-7 text-[9px] font-black uppercase tracking-[0.24em] text-white/36 transition group-hover:text-white/58">Layer {index + 1} of 4 · Tap to reveal deeper layer</p>
+      </div>
+    </motion.button>
   );
 }
 
@@ -152,18 +131,14 @@ export default function IdentityStack() {
   const { scrollYProgress } = useScroll({ target: container, offset: ['start start', 'end end'] });
 
   return (
-    <section id="identity" ref={container} className="relative overflow-hidden bg-[#070707] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10">
+    <section id="identity" ref={container} className="relative min-h-[420vh] overflow-visible bg-[#070707] px-5 py-16 text-white sm:min-h-[440vh] sm:px-8 sm:py-24 md:px-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)]" />
       <div className="relative mx-auto max-w-7xl">
-        <FadeIn>
-          <p className="mb-4 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p>
-          <h2 className="max-w-6xl text-[clamp(3rem,13vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2>
-          <p className="mt-6 max-w-4xl text-lg font-light leading-relaxed text-white/72 sm:text-2xl">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p>
-          <p className="mt-5 max-w-4xl text-base leading-relaxed text-white/56 sm:text-lg">The environments changed — training grounds, uniforms, stages, classrooms, and laptops — but the pattern stayed the same: learn under pressure, communicate with clarity, and turn intent into visible work.</p>
-        </FadeIn>
-
-        <div className="relative mt-10 pb-[28vh] sm:mt-16 sm:pb-[45vh]">
-          {identitySignals.map((signal, index) => <IdentityStackCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => setActiveSignal(index)} />)}
+        <FadeIn><p className="mb-4 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p><h2 className="max-w-6xl text-[clamp(3rem,13vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-6 max-w-4xl text-lg font-light leading-relaxed text-white/72 sm:text-2xl">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p><p className="mt-5 max-w-4xl text-base leading-relaxed text-white/56 sm:text-lg">The environments changed — training grounds, uniforms, stages, classrooms, and laptops — but the pattern stayed the same: learn under pressure, communicate with clarity, and turn intent into visible work.</p></FadeIn>
+        <div className="sticky top-[5.5rem] mt-12 h-[78svh] min-h-[650px] overflow-visible py-4 sm:top-24 sm:mt-16 sm:h-[82vh] lg:top-28" style={{ perspective: 1200 }}>
+          <div className="relative mx-auto h-full w-full max-w-6xl">
+            {identitySignals.map((signal, index) => <IdentityStackCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => setActiveSignal(index)} />)}
+          </div>
         </div>
       </div>
       {activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}
