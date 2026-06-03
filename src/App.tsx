@@ -104,13 +104,12 @@ function SvgLoopNode({ item, index, active, isNext, intensity, onOpen }: { item:
   const x = 380 + radius * Math.cos((angle * Math.PI) / 180);
   const y = 380 + radius * Math.sin((angle * Math.PI) / 180);
   const nodeRadius = active ? 54 : 48;
-  const nextGlowRadius = 76 + intensity * 18;
+  const nextGlowRadius = 72 + intensity * 14;
 
   return <motion.g role="button" tabIndex={0} aria-label={`Open ${title} learning loop step`} onClick={onOpen} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') onOpen(); }} className="cursor-pointer outline-none" initial={{ opacity: 0, scale: 0.86 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.42, delay: index * 0.045, ease: [0.22, 1, 0.36, 1] }} whileHover={{ scale: 1.045 }} style={{ transformOrigin: `${x}px ${y}px` }}>
-    {isNext && <motion.circle cx={x} cy={y} r={nextGlowRadius} fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.34)" strokeWidth="1.4" initial={false} animate={{ r: [nextGlowRadius - 8, nextGlowRadius + 8, nextGlowRadius - 8], opacity: [0.38, 0.9, 0.38] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }} />}
-    {isNext && <motion.circle cx={x} cy={y} r={nodeRadius + 28} fill="rgba(255,255,255,0.12)" initial={false} animate={{ opacity: [0.18, 0.52, 0.18], scale: [0.92, 1.08, 0.92] }} transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }} style={{ transformOrigin: `${x}px ${y}px` }} />}
-    <circle cx={x} cy={y} r={nodeRadius + 14} fill="rgba(255,255,255,0.055)" opacity={active ? 1 : isNext ? 0.88 : 0.55} />
-    <circle cx={x} cy={y} r={nodeRadius} fill={active ? 'rgba(255,255,255,0.18)' : isNext ? 'rgba(255,255,255,0.13)' : 'rgba(255,255,255,0.075)'} stroke={active ? 'rgba(255,255,255,0.62)' : isNext ? 'rgba(255,255,255,0.48)' : 'rgba(255,255,255,0.2)'} strokeWidth={active ? 2 : isNext ? 1.8 : 1.4} />
+    {isNext && <motion.circle cx={x} cy={y} r={nextGlowRadius} fill="rgba(255,255,255,0.045)" stroke="rgba(255,255,255,0.26)" strokeWidth="1.2" initial={false} animate={{ r: [nextGlowRadius - 6, nextGlowRadius + 6, nextGlowRadius - 6], opacity: [0.26, 0.68, 0.26] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }} />}
+    <circle cx={x} cy={y} r={nodeRadius + 14} fill="rgba(255,255,255,0.055)" opacity={active ? 1 : isNext ? 0.76 : 0.55} />
+    <circle cx={x} cy={y} r={nodeRadius} fill={active ? 'rgba(255,255,255,0.18)' : isNext ? 'rgba(255,255,255,0.11)' : 'rgba(255,255,255,0.075)'} stroke={active ? 'rgba(255,255,255,0.62)' : isNext ? 'rgba(255,255,255,0.38)' : 'rgba(255,255,255,0.2)'} strokeWidth={active ? 2 : isNext ? 1.7 : 1.4} />
     <circle cx={x} cy={y} r={nodeRadius - 9} fill="rgba(5,5,5,0.34)" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
     {active && <circle cx={x} cy={y} r={nodeRadius + 22} fill="none" stroke="rgba(255,255,255,0.26)" strokeWidth="1" strokeDasharray="5 8" />}
     <text x={x} y={y - 9} textAnchor="middle" className="select-none fill-white/50 text-[10px] font-black uppercase tracking-[0.24em]">{number}</text>
@@ -131,7 +130,7 @@ function System() {
   const sunOuterRadius = 144 + sunIntensity * 38;
   const sunMiddleRadius = 106 + sunIntensity * 28;
   const sunCoreRadius = 82 + sunIntensity * 20;
-  const beamOpacity = 0.10 + sunIntensity * 0.26;
+  const startBeamOpacity = activeLoop === null ? 0.22 : 0;
   const centerEyebrow = activeItem ? `${activeItem[0]} / ${activeItem[1]}` : 'Starting point';
   const centerTitle = activeItem ? activeItem[1] : 'Curiosity';
   const centerSubtitle = activeItem ? activeItem[2] : 'creates direction';
@@ -141,10 +140,14 @@ function System() {
     if (!lines.length) return [word];
     return [...lines.slice(0, -1), next];
   }, []);
-  const nextAngle = -90 + nextLoop * (360 / learningLoop.length);
-  const beamEnd = {
-    x: 380 + (orbitRadius - 64) * Math.cos((nextAngle * Math.PI) / 180),
-    y: 380 + (orbitRadius - 64) * Math.sin((nextAngle * Math.PI) / 180),
+  const projectAngle = -90;
+  const beamLeft = {
+    x: 380 + (orbitRadius - 62) * Math.cos(((projectAngle - 7) * Math.PI) / 180),
+    y: 380 + (orbitRadius - 62) * Math.sin(((projectAngle - 7) * Math.PI) / 180),
+  };
+  const beamRight = {
+    x: 380 + (orbitRadius - 62) * Math.cos(((projectAngle + 7) * Math.PI) / 180),
+    y: 380 + (orbitRadius - 62) * Math.sin(((projectAngle + 7) * Math.PI) / 180),
   };
 
   return (
@@ -197,12 +200,6 @@ function System() {
                   <stop offset="52%" stopColor="rgba(255,255,255,0.13)" />
                   <stop offset="100%" stopColor="rgba(255,255,255,0)" />
                 </radialGradient>
-
-                <linearGradient id="sunBeam" x1="380" y1="380" x2={beamEnd.x} y2={beamEnd.y} gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor={`rgba(255,255,255,${beamOpacity})`} />
-                  <stop offset="64%" stopColor={`rgba(255,255,255,${beamOpacity * 0.42})`} />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                </linearGradient>
               </defs>
 
               <g opacity="0.75">
@@ -220,7 +217,7 @@ function System() {
 
               <circle cx="380" cy="380" r="314" fill="none" stroke="rgba(255,255,255,0.035)" strokeWidth="1" />
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="1.4" strokeDasharray="3 12" />
-              <motion.line x1="380" y1="380" x2={beamEnd.x} y2={beamEnd.y} stroke="url(#sunBeam)" strokeWidth={34 + sunIntensity * 22} strokeLinecap="round" filter="url(#orbitGlow)" initial={false} animate={{ opacity: [beamOpacity * 0.55, beamOpacity, beamOpacity * 0.55] }} transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }} />
+              {activeLoop === null && <motion.path d={`M 380 380 L ${beamLeft.x} ${beamLeft.y} Q 380 332 ${beamRight.x} ${beamRight.y} Z`} fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.14)" strokeWidth="1" filter="url(#orbitGlow)" initial={false} animate={{ opacity: [startBeamOpacity * 0.5, startBeamOpacity, startBeamOpacity * 0.5] }} transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }} />}
               <circle cx="380" cy="380" r={orbitRadius} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.8" strokeLinecap="round" filter="url(#orbitGlow)" />
               <motion.circle
                 cx="380"
