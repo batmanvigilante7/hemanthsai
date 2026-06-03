@@ -29,6 +29,8 @@ const identitySignals = [
     line: 'Standards before speed.',
     text: 'Structured environments taught me accountability, presence, and the value of carrying myself with seriousness before chasing outcomes.',
     story: 'Structure is the part of me that came before ambition. It is the habit of respecting routines, showing up with presence, and understanding that standards are not decoration — they are the operating system. This signal connects Sainik School, NCC, and every environment that taught me to take myself seriously before asking the world to do the same.',
+    origin: 'Sainik School / NCC',
+    compound: 'Better standards',
     image: images.identityStructure,
     alt: 'Hemanth Sai in NCC uniform on horseback',
     objectPosition: '50% 30%',
@@ -39,6 +41,8 @@ const identitySignals = [
     line: 'Practice before confidence.',
     text: 'Karate taught me repetition, body control, discomfort, and the quiet confidence that comes from doing hard things before anyone is watching.',
     story: 'Discipline is not a motivational quote for me. It is physical. It came from repetition, training, correction, fatigue, and the silent work nobody claps for. Karate made confidence feel earned, not borrowed. That same pattern now moves into learning, coding, design, and building — repeat, refine, sharpen, return.',
+    origin: 'Karate / Training',
+    compound: 'Consistent execution',
     image: images.identityDiscipline,
     alt: 'Karate training collage from Hemanth Sai’s early years',
     objectPosition: '50% 35%',
@@ -49,6 +53,8 @@ const identitySignals = [
     line: 'Ideas need expression.',
     text: 'Speaking taught me that clarity is power. A thought becomes more useful when it can be communicated, understood, and remembered.',
     story: 'Voice is the bridge between thinking and impact. Public speaking trained me to hold an idea in front of people and make it clear enough to land. This matters because building is not only about making things; it is also about explaining why they matter, what they change, and why someone should care.',
+    origin: 'Public speaking / Stage',
+    compound: 'Clear communication',
     image: images.identityVoice,
     alt: 'Hemanth Sai speaking at a podium',
     objectPosition: '50% 28%',
@@ -59,6 +65,8 @@ const identitySignals = [
     line: 'Visible work beats hidden potential.',
     text: 'Now the same pattern moves into technology: turning curiosity into projects, systems, pages, notes, prototypes, and proof that can be seen and improved.',
     story: 'Builder Mode is where all the earlier signals become visible. Structure gives the base, discipline keeps the rhythm, voice explains the work, and technology becomes the arena. I am learning to convert curiosity into artifacts: interfaces, repos, systems, notes, demos, case studies, and products that can survive feedback.',
+    origin: 'AI / Software / Product',
+    compound: 'Shippable artifacts',
     image: images.identityBuilder,
     alt: 'Hemanth Sai working on a laptop',
     objectPosition: '50% 45%',
@@ -244,12 +252,12 @@ function IdentitySignalModal({ signal, onClose }: { signal: typeof identitySigna
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl">
-              <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Signal</p>
-              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.title}</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p>
             </div>
             <div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl">
               <p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p>
-              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">Visible proof</p>
+              <p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p>
             </div>
           </div>
 
