@@ -65,7 +65,7 @@ function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean;
     return <FadeIn><div><h3 className="mb-5 max-w-5xl text-[clamp(2.15rem,13vw,3.8rem)] font-black uppercase leading-[0.82] tracking-[-0.095em] text-white">Before the builder,<br />there was the pattern.</h3><div className="noise relative overflow-hidden rounded-[2rem] border border-white/14 bg-[#070707] shadow-[0_44px_170px_rgba(0,0,0,0.62)]"><img src={posterAsset} alt="Before the builder, there was the pattern. The origin before the output." className="w-full" /></div></div></FadeIn>;
   }
   const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end end'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 20%', 'end end'] });
   return (
     <div ref={ref} className="relative hidden min-h-[300vh] md:block">
       <div className="sticky top-0 grid h-screen place-items-center overflow-visible">
