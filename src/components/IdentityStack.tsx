@@ -28,20 +28,20 @@ const tableY = [-18, -86, -86, -18];
 const tableRotateZ = [-7.5, -2, 2, 7.5];
 
 function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const x = useTransform(progress, [0, 0.22, 0.26, 0.38, 0.80, 0.88, 0.97, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
+  const x = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
   const openSafeY = 72;
-  const y = useTransform(progress, [0, 0.22, 0.26, 0.38, 0.80, 0.88, 0.97, 1], [0, 0, 0, tableY[index] + openSafeY, tableY[index] + openSafeY, tableY[index] + openSafeY, 0, 0]);
-  const rotateZ = useTransform(progress, [0, 0.22, 0.26, 0.38, 0.80, 0.88, 0.97, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
-  const rotateY = useTransform(progress, [0, 0.38, 0.46, 0.80, 0.88, 1], [0, 0, 180, 180, 360, 360]);
-  const scale = useTransform(progress, [0, 0.38, 0.80, 1], [1, 0.94, 0.94, 1]);
-  const pointerEvents = useTransform(progress, (value) => value > 0.46 && value < 0.80 ? 'auto' : 'none');
+  const y = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableY[index] + openSafeY, tableY[index] + openSafeY, tableY[index] + openSafeY, 0, 0]);
+  const rotateZ = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
+  const rotateY = useTransform(progress, [0, 0.42, 0.50, 0.78, 0.86, 1], [0, 0, 180, 180, 360, 360]);
+  const scale = useTransform(progress, [0, 0.42, 0.78, 1], [1, 0.94, 0.94, 1]);
+  const pointerEvents = useTransform(progress, (value) => value > 0.50 && value < 0.78 ? 'auto' : 'none');
 
   const joinedRadius = index === 0 ? '32px 0px 0px 32px' : index === 3 ? '0px 32px 32px 0px' : '0px 0px 0px 0px';
-  const radius = useTransform(progress, [0, 0.26, 0.38, 0.88, 0.97, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
-  const seamOpacity = useTransform(progress, [0, 0.06, 0.22, 0.88, 0.97, 1], [0, 0, 0.45, 0.45, 0, 0]);
-  const border = useTransform(progress, [0, 0.26, 0.38, 0.88, 0.97, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
-  const backBorder = useTransform(progress, [0, 0.26, 0.38, 0.88, 0.97, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
-  const shadow = useTransform(progress, [0, 0.26, 0.38, 0.88, 0.97, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
+  const radius = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
+  const seamOpacity = useTransform(progress, [0, 0.06, 0.22, 0.86, 0.96, 1], [0, 0, 0.45, 0.45, 0, 0]);
+  const border = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const backBorder = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const shadow = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
 
   const posterWidth = 1100;
   const posterHeight = 620;
@@ -67,7 +67,7 @@ function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean;
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end end'] });
   return (
-    <div ref={ref} className="relative hidden min-h-[220vh] md:block">
+    <div ref={ref} className="relative hidden min-h-[300vh] md:block">
       <div className="sticky top-0 grid h-screen place-items-center overflow-visible">
         <div
           className="relative h-[min(64vh,620px)] w-[min(92vw,1100px)]"
