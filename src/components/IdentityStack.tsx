@@ -22,27 +22,165 @@ function IdentitySignalModal({ signal, onClose }: { signal: IdentitySignal; onCl
   return <motion.div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }} animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]"><div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" /><div className="relative min-h-[260px] p-3 md:min-h-[620px] md:p-4"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[260px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12"><button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72" aria-label="Close identity signal"><X className="h-5 w-5" /></button><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p><h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p><div className="mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div><div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div></div></div></motion.article></motion.div>;
 }
 
-const spreadX = ['-360px', '-120px', '120px', '360px'];
-const spreadY = ['18px', '-48px', '-48px', '18px'];
-const spreadRotate = [-7.5, -2, 2, 7.5];
+const joinedX = [-367.5, -122.5, 122.5, 367.5];
+const tableX = [-330, -110, 110, 330];
+const tableY = [-18, -86, -86, -18];
+const tableRotateZ = [-7.5, -2, 2, 7.5];
 
 function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const x = useTransform(progress, [0, 0.18, 0.32, 0.85, 0.98], ['0px', '0px', spreadX[index], spreadX[index], '0px']);
-  const y = useTransform(progress, [0, 0.32, 0.85, 0.98], ['0px', spreadY[index], spreadY[index], '0px']);
-  const rotateZ = useTransform(progress, [0, 0.32, 0.85, 0.98], [0, spreadRotate[index], spreadRotate[index], 0]);
-  const rotateY = useTransform(progress, [0.32, 0.5, 0.85, 0.98], [0, 180, 180, 360]);
-  const scale = useTransform(progress, [0, 0.32, 0.85, 0.98], [1, 0.94, 0.94, 0.88]);
-  const opacity = useTransform(progress, [0, 0.16, 0.2, 0.9, 0.98], [0, 0, 1, 1, 0]);
-  const pointerEvents = useTransform(progress, (value) => value > 0.48 && value < 0.86 ? 'auto' : 'none');
-  const cardWidth = 'clamp(245px, 18vw, 315px)';
-  return <motion.button type="button" onClick={onOpen} className="absolute left-1/2 top-1/2 h-[min(54vh,520px)] -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border-0 bg-transparent p-0 text-left outline-none" style={{ width: cardWidth, x, y, rotateZ, scale, opacity, pointerEvents, zIndex: 20 + index, perspective: 1400, transformStyle: 'preserve-3d' }}><motion.div className="relative h-full w-full rounded-[2rem]" style={{ rotateY, transformStyle: 'preserve-3d' }}><div className="absolute inset-0 overflow-hidden rounded-[2rem] border border-white/14 bg-[#070707] shadow-[0_38px_130px_rgba(0,0,0,0.62)] [backface-visibility:hidden]"><img src={posterAsset} alt="" aria-hidden="true" className="h-full w-[400%] object-cover" style={{ objectPosition: 'center', transform: `translateX(-${index * 25}%)` }} /><div className="absolute inset-0 bg-black/5" /></div><div className="absolute inset-0 flex flex-col overflow-hidden rounded-[2rem] border border-white/12 bg-white/[0.065] text-white shadow-[0_38px_130px_rgba(0,0,0,0.62)] backdrop-blur-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-[64%] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} /><div className="relative flex flex-1 flex-col p-4"><div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div><h3 className="mt-3 text-[clamp(1.5rem,2vw,2.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3><p className="mt-3 text-sm font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p><p className="mt-3 line-clamp-2 text-xs font-medium leading-relaxed text-white/58">{signal.text}</p></div></div></motion.div></motion.button>;
-}
+  const x = useTransform(progress, [0, 0.22, 0.34, 0.78, 0.86, 1], [joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index]]);
+  const y = useTransform(progress, [0, 0.22, 0.34, 0.78, 0.86, 1], [0, 0, tableY[index], tableY[index], tableY[index], 0]);
+  const rotateZ = useTransform(progress, [0, 0.22, 0.34, 0.78, 0.86, 1], [0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0]);
+  const rotateY = useTransform(progress, [0, 0.34, 0.42, 0.78, 0.86, 1], [0, 0, 180, 180, 360, 360]);
+  const scale = useTransform(progress, [0, 0.34, 0.78, 1], [1, 0.94, 0.94, 1]);
+  const pointerEvents = useTransform(progress, (value) => value > 0.42 && value < 0.78 ? 'auto' : 'none');
 
-function FullPosterLayer({ progress }: { progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, [0, 0.16, 0.22, 0.88, 0.96], [1, 1, 0, 0, 1]);
-  const scale = useTransform(progress, [0, 0.16, 0.22, 0.88, 0.96], [1, 1, 0.985, 0.985, 0.92]);
-  const y = useTransform(progress, [0, 0.16, 0.22, 0.88, 0.96], ['0px', '0px', '8px', '8px', '0px']);
-  return <motion.div aria-hidden="true" className="absolute inset-0 z-35 m-auto aspect-[3/2] w-[min(74vw,980px)] overflow-hidden rounded-[2.1rem] border border-white/14 bg-[#070707] shadow-[0_38px_140px_rgba(0,0,0,0.68)]" style={{ opacity, scale, y }}><img src={posterAsset} alt="" className="h-full w-full object-cover" /></motion.div>;
+  const joinedRadius =
+    index === 0
+      ? '32px 0px 0px 32px'
+      : index === 3
+        ? '0px 32px 32px 0px'
+        : '0px 0px 0px 0px';
+
+  const radius = useTransform(
+    progress,
+    [0, 0.20, 0.34, 0.86, 0.96, 1],
+    [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]
+  );
+
+  const seamOpacity = useTransform(
+    progress,
+    [0, 0.20, 0.24, 0.86, 0.96, 1],
+    [0, 0, 0.55, 0.55, 0, 0]
+  );
+
+  const border = useTransform(
+    progress,
+    [0, 0.20, 0.24, 0.86, 0.96, 1],
+    [
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0.14)',
+      '1px solid rgba(255, 255, 255, 0.14)',
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0)'
+    ]
+  );
+
+  const backBorder = useTransform(
+    progress,
+    [0, 0.20, 0.24, 0.86, 0.96, 1],
+    [
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0.12)',
+      '1px solid rgba(255, 255, 255, 0.12)',
+      '1px solid rgba(255, 255, 255, 0)',
+      '1px solid rgba(255, 255, 255, 0)'
+    ]
+  );
+
+  const shadow = useTransform(progress, [0, 0.20, 0.34, 0.86, 0.96, 1], [
+    '0px 0px 0px rgba(0,0,0,0)',
+    '0px 0px 0px rgba(0,0,0,0)',
+    '0px 38px 130px rgba(0,0,0,0.62)',
+    '0px 38px 130px rgba(0,0,0,0.62)',
+    '0px 0px 0px rgba(0,0,0,0)',
+    '0px 0px 0px rgba(0,0,0,0)'
+  ]);
+
+  const panelWidth = 245;
+  const panelHeight = 653;
+
+  return (
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      className="absolute left-1/2 top-1/2 border-0 bg-transparent p-0 text-left outline-none"
+      style={{
+        width: panelWidth,
+        height: panelHeight,
+        x,
+        y,
+        rotateZ,
+        scale,
+        pointerEvents,
+        zIndex: 20 + index,
+        perspective: 1400,
+        transformStyle: 'preserve-3d',
+        translateX: '-50%',
+        translateY: '-50%',
+        borderRadius: radius,
+      }}
+    >
+      {index > 0 && (
+        <motion.div
+          className="pointer-events-none absolute left-0 top-[5%] z-50 h-[90%] w-px bg-white/30"
+          style={{ opacity: seamOpacity }}
+        />
+      )}
+      <motion.div
+        className="relative h-full w-full"
+        style={{ rotateY, transformStyle: 'preserve-3d', borderRadius: radius }}
+      >
+        <motion.div 
+          className="absolute inset-0 overflow-hidden bg-[#070707] [backface-visibility:hidden]"
+          style={{ 
+            borderRadius: radius, 
+            boxShadow: shadow,
+            border
+          }}
+        >
+          <img
+            src={posterAsset}
+            alt=""
+            aria-hidden="true"
+            className="h-full w-[400%] object-cover"
+            style={{
+              objectPosition: 'center',
+              transform: `translateX(-${index * 25}%)`,
+            }}
+          />
+        </motion.div>
+
+        <motion.div 
+          className="absolute inset-0 flex flex-col overflow-hidden bg-white/[0.065] text-white backdrop-blur-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]"
+          style={{ 
+            borderRadius: radius, 
+            boxShadow: shadow,
+            border: backBorder
+          }}
+        >
+          <ImageFrame
+            src={signal.image}
+            alt={signal.alt}
+            label={signal.title}
+            className="h-[66%] border-b border-white/10"
+            imgStyle={{ objectPosition: signal.objectPosition }}
+          />
+
+          <div className="relative flex flex-1 flex-col p-4">
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">
+                {signal.number}
+              </span>
+              <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">
+                Open
+              </span>
+            </div>
+
+            <h3 className="mt-3 text-[clamp(1.45rem,2vw,2.1rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">
+              {signal.title}
+            </h3>
+
+            <p className="mt-3 text-sm font-black leading-snug tracking-[-0.05em] text-white/88">
+              {signal.line}
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </motion.button>
+  );
 }
 
 function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean; onOpen?: (index: number) => void }) {
@@ -51,7 +189,7 @@ function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean;
   }
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  return <div ref={ref} className="relative hidden min-h-[210vh] md:block"><div className="sticky top-0 grid h-screen place-items-center overflow-visible pt-[2vh]"><div className="relative h-[min(68vh,650px)] w-[min(92vw,1160px)] -translate-y-[5vh]" style={{ perspective: 1400, transformStyle: 'preserve-3d' }}><div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" /><FullPosterLayer progress={scrollYProgress} />{identitySignals.map((signal, index) => <SplitFlipCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => onOpen?.(index)} />)}</div></div></div>;
+  return <div ref={ref} className="relative hidden min-h-[210vh] md:block"><div className="sticky top-0 grid h-screen place-items-center overflow-visible pt-[2vh]"><div className="relative h-[min(64vh,600px)] w-[min(92vw,1120px)] -translate-y-[12vh]" style={{ perspective: 1400, transformStyle: 'preserve-3d' }}><div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" />{identitySignals.map((signal, index) => <SplitFlipCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => onOpen?.(index)} />)}</div></div></div>;
 }
 
 function MobileStackCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
