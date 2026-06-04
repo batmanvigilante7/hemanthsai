@@ -35,20 +35,20 @@ const tableY = [-18, -86, -86, -18];
 const tableRotateZ = [-7.5, -2, 2, 7.5];
 
 function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const x = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
+  const x = useTransform(progress, [0, 0.24, 0.32, 0.46, 0.78, 0.86, 0.96, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
   const openSafeY = 72;
-  const y = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableY[index] + openSafeY, tableY[index] + openSafeY, tableY[index] + openSafeY, 0, 0]);
-  const rotateZ = useTransform(progress, [0, 0.22, 0.28, 0.42, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
-  const rotateY = useTransform(progress, [0, 0.42, 0.50, 0.78, 0.86, 1], [0, 0, 180, 180, 360, 360]);
-  const scale = useTransform(progress, [0, 0.42, 0.78, 1], [1, 0.94, 0.94, 1]);
-  const pointerEvents = useTransform(progress, (value) => value > 0.50 && value < 0.78 ? 'auto' : 'none');
+  const y = useTransform(progress, [0, 0.24, 0.32, 0.46, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableY[index] + openSafeY, tableY[index] + openSafeY, tableY[index] + openSafeY, 0, 0]);
+  const rotateZ = useTransform(progress, [0, 0.24, 0.32, 0.46, 0.78, 0.86, 0.96, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
+  const rotateY = useTransform(progress, [0, 0.46, 0.54, 0.78, 0.86, 1], [0, 0, 180, 180, 360, 360]);
+  const scale = useTransform(progress, [0, 0.46, 0.78, 1], [1, 0.94, 0.94, 1]);
+  const pointerEvents = useTransform(progress, (value) => value > 0.54 && value < 0.78 ? 'auto' : 'none');
 
   const joinedRadius = index === 0 ? '32px 0px 0px 32px' : index === 3 ? '0px 32px 32px 0px' : '0px 0px 0px 0px';
-  const radius = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
+  const radius = useTransform(progress, [0, 0.32, 0.46, 0.86, 0.96, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
   const seamOpacity = useTransform(progress, [0, 0.22, 0.28, 0.86, 0.96, 1], [0, 0, 0.45, 0.45, 0, 0]);
-  const border = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
-  const backBorder = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
-  const shadow = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
+  const border = useTransform(progress, [0, 0.32, 0.46, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const backBorder = useTransform(progress, [0, 0.32, 0.46, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const shadow = useTransform(progress, [0, 0.32, 0.46, 0.86, 0.96, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
 
   const posterWidth = 1100;
   const posterHeight = 620;
