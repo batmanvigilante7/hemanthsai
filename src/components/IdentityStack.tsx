@@ -38,7 +38,7 @@ function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySi
 
   const joinedRadius = index === 0 ? '32px 0px 0px 32px' : index === 3 ? '0px 32px 32px 0px' : '0px 0px 0px 0px';
   const radius = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
-  const seamOpacity = useTransform(progress, [0, 0.06, 0.22, 0.86, 0.96, 1], [0, 0, 0.45, 0.45, 0, 0]);
+  const seamOpacity = useTransform(progress, [0, 0.22, 0.28, 0.86, 0.96, 1], [0, 0, 0.45, 0.45, 0, 0]);
   const border = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
   const backBorder = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
   const shadow = useTransform(progress, [0, 0.28, 0.42, 0.86, 0.96, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
