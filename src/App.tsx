@@ -1,5 +1,11 @@
-import MindConstellation from './components/MindConstellation';
+import MindConstellation from "./components/MindConstellation";
+import OldApp from "./OldApp";
 
 export default function App() {
-  return <MindConstellation />;
+  return (
+    <>
+      <OldApp />
+      <MindConstellation />
+    </>
+  );
 }
