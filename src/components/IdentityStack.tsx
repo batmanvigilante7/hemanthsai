@@ -28,171 +28,35 @@ const tableY = [-18, -86, -86, -18];
 const tableRotateZ = [-7.5, -2, 2, 7.5];
 
 function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
-  const x = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.28, 0.78, 0.86, 0.96, 1],
-    [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]
-  );
-  const y = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.28, 0.78, 0.86, 0.96, 1],
-    [0, 0, 0, tableY[index], tableY[index], tableY[index], 0, 0]
-  );
-  const rotateZ = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.28, 0.78, 0.86, 1],
-    [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]
-  );
-  const rotateY = useTransform(
-    progress,
-    [0, 0.28, 0.36, 0.78, 0.86, 1],
-    [0, 0, 180, 180, 360, 360]
-  );
-  const scale = useTransform(progress, [0, 0.28, 0.78, 1], [1, 0.94, 0.94, 1]);
-  const pointerEvents = useTransform(progress, (value) => value > 0.36 && value < 0.78 ? 'auto' : 'none');
+  const x = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
+  const y = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [0, 0, 0, tableY[index], tableY[index], tableY[index], 0, 0]);
+  const rotateZ = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
+  const rotateY = useTransform(progress, [0, 0.24, 0.32, 0.80, 0.88, 1], [0, 0, 180, 180, 360, 360]);
+  const scale = useTransform(progress, [0, 0.24, 0.80, 1], [1, 0.94, 0.94, 1]);
+  const pointerEvents = useTransform(progress, (value) => value > 0.32 && value < 0.80 ? 'auto' : 'none');
 
-  const joinedRadius =
-    index === 0
-      ? '32px 0px 0px 32px'
-      : index === 3
-        ? '0px 32px 32px 0px'
-        : '0px 0px 0px 0px';
-
-  const radius = useTransform(
-    progress,
-    [0, 0.10, 0.28, 0.86, 0.96, 1],
-    [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]
-  );
-
-  const seamOpacity = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.86, 0.96, 1],
-    [0, 0, 0.55, 0.55, 0, 0]
-  );
-
-  const border = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.86, 0.96, 1],
-    [
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0.14)',
-      '1px solid rgba(255, 255, 255, 0.14)',
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0)'
-    ]
-  );
-
-  const backBorder = useTransform(
-    progress,
-    [0, 0.10, 0.14, 0.86, 0.96, 1],
-    [
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0.12)',
-      '1px solid rgba(255, 255, 255, 0.12)',
-      '1px solid rgba(255, 255, 255, 0)',
-      '1px solid rgba(255, 255, 255, 0)'
-    ]
-  );
-
-  const shadow = useTransform(progress, [0, 0.10, 0.28, 0.86, 0.96, 1], [
-    '0px 0px 0px rgba(0,0,0,0)',
-    '0px 0px 0px rgba(0,0,0,0)',
-    '0px 38px 130px rgba(0,0,0,0.62)',
-    '0px 38px 130px rgba(0,0,0,0.62)',
-    '0px 0px 0px rgba(0,0,0,0)',
-    '0px 0px 0px rgba(0,0,0,0)'
-  ]);
+  const joinedRadius = index === 0 ? '32px 0px 0px 32px' : index === 3 ? '0px 32px 32px 0px' : '0px 0px 0px 0px';
+  const radius = useTransform(progress, [0, 0.06, 0.24, 0.88, 0.96, 1], [joinedRadius, joinedRadius, '32px 32px 32px 32px', '32px 32px 32px 32px', joinedRadius, joinedRadius]);
+  const seamOpacity = useTransform(progress, [0, 0.06, 0.10, 0.88, 0.96, 1], [0, 0, 0.55, 0.55, 0, 0]);
+  const border = useTransform(progress, [0, 0.06, 0.10, 0.88, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0.14)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const backBorder = useTransform(progress, [0, 0.06, 0.10, 0.88, 0.96, 1], ['1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0.12)', '1px solid rgba(255, 255, 255, 0)', '1px solid rgba(255, 255, 255, 0)']);
+  const shadow = useTransform(progress, [0, 0.06, 0.24, 0.88, 0.96, 1], ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 38px 130px rgba(0,0,0,0.62)', '0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)']);
 
   const posterWidth = 1100;
   const posterHeight = 620;
   const panelWidth = posterWidth / 4;
   const panelHeight = posterHeight;
 
-  return (
-    <motion.button
-      type="button"
-      onClick={onOpen}
-      className="absolute left-1/2 top-1/2 border-0 bg-transparent p-0 text-left outline-none"
-      style={{
-        width: panelWidth,
-        height: panelHeight,
-        x,
-        y,
-        rotateZ,
-        scale,
-        pointerEvents,
-        zIndex: 20 + index,
-        perspective: 1400,
-        transformStyle: 'preserve-3d',
-        translateX: '-50%',
-        translateY: '-50%',
-        borderRadius: radius,
-      }}
-    >
-      {index > 0 && (
-        <motion.div
-          className="pointer-events-none absolute left-0 top-[5%] z-50 h-[90%] w-px bg-white/30"
-          style={{ opacity: seamOpacity }}
-        />
-      )}
-      <motion.div
-        className="relative h-full w-full"
-        style={{ rotateY, transformStyle: 'preserve-3d', borderRadius: radius }}
-      >
-        <motion.div 
-          className="absolute inset-0 overflow-hidden bg-[#070707] [backface-visibility:hidden]"
-          style={{ 
-            borderRadius: radius, 
-            boxShadow: shadow,
-            border,
-            backgroundImage: `url(${posterAsset})`,
-            backgroundSize: `${posterWidth}px ${posterHeight}px`,
-            backgroundPosition: `-${index * panelWidth}px 0px`,
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-        </motion.div>
-
-        <motion.div 
-          className="absolute inset-0 flex flex-col overflow-hidden bg-white/[0.065] text-white backdrop-blur-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]"
-          style={{ 
-            borderRadius: radius, 
-            boxShadow: shadow,
-            border: backBorder
-          }}
-        >
-          <ImageFrame
-            src={signal.image}
-            alt={signal.alt}
-            label={signal.title}
-            className="h-[66%] border-b border-white/10"
-            imgStyle={{ objectPosition: signal.objectPosition }}
-          />
-
-          <div className="relative flex flex-1 flex-col p-4">
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">
-                {signal.number}
-              </span>
-              <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">
-                Open
-              </span>
-            </div>
-
-            <h3 className="mt-3 text-[clamp(1.45rem,2vw,2.1rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">
-              {signal.title}
-            </h3>
-
-            <p className="mt-3 text-sm font-black leading-snug tracking-[-0.05em] text-white/88">
-              {signal.line}
-            </p>
-          </div>
-        </motion.div>
+  return <motion.button type="button" onClick={onOpen} className="absolute left-1/2 top-1/2 border-0 bg-transparent p-0 text-left outline-none" style={{ width: panelWidth, height: panelHeight, x, y, rotateZ, scale, pointerEvents, zIndex: 20 + index, perspective: 1400, transformStyle: 'preserve-3d', translateX: '-50%', translateY: '-50%', borderRadius: radius }}>
+    {index > 0 && <motion.div className="pointer-events-none absolute left-0 top-[5%] z-50 h-[90%] w-px bg-white/30" style={{ opacity: seamOpacity }} />}
+    <motion.div className="relative h-full w-full" style={{ rotateY, transformStyle: 'preserve-3d', borderRadius: radius }}>
+      <motion.div className="absolute inset-0 overflow-hidden bg-[#070707] [backface-visibility:hidden]" style={{ borderRadius: radius, boxShadow: shadow, border, backgroundImage: `url(${posterAsset})`, backgroundSize: `${posterWidth}px ${posterHeight}px`, backgroundPosition: `-${index * panelWidth}px 0px`, backgroundRepeat: 'no-repeat' }} />
+      <motion.div className="absolute inset-0 flex flex-col overflow-hidden bg-white/[0.065] text-white backdrop-blur-3xl [backface-visibility:hidden] [transform:rotateY(180deg)]" style={{ borderRadius: radius, boxShadow: shadow, border: backBorder }}>
+        <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-[66%] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} />
+        <div className="relative flex flex-1 flex-col p-4"><div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div><h3 className="mt-3 text-[clamp(1.45rem,2vw,2.1rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3><p className="mt-3 text-sm font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p></div>
       </motion.div>
-    </motion.button>
-  );
+    </motion.div>
+  </motion.button>;
 }
 
 function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean; onOpen?: (index: number) => void }) {
@@ -201,14 +65,14 @@ function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean;
   }
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  return <div ref={ref} className="relative hidden min-h-[240vh] md:block"><div className="sticky top-0 grid h-screen place-items-center overflow-visible pt-[2vh]"><div className="relative h-[min(64vh,620px)] w-[min(92vw,1100px)] -translate-y-[12vh]" style={{ perspective: 1400, transformStyle: 'preserve-3d' }}><div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" />{identitySignals.map((signal, index) => <SplitFlipCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => onOpen?.(index)} />)}</div></div></div>;
+  return <div ref={ref} className="relative hidden min-h-[220vh] md:block"><div className="sticky top-0 grid h-screen place-items-center overflow-visible pt-[2vh]"><div className="relative h-[min(64vh,620px)] w-[min(92vw,1100px)] -translate-y-[12vh]" style={{ perspective: 1400, transformStyle: 'preserve-3d' }}><div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" />{identitySignals.map((signal, index) => <SplitFlipCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => onOpen?.(index)} />)}</div></div></div>;
 }
 
 function MobileStackCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
   const targetScale = Math.max(0.84, 1 - (identitySignals.length - index - 1) * 0.045);
   const scale = useTransform(progress, [index * 0.22, 1], [1, targetScale]);
   const y = useTransform(progress, [index * 0.22, 1], [0, -index * 10]);
-  return <div className="sticky top-20 flex min-h-[82svh] items-start justify-center py-3"><motion.button type="button" onClick={onOpen} style={{ scale, y, top: `calc(${index * 14}px)` }} className="relative flex w-full max-w-md origin-top flex-col overflow-hidden rounded-[1.65rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur-3xl"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} /><div className="relative p-4"><div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div><h3 className="mt-5 text-[clamp(2.05rem,12vw,3.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3><p className="mt-4 text-base font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p><p className="mt-4 text-sm font-medium leading-relaxed text-white/58">{signal.text}</p></div></motion.button></div>;
+  return <div className="sticky top-20 flex min-h-[82svh] items-start justify-center py-3"><motion.button type="button" onClick={onOpen} style={{ scale, y, top: `calc(${index * 14}px)` }} className="relative flex w-full max-w-md origin-top flex-col overflow-hidden rounded-[1.65rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur-3xl"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} /><div className="relative p-4"><div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div><h3 className="mt-5 text-[clamp(2.05rem,12vw,3.2rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-4 text-base font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p><p className="mt-4 text-sm font-medium leading-relaxed text-white/58">{signal.text}</p></div></motion.button></div>;
 }
 
 function MobileStickyStack({ onOpen }: { onOpen: (index: number) => void }) {
