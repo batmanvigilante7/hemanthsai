@@ -25,7 +25,7 @@ function IdentitySignalModal({ signal, onClose }: { signal: IdentitySignal; onCl
               className="absolute right-5 top-5 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/[0.10] p-0 text-white/72 transition-colors hover:bg-white/20 hover:text-white"
               aria-label="Close identity signal"
             >
-              <span className="block translate-y-[-1px] text-[30px] font-extralight leading-none">
+              <span className="block -translate-y-[1px] text-[30px] font-extralight leading-none">
                 ×
               </span>
             </button><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p><h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p><div className="mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div><div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div></div></div></motion.article></motion.div>;
