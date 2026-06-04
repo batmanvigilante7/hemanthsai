@@ -29,7 +29,8 @@ const tableRotateZ = [-7.5, -2, 2, 7.5];
 
 function SplitFlipCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
   const x = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [joinedX[index], joinedX[index], joinedX[index], tableX[index], tableX[index], tableX[index], joinedX[index], joinedX[index]]);
-  const y = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [0, 0, 0, tableY[index], tableY[index], tableY[index], 0, 0]);
+  const openSafeY = 72;
+  const y = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [0, 0, 0, tableY[index] + openSafeY, tableY[index] + openSafeY, tableY[index] + openSafeY, 0, 0]);
   const rotateZ = useTransform(progress, [0, 0.06, 0.10, 0.24, 0.80, 0.88, 0.96, 1], [0, 0, 0, tableRotateZ[index], tableRotateZ[index], tableRotateZ[index], 0, 0]);
   const rotateY = useTransform(progress, [0, 0.24, 0.32, 0.80, 0.88, 1], [0, 0, 180, 180, 360, 360]);
   const scale = useTransform(progress, [0, 0.24, 0.80, 1], [1, 0.94, 0.94, 1]);
@@ -64,8 +65,28 @@ function CinematicSplitIntroCard({ mobile = false, onOpen }: { mobile?: boolean;
     return <FadeIn><div><h3 className="mb-5 max-w-5xl text-[clamp(2.15rem,13vw,3.8rem)] font-black uppercase leading-[0.82] tracking-[-0.095em] text-white">Before the builder,<br />there was the pattern.</h3><div className="noise relative overflow-hidden rounded-[2rem] border border-white/14 bg-[#070707] shadow-[0_44px_170px_rgba(0,0,0,0.62)]"><img src={posterAsset} alt="Before the builder, there was the pattern. The origin before the output." className="w-full" /></div></div></FadeIn>;
   }
   const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
-  return <div ref={ref} className="relative hidden min-h-[220vh] md:block"><div className="sticky top-0 grid h-screen place-items-center overflow-visible pt-[2vh]"><div className="relative h-[min(64vh,620px)] w-[min(92vw,1100px)] -translate-y-[12vh]" style={{ perspective: 1400, transformStyle: 'preserve-3d' }}><div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" />{identitySignals.map((signal, index) => <SplitFlipCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => onOpen?.(index)} />)}</div></div></div>;
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 75%', 'end end'] });
+  return (
+    <div ref={ref} className="relative hidden min-h-[220vh] md:block">
+      <div className="sticky top-0 grid h-screen place-items-center overflow-visible">
+        <div
+          className="relative h-[min(64vh,620px)] w-[min(92vw,1100px)]"
+          style={{ perspective: 1400, transformStyle: 'preserve-3d' }}
+        >
+          <div className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-white/[0.045] blur-[90px]" />
+          {identitySignals.map((signal, index) => (
+            <SplitFlipCard
+              key={signal.title}
+              signal={signal}
+              index={index}
+              progress={scrollYProgress}
+              onOpen={() => onOpen?.(index)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function MobileStackCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
