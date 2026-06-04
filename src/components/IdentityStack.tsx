@@ -65,20 +65,7 @@ function ImageFrame({ src, alt, label, className = '', imgStyle }: { src: string
   const [broken, setBroken] = useState(false);
   return (
     <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>
-      {!broken ? (
-        <img
-          src={src}
-          alt={alt}
-          onError={() => setBroken(true)}
-          loading="lazy"
-          style={imgStyle}
-          className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]"
-        />
-      ) : (
-        <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center">
-          <span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span>
-        </div>
-      )}
+      {!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading="lazy" style={imgStyle} className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]" /> : <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span></div>}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.36))]" />
       <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_rgba(0,0,0,0.5)]" />
     </div>
@@ -136,24 +123,13 @@ interface IdentityFanCardProps {
   onOpen: () => void;
 }
 
-function IdentityFanCard({
-  signal,
-  index,
-  progress,
-  screenType,
-  onOpen,
-}: IdentityFanCardProps) {
+function IdentityFanCard({ signal, index, progress, screenType, onOpen }: IdentityFanCardProps) {
   const [hovered, setHovered] = useState(false);
   const xVal = useMotionValue(0);
   const yVal = useMotionValue(0);
-
-  // Smooth springs for mouse hover tilt
   const rotateXMouse = useSpring(useTransform(yVal, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 });
   const rotateYMouse = useSpring(useTransform(xVal, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 });
-
   const pos = fanPositions[index];
-
-  // Responsive layout values
   let xTarget = pos.x;
   let yTarget = pos.y;
   const rotateTarget = pos.rotate;
@@ -169,27 +145,20 @@ function IdentityFanCard({
     yTarget = pos.y * 0.8;
   }
 
-  // Scroll animations
-  const x = useTransform(progress, [0, 0.85], ["0vw", `${xTarget}vw`]);
-  const y = useTransform(progress, [0, 0.85], ["0%", `${yTarget}%`]);
+  const x = useTransform(progress, [0, 0.85], ['0vw', `${xTarget}vw`]);
+  const y = useTransform(progress, [0, 0.85], ['0%', `${yTarget}%`]);
   const rotate = useTransform(progress, [0, 0.85], [0, rotateTarget]);
   const scale = useTransform(progress, [0, 0.85], [0.82, 1.0]);
   const z = useTransform(progress, [0, 0.85], [-120, 0]);
   const rotateX = useTransform(progress, [0, 0.85], [10, 0]);
-  
-  // Fade in at the start, fade out at the end of the section scroll
   const opacity = useTransform(progress, [0, 0.12, 0.9, 0.98], [0.4, 1, 1, 0]);
 
   const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-    const width = rect.width;
-    const height = rect.height;
-    
-    xVal.set((mouseX - width / 2) / width);
-    yVal.set((mouseY - height / 2) / height);
-
+    xVal.set((mouseX - rect.width / 2) / rect.width);
+    yVal.set((mouseY - rect.height / 2) / rect.height);
     e.currentTarget.style.setProperty('--glare-x', `${mouseX}px`);
     e.currentTarget.style.setProperty('--glare-y', `${mouseY}px`);
   };
@@ -200,119 +169,44 @@ function IdentityFanCard({
     setHovered(false);
   };
 
-  const glowColors = [
-    "rgba(99, 102, 241, 0.12)",  // Indigo glow for Structure
-    "rgba(139, 92, 246, 0.12)", // Purple glow for Discipline
-    "rgba(6, 182, 212, 0.12)",   // Cyan glow for Voice
-    "rgba(16, 185, 129, 0.12)",  // Emerald glow for Builder
-  ];
-  const hoverGlowColors = [
-    "rgba(99, 102, 241, 0.22)",
-    "rgba(139, 92, 246, 0.22)",
-    "rgba(6, 182, 212, 0.22)",
-    "rgba(16, 185, 129, 0.22)",
-  ];
+  const glowColors = ['rgba(99, 102, 241, 0.12)', 'rgba(139, 92, 246, 0.12)', 'rgba(6, 182, 212, 0.12)', 'rgba(16, 185, 129, 0.12)'];
+  const hoverGlowColors = ['rgba(99, 102, 241, 0.22)', 'rgba(139, 92, 246, 0.22)', 'rgba(6, 182, 212, 0.22)', 'rgba(16, 185, 129, 0.22)'];
 
   return (
-    <motion.div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      className="absolute inset-0 m-auto w-[36vw] max-w-[150px] h-[52vw] max-h-[220px] md:w-[26vw] md:max-w-[210px] md:h-[38vw] md:max-h-[300px] lg:w-[21vw] lg:max-w-[270px] lg:h-[32vw] lg:max-h-[400px] pointer-events-auto"
-      style={{
-        x,
-        y,
-        rotate,
-        scale,
-        z,
-        rotateX,
-        opacity,
-        zIndex: hovered ? 50 : index + 10,
-        transformStyle: "preserve-3d",
-      }}
-    >
-      <motion.button
-        type="button"
-        onClick={onOpen}
-        onMouseMove={handleMouseMove}
-        whileHover={{
-          scale: 1.05,
-          boxShadow: "0 30px 60px -15px rgba(0, 0, 0, 0.7)",
-        }}
-        transition={{ type: "spring", stiffness: 350, damping: 22 }}
-        className="group relative w-full h-full rounded-2xl md:rounded-[2rem] border border-white/10 hover:border-white/20 bg-gradient-to-b from-white/[0.08] to-white/[0.01] hover:from-white/[0.12] hover:to-white/[0.03] text-left overflow-hidden select-none cursor-pointer outline-none transition-colors duration-500 flex flex-col"
-        style={{
-          rotateX: rotateXMouse,
-          rotateY: rotateYMouse,
-          transformPerspective: 800,
-          ['--glare-x' as any]: '50%',
-          ['--glare-y' as any]: '50%',
-        }}
-      >
-        {/* Glow backdrop */}
-        <div 
-          className="absolute -bottom-16 -left-16 -right-16 h-40 rounded-full blur-[48px] pointer-events-none transition-colors duration-500 z-0" 
-          style={{ backgroundColor: hovered ? hoverGlowColors[index] : glowColors[index] }} 
-        />
-
-        {/* Hover Glare Reflection */}
+    <motion.div onMouseEnter={() => setHovered(true)} onMouseLeave={handleMouseLeave} className="absolute inset-0 m-auto w-[36vw] max-w-[150px] h-[52vw] max-h-[220px] md:w-[26vw] md:max-w-[210px] md:h-[38vw] md:max-h-[300px] lg:w-[21vw] lg:max-w-[270px] lg:h-[32vw] lg:max-h-[400px] pointer-events-auto" style={{ x, y, rotate, scale, z, rotateX, opacity, zIndex: hovered ? 50 : index + 10, transformStyle: 'preserve-3d' }}>
+      <motion.button type="button" onClick={onOpen} onMouseMove={handleMouseMove} whileHover={{ scale: 1.05, boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.7)' }} transition={{ type: 'spring', stiffness: 350, damping: 22 }} className="group relative w-full h-full rounded-2xl md:rounded-[2rem] border border-white/10 hover:border-white/20 bg-gradient-to-b from-white/[0.08] to-white/[0.01] hover:from-white/[0.12] hover:to-white/[0.03] text-left overflow-hidden select-none cursor-pointer outline-none transition-colors duration-500 flex flex-col" style={{ rotateX: rotateXMouse, rotateY: rotateYMouse, transformPerspective: 800, ['--glare-x' as any]: '50%', ['--glare-y' as any]: '50%' }}>
+        <div className="absolute -bottom-16 -left-16 -right-16 h-40 rounded-full blur-[48px] pointer-events-none transition-colors duration-500 z-0" style={{ backgroundColor: hovered ? hoverGlowColors[index] : glowColors[index] }} />
         <div className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_var(--glare-x)_var(--glare-y),rgba(255,255,255,0.10),transparent_40%)]" />
-
-        {/* Top Image Frame */}
         <div className="relative w-full h-[50%] overflow-hidden rounded-t-[1.4rem] md:rounded-t-[1.8rem] bg-white/[0.02] z-10 flex-shrink-0">
-          <img
-            src={signal.image}
-            alt={signal.alt}
-            className="h-full w-full object-cover brightness-95 contrast-[1.03] saturate-[0.88] transition-transform duration-700 group-hover:scale-105"
-            style={{ objectPosition: signal.objectPosition }}
-            loading="lazy"
-          />
+          <img src={signal.image} alt={signal.alt} className="h-full w-full object-cover brightness-95 contrast-[1.03] saturate-[0.88] transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: signal.objectPosition }} loading="lazy" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/30 to-transparent opacity-90" />
           <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
         </div>
-
-        {/* Bottom Text Area */}
         <div className="relative flex flex-col justify-between flex-1 p-3 sm:p-4 lg:p-5 h-[50%] bg-[#090909]/40 rounded-b-[inherit] z-10">
-          {/* Top row: Number and Origin */}
-          <div className="flex items-center justify-between">
-            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
-              {signal.number}
-            </span>
-            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.15em] text-white/40 truncate max-w-[70%]">
-              {signal.origin}
-            </span>
-          </div>
-
-          {/* Title & Tagline */}
-          <div className="my-auto">
-            <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-black uppercase tracking-[-0.05em] text-white group-hover:text-white transition-colors duration-300">
-              {signal.title}
-            </h3>
-            <p className="mt-0.5 text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.05em] text-white/70 group-hover:text-white transition-colors duration-300 line-clamp-1">
-              {signal.line}
-            </p>
-            <p className="mt-2 hidden md:block text-[11px] lg:text-[12px] font-medium leading-relaxed text-white/50 line-clamp-2 lg:line-clamp-3">
-              {signal.text}
-            </p>
-          </div>
-
-          {/* Bottom row: "Reveal Detail" and action */}
-          <div className="flex items-center justify-between pt-1.5 border-t border-white/5 mt-1">
-            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.18em] text-white/40 group-hover:text-white/80 transition-colors duration-300">
-              Reveal Details
-            </span>
-            <svg
-              className="h-3 w-3 text-white/30 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={3}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
+          <div className="flex items-center justify-between"><span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{signal.number}</span><span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.15em] text-white/40 truncate max-w-[70%]">{signal.origin}</span></div>
+          <div className="my-auto"><h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-black uppercase tracking-[-0.05em] text-white group-hover:text-white transition-colors duration-300">{signal.title}</h3><p className="mt-0.5 text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.05em] text-white/70 group-hover:text-white transition-colors duration-300 line-clamp-1">{signal.line}</p><p className="mt-2 hidden md:block text-[11px] lg:text-[12px] font-medium leading-relaxed text-white/50 line-clamp-2 lg:line-clamp-3">{signal.text}</p></div>
+          <div className="flex items-center justify-between pt-1.5 border-t border-white/5 mt-1"><span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.18em] text-white/40 group-hover:text-white/80 transition-colors duration-300">Reveal Details</span><svg className="h-3 w-3 text-white/30 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></div>
         </div>
       </motion.button>
     </motion.div>
+  );
+}
+
+function IdentityWalletCard({ signal, index, onOpen }: { signal: IdentitySignal; index: number; onOpen: () => void }) {
+  const offsets = ['translate-x-0 rotate-[-1.5deg]', 'translate-x-5 rotate-[1.25deg]', 'translate-x-0 rotate-[-1deg]', 'translate-x-5 rotate-[1.5deg]'];
+  return (
+    <FadeIn delay={index * 0.04}>
+      <button type="button" onClick={onOpen} className={`group relative block w-[calc(100%-1.25rem)] overflow-hidden rounded-[1.65rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur-3xl transition active:scale-[0.985] ${offsets[index]}`}>
+        <div className="absolute -inset-x-12 -bottom-20 h-40 rounded-full bg-white/10 blur-3xl" />
+        <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} />
+        <div className="relative p-4">
+          <div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div>
+          <h3 className="mt-5 text-[clamp(2.05rem,12vw,3.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3>
+          <p className="mt-4 text-base font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p>
+          <p className="mt-4 text-sm font-medium leading-relaxed text-white/58">{signal.text}</p>
+        </div>
+      </button>
+    </FadeIn>
   );
 }
 
@@ -324,13 +218,9 @@ export default function IdentityStack() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setScreenType('desktop');
-      } else if (window.innerWidth >= 768) {
-        setScreenType('tablet');
-      } else {
-        setScreenType('mobile');
-      }
+      if (window.innerWidth >= 1024) setScreenType('desktop');
+      else if (window.innerWidth >= 768) setScreenType('tablet');
+      else setScreenType('mobile');
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -338,57 +228,25 @@ export default function IdentityStack() {
   }, []);
 
   return (
-    <section id="identity" ref={container} className="relative min-h-[240vh] bg-[#070707] text-white">
+    <section id="identity" ref={container} className={`relative bg-[#070707] text-white ${screenType === 'mobile' ? 'px-5 py-16' : 'min-h-[240vh]'}`}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)] pointer-events-none" />
-      
-      <div className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden py-12 md:py-16">
-        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 z-10">
-          <FadeIn>
-            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p>
-            <h2 className="text-[clamp(2.2rem,6vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.09em] text-white">The pattern behind the proof.</h2>
-            <p className="mt-4 max-w-3xl text-sm font-light leading-relaxed text-white/72 sm:text-lg md:text-xl">
-              Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.
-            </p>
-          </FadeIn>
-        </div>
 
-        <div className="relative flex-1 w-full flex items-center justify-center">
-          <div className="relative w-full max-w-7xl h-[45vh] md:h-[50vh] flex items-center justify-center" style={{ perspective: 1200, transformStyle: "preserve-3d" }}>
-            {identitySignals.map((signal, index) => (
-              <IdentityFanCard
-                key={signal.title}
-                signal={signal}
-                index={index}
-                progress={scrollYProgress}
-                screenType={screenType}
-                onOpen={() => setActiveSignal(index)}
-              />
-            ))}
+      {screenType === 'mobile' ? (
+        <div className="relative mx-auto max-w-md">
+          <FadeIn><p className="mb-3 text-[10px] font-black uppercase tracking-[0.28em] text-white/45">Identity</p><h2 className="text-[clamp(2.7rem,15vw,4.4rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-5 text-base font-light leading-relaxed text-white/70">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn>
+          <div className="mt-10 grid gap-[-0.5rem] space-y-[-0.35rem] pb-4">
+            {identitySignals.map((signal, index) => <IdentityWalletCard key={signal.title} signal={signal} index={index} onOpen={() => setActiveSignal(index)} />)}
           </div>
         </div>
-
-        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 text-[8px] font-black uppercase tracking-[0.16em] text-white/30 sm:px-8 sm:text-[9px] sm:tracking-[0.2em] md:px-10">
-          <span>Scroll to fan out</span>
-          <div className="h-[2px] min-w-16 flex-1 max-w-24 overflow-hidden rounded-full bg-white/10">
-            <motion.div
-              className="h-full bg-white/50"
-              style={{
-                width: useTransform(scrollYProgress, [0, 0.85], ["0%", "100%"])
-              }}
-            />
-          </div>
-          <span className="text-right">4 Layers</span>
+      ) : (
+        <div className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden py-12 md:py-16">
+          <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 z-10"><FadeIn><p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p><h2 className="text-[clamp(2.2rem,6vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-4 max-w-3xl text-sm font-light leading-relaxed text-white/72 sm:text-lg md:text-xl">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn></div>
+          <div className="relative flex-1 w-full flex items-center justify-center"><div className="relative w-full max-w-7xl h-[45vh] md:h-[50vh] flex items-center justify-center" style={{ perspective: 1200, transformStyle: 'preserve-3d' }}>{identitySignals.map((signal, index) => <IdentityFanCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} screenType={screenType} onOpen={() => setActiveSignal(index)} />)}</div></div>
+          <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 text-[8px] font-black uppercase tracking-[0.16em] text-white/30 sm:px-8 sm:text-[9px] sm:tracking-[0.2em] md:px-10"><span>Scroll to fan out</span><div className="h-[2px] min-w-16 flex-1 max-w-24 overflow-hidden rounded-full bg-white/10"><motion.div className="h-full bg-white/50" style={{ width: useTransform(scrollYProgress, [0, 0.85], ['0%', '100%']) }} /></div><span className="text-right">4 Layers</span></div>
         </div>
-      </div>
+      )}
 
-      <AnimatePresence>
-        {activeSignal !== null && (
-          <IdentitySignalModal
-            signal={identitySignals[activeSignal]}
-            onClose={() => setActiveSignal(null)}
-          />
-        )}
-      </AnimatePresence>
+      <AnimatePresence>{activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}</AnimatePresence>
     </section>
   );
 }
