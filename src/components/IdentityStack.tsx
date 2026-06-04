@@ -5,54 +5,10 @@ import { X } from 'lucide-react';
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
 const identitySignals = [
-  {
-    number: '01',
-    title: 'Structure',
-    line: 'Standards before speed.',
-    text: 'Structured environments taught me accountability, presence, and the value of carrying myself with seriousness before chasing outcomes.',
-    story: 'Structure is the part of me that came before ambition. It is the habit of respecting routines, showing up with presence, and understanding that standards are not decoration — they are the operating system. This signal connects Sainik School, NCC, and every environment that taught me to take myself seriously before asking the world to do the same.',
-    origin: 'Sainik School / NCC',
-    compound: 'Better standards',
-    image: asset('identity-structure.webp'),
-    alt: 'Hemanth Sai in NCC uniform on horseback',
-    objectPosition: '50% 30%',
-  },
-  {
-    number: '02',
-    title: 'Discipline',
-    line: 'Practice before confidence.',
-    text: 'Karate taught me repetition, body control, discomfort, and the quiet confidence that comes from doing hard things before anyone is watching.',
-    story: 'Discipline is not a motivational quote for me. It is physical. It came from repetition, training, correction, fatigue, and the silent work nobody claps for. Karate made confidence feel earned, not borrowed. That same pattern now moves into learning, coding, design, and building — repeat, refine, sharpen, return.',
-    origin: 'Karate / Training',
-    compound: 'Consistent execution',
-    image: asset('identity-discipline.webp'),
-    alt: 'Karate training collage from Hemanth Sai’s early years',
-    objectPosition: '50% 22%',
-  },
-  {
-    number: '03',
-    title: 'Voice',
-    line: 'Ideas need expression.',
-    text: 'Speaking taught me that clarity is power. A thought becomes more useful when it can be communicated, understood, and remembered.',
-    story: 'Voice is the bridge between thinking and impact. Public speaking trained me to hold an idea in front of people and make it clear enough to land. This matters because building is not only about making things; it is also about explaining why they matter, what they change, and why someone should care.',
-    origin: 'Public speaking / Stage',
-    compound: 'Clear communication',
-    image: asset('identity-voice.webp'),
-    alt: 'Hemanth Sai speaking at a podium',
-    objectPosition: '50% 28%',
-  },
-  {
-    number: '04',
-    title: 'Builder Mode',
-    line: 'Visible work beats hidden potential.',
-    text: 'Now the same pattern moves into technology: turning curiosity into projects, systems, pages, notes, prototypes, and proof that can be seen and improved.',
-    story: 'Builder Mode is where all the earlier signals become visible. Structure gives the base, discipline keeps the rhythm, voice explains the work, and technology becomes the arena. I am learning to convert curiosity into artifacts: interfaces, repos, systems, notes, demos, case studies, and products that can survive feedback.',
-    origin: 'AI / Software / Product',
-    compound: 'Shippable artifacts',
-    image: asset('identity-builder.webp'),
-    alt: 'Hemanth Sai working on a laptop',
-    objectPosition: '50% 45%',
-  },
+  { number: '01', title: 'Structure', line: 'Standards before speed.', text: 'Structured environments taught me accountability, presence, and the value of carrying myself with seriousness before chasing outcomes.', story: 'Structure is the part of me that came before ambition. It is the habit of respecting routines, showing up with presence, and understanding that standards are not decoration — they are the operating system. This signal connects Sainik School, NCC, and every environment that taught me to take myself seriously before asking the world to do the same.', origin: 'Sainik School / NCC', compound: 'Better standards', image: asset('identity-structure.webp'), alt: 'Hemanth Sai in NCC uniform on horseback', objectPosition: '50% 30%' },
+  { number: '02', title: 'Discipline', line: 'Practice before confidence.', text: 'Karate taught me repetition, body control, discomfort, and the quiet confidence that comes from doing hard things before anyone is watching.', story: 'Discipline is not a motivational quote for me. It is physical. It came from repetition, training, correction, fatigue, and the silent work nobody claps for. Karate made confidence feel earned, not borrowed. That same pattern now moves into learning, coding, design, and building — repeat, refine, sharpen, return.', origin: 'Karate / Training', compound: 'Consistent execution', image: asset('identity-discipline.webp'), alt: 'Karate training collage from Hemanth Sai’s early years', objectPosition: '50% 22%' },
+  { number: '03', title: 'Voice', line: 'Ideas need expression.', text: 'Speaking taught me that clarity is power. A thought becomes more useful when it can be communicated, understood, and remembered.', story: 'Voice is the bridge between thinking and impact. Public speaking trained me to hold an idea in front of people and make it clear enough to land. This matters because building is not only about making things; it is also about explaining why they matter, what they change, and why someone should care.', origin: 'Public speaking / Stage', compound: 'Clear communication', image: asset('identity-voice.webp'), alt: 'Hemanth Sai speaking at a podium', objectPosition: '50% 28%' },
+  { number: '04', title: 'Builder Mode', line: 'Visible work beats hidden potential.', text: 'Now the same pattern moves into technology: turning curiosity into projects, systems, pages, notes, prototypes, and proof that can be seen and improved.', story: 'Builder Mode is where all the earlier signals become visible. Structure gives the base, discipline keeps the rhythm, voice explains the work, and technology becomes the arena. I am learning to convert curiosity into artifacts: interfaces, repos, systems, notes, demos, case studies, and products that can survive feedback.', origin: 'AI / Software / Product', compound: 'Shippable artifacts', image: asset('identity-builder.webp'), alt: 'Hemanth Sai working on a laptop', objectPosition: '50% 45%' },
 ] as const;
 
 type IdentitySignal = typeof identitySignals[number];
@@ -63,190 +19,33 @@ function FadeIn({ children, delay = 0, y = 24, className = '' }: { children: Rea
 
 function ImageFrame({ src, alt, label, className = '', imgStyle }: { src: string; alt: string; label: string; className?: string; imgStyle?: CSSProperties }) {
   const [broken, setBroken] = useState(false);
-  return (
-    <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>
-      {!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading="lazy" style={imgStyle} className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]" /> : <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span></div>}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.36))]" />
-      <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_rgba(0,0,0,0.5)]" />
-    </div>
-  );
+  return <div className={`noise group relative overflow-hidden bg-white/[0.04] ${className}`}>{!broken ? <img src={src} alt={alt} onError={() => setBroken(true)} loading="lazy" style={imgStyle} className="h-full w-full object-cover brightness-100 contrast-105 saturate-[0.92] transition-transform duration-1000 group-hover:scale-[1.035]" /> : <div className="flex h-full min-h-[220px] w-full items-center justify-center bg-[linear-gradient(135deg,#171717,#050505)] px-5 text-center"><span className="rounded-full border border-white/10 px-5 py-3 text-xs uppercase tracking-[0.35em] text-white/55">{label}</span></div>}<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.03),rgba(0,0,0,0.36))]" /><div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_90px_rgba(0,0,0,0.5)]" /></div>;
 }
 
 function IdentitySignalModal({ signal, onClose }: { signal: IdentitySignal; onClose: () => void }) {
-  useEffect(() => {
-    const closeOnKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', closeOnKey);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', closeOnKey);
-      document.body.style.overflow = '';
-    };
-  }, [onClose]);
-
-  return (
-    <motion.div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
-      <motion.article initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }} animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]">
-        <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" />
-        <div className="relative min-h-[300px] p-3 md:min-h-[620px] md:p-4">
-          <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[300px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} />
-        </div>
-        <div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12">
-          <button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.16)] backdrop-blur-2xl transition hover:bg-white/[0.18] hover:text-white" aria-label="Close identity signal"><X className="h-5 w-5" /></button>
-          <p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p>
-          <h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3>
-          <p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p>
-          <p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div>
-            <div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4 backdrop-blur-2xl"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div>
-          </div>
-        </div>
-      </motion.article>
-    </motion.div>
-  );
+  useEffect(() => { const closeOnKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); }; window.addEventListener('keydown', closeOnKey); document.body.style.overflow = 'hidden'; return () => { window.removeEventListener('keydown', closeOnKey); document.body.style.overflow = ''; }; }, [onClose]);
+  return <motion.div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/55 px-4 py-8 backdrop-blur-3xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.94, filter: 'blur(10px)' }} animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }} transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise relative grid max-h-[88svh] w-full max-w-6xl overflow-y-auto rounded-[2.25rem] border border-white/25 bg-white/[0.12] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] backdrop-blur-3xl md:grid-cols-[0.92fr_1.08fr] md:rounded-[3.5rem]"><div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.055)_34%,rgba(141,162,255,0.10)_68%,rgba(255,255,255,0.08))]" /><div className="relative min-h-[260px] p-3 md:min-h-[620px] md:p-4"><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="h-full min-h-[260px] rounded-[1.75rem] border border-white/12 md:min-h-[590px] md:rounded-[3rem]" imgStyle={{ objectPosition: signal.objectPosition }} /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-12"><button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-12 w-12 place-items-center rounded-full border border-white/20 bg-white/[0.10] text-white/72" aria-label="Close identity signal"><X className="h-5 w-5" /></button><p className="text-[10px] font-black uppercase tracking-[0.32em] text-white/44">{signal.number} / Identity Signal</p><h3 className="mt-5 pr-14 text-[clamp(2.7rem,11vw,6.8rem)] font-black uppercase leading-[0.82] tracking-[-0.09em] text-white">{signal.title}</h3><p className="mt-6 max-w-2xl text-2xl font-black leading-tight tracking-[-0.055em] text-white/90 sm:text-3xl">{signal.line}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-white/68 sm:text-lg">{signal.story}</p><div className="mt-8 grid gap-3 sm:grid-cols-2"><div className="rounded-[1.5rem] border border-white/14 bg-white/[0.08] p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">Origin</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.origin}</p></div><div className="rounded-[1.5rem] border border-white/14 bg-black/20 p-4"><p className="text-[9px] font-black uppercase tracking-[0.24em] text-white/36">How it compounds</p><p className="mt-2 text-sm font-black uppercase tracking-[0.14em] text-white/78">{signal.compound}</p></div></div></div></motion.article></motion.div>;
 }
 
-const fanPositions: Array<{ x: number; y: number; rotate: number }> = [
-  { x: -36, y: 14, rotate: -8 },
-  { x: -12, y: -4, rotate: -2 },
-  { x: 12, y: -4, rotate: 2 },
-  { x: 36, y: 14, rotate: 8 },
-];
-
-interface IdentityFanCardProps {
-  signal: IdentitySignal;
-  index: number;
-  progress: MotionValue<number>;
-  screenType: 'desktop' | 'tablet' | 'mobile';
-  onOpen: () => void;
-}
-
-function IdentityFanCard({ signal, index, progress, screenType, onOpen }: IdentityFanCardProps) {
-  const [hovered, setHovered] = useState(false);
-  const xVal = useMotionValue(0);
-  const yVal = useMotionValue(0);
-  const rotateXMouse = useSpring(useTransform(yVal, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 });
-  const rotateYMouse = useSpring(useTransform(xVal, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 });
-  const pos = fanPositions[index];
-  let xTarget = pos.x;
-  let yTarget = pos.y;
-  const rotateTarget = pos.rotate;
-
-  if (screenType === 'desktop') {
-    xTarget = pos.x * 0.9;
-    yTarget = pos.y * 1.5;
-  } else if (screenType === 'tablet') {
-    xTarget = pos.x * 0.65;
-    yTarget = pos.y * 1.2;
-  } else {
-    xTarget = pos.x * 0.42;
-    yTarget = pos.y * 0.8;
-  }
-
-  const x = useTransform(progress, [0, 0.85], ['0vw', `${xTarget}vw`]);
-  const y = useTransform(progress, [0, 0.85], ['0%', `${yTarget}%`]);
-  const rotate = useTransform(progress, [0, 0.85], [0, rotateTarget]);
-  const scale = useTransform(progress, [0, 0.85], [0.82, 1.0]);
-  const z = useTransform(progress, [0, 0.85], [-120, 0]);
-  const rotateX = useTransform(progress, [0, 0.85], [10, 0]);
-  const opacity = useTransform(progress, [0, 0.12, 0.9, 0.98], [0.4, 1, 1, 0]);
-
-  const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    xVal.set((mouseX - rect.width / 2) / rect.width);
-    yVal.set((mouseY - rect.height / 2) / rect.height);
-    e.currentTarget.style.setProperty('--glare-x', `${mouseX}px`);
-    e.currentTarget.style.setProperty('--glare-y', `${mouseY}px`);
-  };
-
-  const handleMouseLeave = () => {
-    xVal.set(0);
-    yVal.set(0);
-    setHovered(false);
-  };
-
-  const glowColors = ['rgba(99, 102, 241, 0.12)', 'rgba(139, 92, 246, 0.12)', 'rgba(6, 182, 212, 0.12)', 'rgba(16, 185, 129, 0.12)'];
-  const hoverGlowColors = ['rgba(99, 102, 241, 0.22)', 'rgba(139, 92, 246, 0.22)', 'rgba(6, 182, 212, 0.22)', 'rgba(16, 185, 129, 0.22)'];
-
-  return (
-    <motion.div onMouseEnter={() => setHovered(true)} onMouseLeave={handleMouseLeave} className="absolute inset-0 m-auto w-[36vw] max-w-[150px] h-[52vw] max-h-[220px] md:w-[26vw] md:max-w-[210px] md:h-[38vw] md:max-h-[300px] lg:w-[21vw] lg:max-w-[270px] lg:h-[32vw] lg:max-h-[400px] pointer-events-auto" style={{ x, y, rotate, scale, z, rotateX, opacity, zIndex: hovered ? 50 : index + 10, transformStyle: 'preserve-3d' }}>
-      <motion.button type="button" onClick={onOpen} onMouseMove={handleMouseMove} whileHover={{ scale: 1.05, boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.7)' }} transition={{ type: 'spring', stiffness: 350, damping: 22 }} className="group relative w-full h-full rounded-2xl md:rounded-[2rem] border border-white/10 hover:border-white/20 bg-gradient-to-b from-white/[0.08] to-white/[0.01] hover:from-white/[0.12] hover:to-white/[0.03] text-left overflow-hidden select-none cursor-pointer outline-none transition-colors duration-500 flex flex-col" style={{ rotateX: rotateXMouse, rotateY: rotateYMouse, transformPerspective: 800, ['--glare-x' as any]: '50%', ['--glare-y' as any]: '50%' }}>
-        <div className="absolute -bottom-16 -left-16 -right-16 h-40 rounded-full blur-[48px] pointer-events-none transition-colors duration-500 z-0" style={{ backgroundColor: hovered ? hoverGlowColors[index] : glowColors[index] }} />
-        <div className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_var(--glare-x)_var(--glare-y),rgba(255,255,255,0.10),transparent_40%)]" />
-        <div className="relative w-full h-[50%] overflow-hidden rounded-t-[1.4rem] md:rounded-t-[1.8rem] bg-white/[0.02] z-10 flex-shrink-0">
-          <img src={signal.image} alt={signal.alt} className="h-full w-full object-cover brightness-95 contrast-[1.03] saturate-[0.88] transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: signal.objectPosition }} loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/30 to-transparent opacity-90" />
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-        </div>
-        <div className="relative flex flex-col justify-between flex-1 p-3 sm:p-4 lg:p-5 h-[50%] bg-[#090909]/40 rounded-b-[inherit] z-10">
-          <div className="flex items-center justify-between"><span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{signal.number}</span><span className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.15em] text-white/40 truncate max-w-[70%]">{signal.origin}</span></div>
-          <div className="my-auto"><h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-black uppercase tracking-[-0.05em] text-white group-hover:text-white transition-colors duration-300">{signal.title}</h3><p className="mt-0.5 text-[8px] sm:text-[10px] md:text-xs font-black uppercase tracking-[0.05em] text-white/70 group-hover:text-white transition-colors duration-300 line-clamp-1">{signal.line}</p><p className="mt-2 hidden md:block text-[11px] lg:text-[12px] font-medium leading-relaxed text-white/50 line-clamp-2 lg:line-clamp-3">{signal.text}</p></div>
-          <div className="flex items-center justify-between pt-1.5 border-t border-white/5 mt-1"><span className="text-[8px] md:text-[9px] font-black uppercase tracking-[0.18em] text-white/40 group-hover:text-white/80 transition-colors duration-300">Reveal Details</span><svg className="h-3 w-3 text-white/30 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></div>
-        </div>
-      </motion.button>
-    </motion.div>
-  );
+const fanPositions = [{ x: -36, y: 14, rotate: -8 }, { x: -12, y: -4, rotate: -2 }, { x: 12, y: -4, rotate: 2 }, { x: 36, y: 14, rotate: 8 }];
+function IdentityFanCard({ signal, index, progress, onOpen }: { signal: IdentitySignal; index: number; progress: MotionValue<number>; onOpen: () => void }) {
+  const [hovered, setHovered] = useState(false); const xVal = useMotionValue(0); const yVal = useMotionValue(0); const rotateXMouse = useSpring(useTransform(yVal, [-0.5, 0.5], [10, -10]), { stiffness: 200, damping: 20 }); const rotateYMouse = useSpring(useTransform(xVal, [-0.5, 0.5], [-10, 10]), { stiffness: 200, damping: 20 }); const pos = fanPositions[index];
+  const x = useTransform(progress, [0, 0.85], ['0vw', `${pos.x * 0.9}vw`]); const y = useTransform(progress, [0, 0.85], ['0%', `${pos.y * 1.5}%`]); const rotate = useTransform(progress, [0, 0.85], [0, pos.rotate]); const scale = useTransform(progress, [0, 0.85], [0.82, 1]); const z = useTransform(progress, [0, 0.85], [-120, 0]); const rotateX = useTransform(progress, [0, 0.85], [10, 0]); const opacity = useTransform(progress, [0, 0.12, 0.9, 0.98], [0.4, 1, 1, 0]);
+  const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => { const rect = e.currentTarget.getBoundingClientRect(); const mouseX = e.clientX - rect.left; const mouseY = e.clientY - rect.top; xVal.set((mouseX - rect.width / 2) / rect.width); yVal.set((mouseY - rect.height / 2) / rect.height); e.currentTarget.style.setProperty('--glare-x', `${mouseX}px`); e.currentTarget.style.setProperty('--glare-y', `${mouseY}px`); };
+  const handleMouseLeave = () => { xVal.set(0); yVal.set(0); setHovered(false); };
+  return <motion.div onMouseEnter={() => setHovered(true)} onMouseLeave={handleMouseLeave} className="absolute inset-0 m-auto w-[21vw] max-w-[270px] h-[32vw] max-h-[400px] pointer-events-auto" style={{ x, y, rotate, scale, z, rotateX, opacity, zIndex: hovered ? 50 : index + 10, transformStyle: 'preserve-3d' }}><motion.button type="button" onClick={onOpen} onMouseMove={handleMouseMove} whileHover={{ scale: 1.05, boxShadow: '0 30px 60px -15px rgba(0,0,0,.7)' }} className="group relative h-full w-full overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-b from-white/[0.08] to-white/[0.01] text-left outline-none" style={{ rotateX: rotateXMouse, rotateY: rotateYMouse, transformPerspective: 800, ['--glare-x' as any]: '50%', ['--glare-y' as any]: '50%' }}><div className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_var(--glare-x)_var(--glare-y),rgba(255,255,255,.10),transparent_40%)]" /><div className="relative z-10 h-1/2 overflow-hidden rounded-t-[1.8rem]"><img src={signal.image} alt={signal.alt} className="h-full w-full object-cover brightness-95 contrast-[1.03] saturate-[0.88] transition-transform duration-700 group-hover:scale-105" style={{ objectPosition: signal.objectPosition }} loading="lazy" /><div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/30 to-transparent opacity-90" /></div><div className="relative z-10 flex h-1/2 flex-col justify-between bg-[#090909]/40 p-5"><div className="flex items-center justify-between"><span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">{signal.number}</span><span className="max-w-[70%] truncate text-[9px] font-bold uppercase tracking-[0.15em] text-white/40">{signal.origin}</span></div><div><h3 className="text-2xl font-black uppercase tracking-[-0.05em] text-white">{signal.title}</h3><p className="mt-1 line-clamp-1 text-xs font-black uppercase tracking-[0.05em] text-white/70">{signal.line}</p><p className="mt-2 line-clamp-3 text-xs font-medium leading-relaxed text-white/50">{signal.text}</p></div><div className="flex items-center justify-between border-t border-white/5 pt-2"><span className="text-[9px] font-black uppercase tracking-[0.18em] text-white/40">Reveal Details</span><span className="text-white/40">→</span></div></div></motion.button></motion.div>;
 }
 
 function IdentityWalletCard({ signal, index, onOpen }: { signal: IdentitySignal; index: number; onOpen: () => void }) {
-  const offsets = ['translate-x-0 rotate-[-1.5deg]', 'translate-x-5 rotate-[1.25deg]', 'translate-x-0 rotate-[-1deg]', 'translate-x-5 rotate-[1.5deg]'];
-  return (
-    <FadeIn delay={index * 0.04}>
-      <button type="button" onClick={onOpen} className={`group relative block w-[calc(100%-1.25rem)] overflow-hidden rounded-[1.65rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur-3xl transition active:scale-[0.985] ${offsets[index]}`}>
-        <div className="absolute -inset-x-12 -bottom-20 h-40 rounded-full bg-white/10 blur-3xl" />
-        <ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} />
-        <div className="relative p-4">
-          <div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div>
-          <h3 className="mt-5 text-[clamp(2.05rem,12vw,3.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3>
-          <p className="mt-4 text-base font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p>
-          <p className="mt-4 text-sm font-medium leading-relaxed text-white/58">{signal.text}</p>
-        </div>
-      </button>
-    </FadeIn>
-  );
+  const offsets = ['rotate-[-1.4deg]', 'translate-x-4 rotate-[1.2deg]', 'rotate-[-1deg]', 'translate-x-4 rotate-[1.4deg]'];
+  return <FadeIn delay={index * 0.04}><button type="button" onClick={onOpen} className={`group relative block w-[calc(100%-1rem)] overflow-hidden rounded-[1.65rem] border border-white/12 bg-white/[0.06] text-left text-white shadow-[0_28px_100px_rgba(0,0,0,0.42)] backdrop-blur-3xl transition active:scale-[0.985] ${offsets[index]}`}><div className="absolute -inset-x-12 -bottom-20 h-40 rounded-full bg-white/10 blur-3xl" /><ImageFrame src={signal.image} alt={signal.alt} label={signal.title} className="aspect-[4/3] border-b border-white/10" imgStyle={{ objectPosition: signal.objectPosition }} /><div className="relative p-4"><div className="flex items-center justify-between gap-4"><span className="text-[10px] font-black uppercase tracking-[0.26em] text-white/38">{signal.number}</span><span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.16em] text-white/45">Open</span></div><h3 className="mt-5 text-[clamp(2.05rem,12vw,3.2rem)] font-black uppercase leading-[0.84] tracking-[-0.085em] text-white">{signal.title}</h3><p className="mt-4 text-base font-black leading-snug tracking-[-0.05em] text-white/88">{signal.line}</p><p className="mt-4 text-sm font-medium leading-relaxed text-white/58">{signal.text}</p></div></button></FadeIn>;
 }
 
 export default function IdentityStack() {
-  const container = useRef<HTMLElement | null>(null);
-  const [activeSignal, setActiveSignal] = useState<number | null>(null);
-  const { scrollYProgress } = useScroll({ target: container, offset: ['start start', 'end end'] });
-  const [screenType, setScreenType] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) setScreenType('desktop');
-      else if (window.innerWidth >= 768) setScreenType('tablet');
-      else setScreenType('mobile');
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return (
-    <section id="identity" ref={container} className={`relative bg-[#070707] text-white ${screenType === 'mobile' ? 'px-5 py-16' : 'min-h-[240vh]'}`}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,0.10),transparent_30%),linear-gradient(180deg,#070707,#050505)] pointer-events-none" />
-
-      {screenType === 'mobile' ? (
-        <div className="relative mx-auto max-w-md">
-          <FadeIn><p className="mb-3 text-[10px] font-black uppercase tracking-[0.28em] text-white/45">Identity</p><h2 className="text-[clamp(2.7rem,15vw,4.4rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-5 text-base font-light leading-relaxed text-white/70">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn>
-          <div className="mt-10 grid gap-[-0.5rem] space-y-[-0.35rem] pb-4">
-            {identitySignals.map((signal, index) => <IdentityWalletCard key={signal.title} signal={signal} index={index} onOpen={() => setActiveSignal(index)} />)}
-          </div>
-        </div>
-      ) : (
-        <div className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden py-12 md:py-16">
-          <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 md:px-10 z-10"><FadeIn><p className="mb-2 text-[10px] font-black uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Identity</p><h2 className="text-[clamp(2.2rem,6vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-4 max-w-3xl text-sm font-light leading-relaxed text-white/72 sm:text-lg md:text-xl">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn></div>
-          <div className="relative flex-1 w-full flex items-center justify-center"><div className="relative w-full max-w-7xl h-[45vh] md:h-[50vh] flex items-center justify-center" style={{ perspective: 1200, transformStyle: 'preserve-3d' }}>{identitySignals.map((signal, index) => <IdentityFanCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} screenType={screenType} onOpen={() => setActiveSignal(index)} />)}</div></div>
-          <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 text-[8px] font-black uppercase tracking-[0.16em] text-white/30 sm:px-8 sm:text-[9px] sm:tracking-[0.2em] md:px-10"><span>Scroll to fan out</span><div className="h-[2px] min-w-16 flex-1 max-w-24 overflow-hidden rounded-full bg-white/10"><motion.div className="h-full bg-white/50" style={{ width: useTransform(scrollYProgress, [0, 0.85], ['0%', '100%']) }} /></div><span className="text-right">4 Layers</span></div>
-        </div>
-      )}
-
-      <AnimatePresence>{activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}</AnimatePresence>
-    </section>
-  );
+  const container = useRef<HTMLElement | null>(null); const [activeSignal, setActiveSignal] = useState<number | null>(null); const { scrollYProgress } = useScroll({ target: container, offset: ['start start', 'end end'] });
+  return <section id="identity" ref={container} className="relative overflow-hidden bg-[#070707] text-white"><div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,.075),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(141,162,255,.10),transparent_30%),linear-gradient(180deg,#070707,#050505)] pointer-events-none" />
+    <div className="relative px-5 py-16 md:hidden"><div className="mx-auto max-w-md"><FadeIn><p className="mb-3 text-[10px] font-black uppercase tracking-[0.28em] text-white/45">Identity</p><h2 className="text-[clamp(2.7rem,15vw,4.4rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-5 text-base font-light leading-relaxed text-white/70">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn><div className="mt-10 space-y-[-0.35rem] pb-4">{identitySignals.map((signal, index) => <IdentityWalletCard key={signal.title} signal={signal} index={index} onOpen={() => setActiveSignal(index)} />)}</div></div></div>
+    <div className="relative hidden min-h-[240vh] md:block"><div className="sticky top-0 flex h-screen w-full flex-col justify-between overflow-hidden py-16"><div className="relative z-10 mx-auto w-full max-w-7xl px-10"><FadeIn><p className="mb-2 text-xs font-black uppercase tracking-[0.32em] text-white/45">Identity</p><h2 className="text-[clamp(2.2rem,6vw,4.8rem)] font-black uppercase leading-[0.88] tracking-[-0.09em] text-white">The pattern behind the proof.</h2><p className="mt-4 max-w-3xl text-xl font-light leading-relaxed text-white/72">Before I became interested in AI, software, and product building, I was shaped by structure, discipline, voice, and execution.</p></FadeIn></div><div className="relative flex flex-1 items-center justify-center"><div className="relative flex h-[50vh] w-full max-w-7xl items-center justify-center" style={{ perspective: 1200, transformStyle: 'preserve-3d' }}>{identitySignals.map((signal, index) => <IdentityFanCard key={signal.title} signal={signal} index={index} progress={scrollYProgress} onOpen={() => setActiveSignal(index)} />)}</div></div><div className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-10 text-[9px] font-black uppercase tracking-[0.2em] text-white/30"><span>Scroll to fan out</span><div className="h-[2px] min-w-16 max-w-24 flex-1 overflow-hidden rounded-full bg-white/10"><motion.div className="h-full bg-white/50" style={{ width: useTransform(scrollYProgress, [0, 0.85], ['0%', '100%']) }} /></div><span>4 Layers</span></div></div></div>
+    <AnimatePresence>{activeSignal !== null && <IdentitySignalModal signal={identitySignals[activeSignal]} onClose={() => setActiveSignal(null)} />}</AnimatePresence>
+  </section>;
 }
