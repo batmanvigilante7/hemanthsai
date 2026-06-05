@@ -3,6 +3,11 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, FileText, X } from 'lucide-react';
 import './ThoughtWorkspace.css';
 
+const getAssetUrl = (fileName: string) => {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  return `${baseUrl}assets/${fileName}`;
+};
+
 interface FileItem {
   id: string;
   title: string;
@@ -41,62 +46,13 @@ const DRAWERS: WorkspaceDrawer[] = [
       { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
     ],
   },
-  {
-    id: 'ux-psychology',
-    title: 'UX Psychology',
-    count: 18,
-    color: '#c99a5a',
-    icon: '◎',
-    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
-  },
-  {
-    id: 'startup-validation',
-    title: 'Startup Validation',
-    count: 24,
-    color: '#d5b18a',
-    icon: '▧',
-    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
-  },
-  {
-    id: 'cinematic-storytelling',
-    title: 'Cinematic Storytelling',
-    count: 32,
-    color: '#cfc1a8',
-    icon: '▤',
-    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
-  },
-  {
-    id: 'investing-mental-models',
-    title: 'Investing Mental Models',
-    count: 15,
-    color: '#a66f35',
-    icon: '↗',
-    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
-  },
-  {
-    id: 'execution-psychology',
-    title: 'Execution Psychology',
-    count: 29,
-    color: '#9e9066',
-    icon: 'ϟ',
-    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
-  },
-  {
-    id: 'product-communication',
-    title: 'Product Communication',
-    count: 12,
-    color: '#8d9092',
-    icon: '◌',
-    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
-  },
-  {
-    id: 'personal-proof-systems',
-    title: 'Personal Proof Systems',
-    count: 21,
-    color: '#b6783e',
-    icon: '✎',
-    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
-  },
+  { id: 'ux-psychology', title: 'UX Psychology', count: 18, color: '#c99a5a', icon: '◎', files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']) },
+  { id: 'startup-validation', title: 'Startup Validation', count: 24, color: '#d5b18a', icon: '▧', files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']) },
+  { id: 'cinematic-storytelling', title: 'Cinematic Storytelling', count: 32, color: '#cfc1a8', icon: '▤', files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']) },
+  { id: 'investing-mental-models', title: 'Investing Mental Models', count: 15, color: '#a66f35', icon: '↗', files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']) },
+  { id: 'execution-psychology', title: 'Execution Psychology', count: 29, color: '#9e9066', icon: 'ϟ', files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']) },
+  { id: 'product-communication', title: 'Product Communication', count: 12, color: '#8d9092', icon: '◌', files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']) },
+  { id: 'personal-proof-systems', title: 'Personal Proof Systems', count: 21, color: '#b6783e', icon: '✎', files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']) },
 ];
 
 export function ThoughtWorkspace() {
@@ -141,9 +97,12 @@ export function ThoughtWorkspace() {
         </div>
 
         <div className="tw-workshop-stage">
-          <div className="tw-wall-art">Build in public.<br />Think in systems.<br />Ship with clarity.</div>
-          <div className="tw-props tw-props-left" />
-          <div className="tw-props tw-props-right" />
+          <img
+            className="tw-scene-photo"
+            src={getAssetUrl('thought-workshop-scene.webp')}
+            alt="Hemanth Sai working inside a warm thought workspace"
+          />
+          <div className="tw-photo-wash" />
 
           <div className="tw-cabinet" aria-label="Interactive investigation drawer cabinet">
             {DRAWERS.map((drawer) => {
@@ -185,12 +144,6 @@ export function ThoughtWorkspace() {
                 </motion.button>
               );
             })}
-          </div>
-
-          <div className="tw-maker-silhouette">
-            <div className="tw-head" />
-            <div className="tw-body" />
-            <div className="tw-laptop" />
           </div>
 
           <AnimatePresence>
