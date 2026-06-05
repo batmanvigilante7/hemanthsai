@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronRight, Laptop, X } from 'lucide-react';
+import { ChevronRight, X } from 'lucide-react';
 import './ThoughtWorkspace.css';
 
 const getAssetUrl = (fileName: string) => {
@@ -17,17 +17,16 @@ interface FileItem {
   proof: string;
 }
 
-interface Drawer {
+interface WorkspaceDrawer {
   id: string;
   title: string;
   status: string;
   count: number;
-  cat: string;
-  color: string;
-  pos: {
+  hotspot: {
     left: string;
     top: string;
-    rotate: string;
+    width: string;
+    height: string;
   };
   files: FileItem[];
 }
@@ -42,15 +41,13 @@ const makeFiles = (prefix: string, tag: string, items: string[]): FileItem[] =>
     proof: 'Connected to portfolio experiments, product notes, local AI workflows, writing drafts, and build-driven learning loops.',
   }));
 
-const DRAWERS: Drawer[] = [
+const WORKSPACE_DRAWERS: WorkspaceDrawer[] = [
   {
     id: 'ai-leverage',
     title: 'AI Leverage',
     status: 'ACTIVE INVESTIGATION',
     count: 47,
-    cat: 'ai',
-    color: '#E8F5E9',
-    pos: { left: '7%', top: '7%', rotate: '-2deg' },
+    hotspot: { left: '25%', top: '25%', width: '17%', height: '19%' },
     files: [
       {
         id: 'prompt-systems',
@@ -107,9 +104,7 @@ const DRAWERS: Drawer[] = [
     title: 'UX Psychology',
     status: 'ACTIVE INVESTIGATION',
     count: 18,
-    cat: 'ux',
-    color: '#FFF8E1',
-    pos: { left: '36%', top: '5%', rotate: '1deg' },
+    hotspot: { left: '45%', top: '23%', width: '15%', height: '17%' },
     files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues', 'Decision Paths']),
   },
   {
@@ -117,9 +112,7 @@ const DRAWERS: Drawer[] = [
     title: 'Startup Validation',
     status: 'ACTIVE INVESTIGATION',
     count: 24,
-    cat: 'validation',
-    color: '#F5EBE6',
-    pos: { left: '67%', top: '9%', rotate: '2deg' },
+    hotspot: { left: '61%', top: '21%', width: '14%', height: '17%' },
     files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals', 'Distribution Bets']),
   },
   {
@@ -127,9 +120,7 @@ const DRAWERS: Drawer[] = [
     title: 'Cinematic Storytelling',
     status: 'ACTIVE INVESTIGATION',
     count: 32,
-    cat: 'story',
-    color: '#EAE6F2',
-    pos: { left: '4%', top: '43%', rotate: '2deg' },
+    hotspot: { left: '75%', top: '19%', width: '13%', height: '16%' },
     files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds', 'Concept Art']),
   },
   {
@@ -137,9 +128,7 @@ const DRAWERS: Drawer[] = [
     title: 'Investing Mental Models',
     status: 'ACTIVE INVESTIGATION',
     count: 15,
-    cat: 'investing',
-    color: '#F5F2E6',
-    pos: { left: '71%', top: '43%', rotate: '-2deg' },
+    hotspot: { left: '24%', top: '48%', width: '17%', height: '19%' },
     files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats', 'Optionality']),
   },
   {
@@ -147,9 +136,7 @@ const DRAWERS: Drawer[] = [
     title: 'Execution Psychology',
     status: 'ACTIVE INVESTIGATION',
     count: 29,
-    cat: 'execution',
-    color: '#F5E6EC',
-    pos: { left: '10%', top: '76%', rotate: '-1deg' },
+    hotspot: { left: '43%', top: '49%', width: '16%', height: '18%' },
     files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Decision Logs', 'Ship Criteria']),
   },
   {
@@ -157,9 +144,7 @@ const DRAWERS: Drawer[] = [
     title: 'Product Communication',
     status: 'ACTIVE INVESTIGATION',
     count: 12,
-    cat: 'communication',
-    color: '#E6F5ED',
-    pos: { left: '40%', top: '78%', rotate: '1deg' },
+    hotspot: { left: '60%', top: '45%', width: '14%', height: '18%' },
     files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies', 'Audience Fit']),
   },
   {
@@ -167,19 +152,17 @@ const DRAWERS: Drawer[] = [
     title: 'Personal Proof Systems',
     status: 'ACTIVE INVESTIGATION',
     count: 21,
-    cat: 'proof',
-    color: '#F2ECE6',
-    pos: { left: '70%', top: '75%', rotate: '-1deg' },
+    hotspot: { left: '76%', top: '42%', width: '14%', height: '23%' },
     files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos', 'Public Notes']),
   },
 ];
 
 export function ThoughtWorkspace() {
-  const [activeDrawerId, setActiveDrawerId] = useState<string | null>('ai-leverage');
-  const [activeFileId, setActiveFileId] = useState<string | null>('prompt-systems');
+  const [activeDrawerId, setActiveDrawerId] = useState<string | null>('personal-proof-systems');
+  const [activeFileId, setActiveFileId] = useState<string | null>('proof-0');
 
   const activeDrawer = useMemo(
-    () => DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
+    () => WORKSPACE_DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
     [activeDrawerId]
   );
 
@@ -188,159 +171,123 @@ export function ThoughtWorkspace() {
     return activeDrawer.files.find((file) => file.id === activeFileId) ?? activeDrawer.files[0];
   }, [activeDrawer, activeFileId]);
 
-  const openDrawer = (drawer: Drawer) => {
+  const openDrawer = (drawer: WorkspaceDrawer) => {
     setActiveDrawerId((current) => (current === drawer.id ? null : drawer.id));
     setActiveFileId(drawer.files[0]?.id ?? null);
   };
 
   return (
     <section className="tw-section" id="thought-workspace" aria-label="Thought Workspace Section">
-      <div className="tw-container">
-        <div className="tw-section-header">
-          <p className="tw-section-eyebrow">RECURRING INVESTIGATIONS</p>
-          <h2 className="tw-section-title">The Ideas I Keep Returning To</h2>
+      <div className="tw-workshop-shell">
+        <div className="tw-copy-panel">
+          <p className="tw-section-eyebrow">THOUGHT WORKSPACE</p>
+          <h2 className="tw-section-title">
+            The Ideas<br />I Keep<br /><span>Returning To</span>
+          </h2>
           <p className="tw-section-subtitle">
-            A tilted desk of active drawers — each one opens into the files, questions, and proof behind the obsession.
+            A private workspace of ongoing investigations, systems, and experiments that shape the work I do.
           </p>
+          <p className="tw-signature">— Hemanth Sai</p>
+
+          <div className="tw-stat-row" aria-label="Workspace statistics">
+            <div><strong>8</strong><span>Active Desks</span></div>
+            <div><strong>57</strong><span>Files & Notes</span></div>
+            <div><strong>∞</strong><span>Iterations</span></div>
+          </div>
+
+          <blockquote className="tw-quote-card">
+            I don’t collect ideas.<br />I work with the ones<br />that don’t leave me.
+          </blockquote>
         </div>
 
-        <div className="tw-desk-surface">
-          <div className="tw-perspective-stage" aria-hidden="true">
-            <div className="tw-grid-floor" />
-          </div>
+        <div className="tw-scene-wrap">
+          <div
+            className="tw-scene-image"
+            style={{ backgroundImage: `url(${getAssetUrl('thought-workshop-scene.png')})` }}
+            aria-label="Cinematic thought workspace with drawers"
+          />
+          <div className="tw-scene-vignette" />
 
-          <div className="tw-drawers-layer">
-            {DRAWERS.map((drawer) => {
-              const isOpen = activeDrawerId === drawer.id;
-              const style = {
-                '--drawer-color': drawer.color,
-                left: drawer.pos.left,
-                top: drawer.pos.top,
-                transform: `rotate(${drawer.pos.rotate})`,
-              } as React.CSSProperties;
-
-              return (
-                <motion.button
-                  key={drawer.id}
-                  className={`tw-drawer ${isOpen ? 'open' : ''}`}
-                  style={style}
-                  onClick={() => openDrawer(drawer)}
-                  whileHover={{ y: -4, scale: 1.012 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-                  aria-label={`Open ${drawer.title} drawer`}
-                >
-                  <span className="tw-drawer-box">
-                    <span className="tw-drawer-back" />
-                    <span className="tw-drawer-side tw-drawer-side-left" />
-                    <span className="tw-drawer-side tw-drawer-side-right" />
-                    <span className="tw-drawer-lid">
-                      <span className="tw-mini-stack">
-                        {drawer.files.slice(0, 3).map((file, index) => (
-                          <span key={file.id} className={`tw-mini-file tw-mini-file-${index + 1}`}>
-                            {file.title}
-                          </span>
-                        ))}
-                      </span>
-                    </span>
-                    <span className="tw-drawer-front">
-                      <span className="tw-drawer-status"><span />{drawer.status}</span>
-                      <strong>{drawer.title}</strong>
-                      <small>{drawer.count} files</small>
-                      <span className="tw-drawer-handle" />
-                    </span>
-                  </span>
-                </motion.button>
-              );
-            })}
-          </div>
-
-          <motion.div
-            className="tw-maker-card"
-            initial={{ opacity: 0, y: 20, rotateY: -35 }}
-            whileInView={{ opacity: 1, y: 0, rotateY: -35 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="tw-maker-desk-back" />
-            <div className="tw-maker-photo-wrap">
-              <img
-                src={getAssetUrl('hero-current.webp.webp')}
-                alt="Hemanth Sai working at a tilted desk"
-                className="tw-maker-photo"
-              />
-            </div>
-            <div className="tw-laptop-object">
-              <Laptop size={28} />
-              <span />
-            </div>
-            <div className="tw-maker-caption">
-              <span>HEMANTH SAI</span>
-              <strong>working through the drawers</strong>
-            </div>
-          </motion.div>
+          {WORKSPACE_DRAWERS.map((drawer) => {
+            const isActive = activeDrawerId === drawer.id;
+            return (
+              <motion.button
+                key={drawer.id}
+                type="button"
+                className={`tw-hotspot ${isActive ? 'active' : ''}`}
+                style={drawer.hotspot as React.CSSProperties}
+                onClick={() => openDrawer(drawer)}
+                whileHover={{ scale: 1.025 }}
+                whileTap={{ scale: 0.98 }}
+                aria-label={`${isActive ? 'Close' : 'Open'} ${drawer.title}`}
+              >
+                <span className="tw-hotspot-glow" />
+                <span className="tw-hotspot-label">
+                  <strong>{drawer.title}</strong>
+                  <small>{drawer.count} files</small>
+                </span>
+              </motion.button>
+            );
+          })}
 
           <AnimatePresence>
             {activeDrawer && (
               <motion.aside
                 key={activeDrawer.id}
-                className="tw-drawer-panel"
-                initial={{ opacity: 0, x: 28, scale: 0.98 }}
+                className="tw-file-panel"
+                initial={{ opacity: 0, x: 34, scale: 0.98 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 28, scale: 0.98 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                exit={{ opacity: 0, x: 34, scale: 0.98 }}
+                transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="tw-panel-header">
+                <div className="tw-file-panel-header">
                   <div>
-                    <p>{activeDrawer.status}</p>
                     <h3>{activeDrawer.title}</h3>
+                    <p>{activeDrawer.files.length} files</p>
                   </div>
-                  <button onClick={() => setActiveDrawerId(null)} aria-label="Close drawer panel">
+                  <button type="button" onClick={() => setActiveDrawerId(null)} aria-label="Close file panel">
                     <X size={16} />
                   </button>
                 </div>
 
-                <div className="tw-panel-body">
-                  <div className="tw-file-list">
-                    {activeDrawer.files.map((file) => {
-                      const selected = activeFile?.id === file.id;
-                      return (
-                        <button
-                          key={file.id}
-                          className={`tw-file-row ${selected ? 'selected' : ''}`}
-                          onClick={() => setActiveFileId(file.id)}
-                        >
-                          <span>
-                            <strong>{file.title}</strong>
-                            <small>{file.tag}</small>
-                          </span>
-                          <ChevronRight size={14} />
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {activeFile && (
-                    <motion.div
-                      key={activeFile.id}
-                      className="tw-file-detail"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <span className="tw-file-detail-tag">{activeFile.tag}</span>
-                      <h4>{activeFile.title}</h4>
-                      <p>{activeFile.summary}</p>
-                      <blockquote>“{activeFile.question}”</blockquote>
-                      <div className="tw-proof-note">
-                        <span>Related proof</span>
-                        {activeFile.proof}
-                      </div>
-                    </motion.div>
-                  )}
+                <div className="tw-file-panel-list">
+                  {activeDrawer.files.map((file) => {
+                    const selected = activeFile?.id === file.id;
+                    return (
+                      <button
+                        key={file.id}
+                        type="button"
+                        className={`tw-file-tab ${selected ? 'selected' : ''}`}
+                        onClick={() => setActiveFileId(file.id)}
+                      >
+                        <span>
+                          <strong>{file.title}</strong>
+                          <small>{file.tag}</small>
+                        </span>
+                        <ChevronRight size={14} />
+                      </button>
+                    );
+                  })}
                 </div>
+
+                {activeFile && (
+                  <motion.div
+                    key={activeFile.id}
+                    className="tw-file-preview"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.22 }}
+                  >
+                    <span>{activeFile.tag}</span>
+                    <h4>{activeFile.title}</h4>
+                    <p>{activeFile.summary}</p>
+                  </motion.div>
+                )}
               </motion.aside>
             )}
           </AnimatePresence>
+
+          <div className="tw-bottom-hint">Click on any desk to open files</div>
         </div>
       </div>
     </section>
