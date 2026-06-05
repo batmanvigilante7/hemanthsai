@@ -1,29 +1,12 @@
-import React, { useState } from 'react';
-import { ArrowLeft, X, ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronRight, Laptop, X } from 'lucide-react';
 import './ThoughtWorkspace.css';
 
-// Helper to resolve asset paths correctly under Vite build environments
 const getAssetUrl = (fileName: string) => {
   const baseUrl = import.meta.env.BASE_URL || '/';
   return `${baseUrl}assets/${fileName}`;
 };
-
-interface DeckPosition {
-  left: string;
-  top: string;
-  rotate: string;
-}
-
-interface Deck {
-  id: string;
-  title: string;
-  status: string;
-  filesCount: number;
-  color: string;
-  textColor: string;
-  desktopPos: DeckPosition;
-}
 
 interface FileItem {
   id: string;
@@ -32,359 +15,333 @@ interface FileItem {
   summary: string;
   question: string;
   proof: string;
-  desktopPos: DeckPosition;
 }
 
-const DECKS_DATA: Deck[] = [
+interface Drawer {
+  id: string;
+  title: string;
+  status: string;
+  count: number;
+  cat: string;
+  color: string;
+  pos: {
+    left: string;
+    top: string;
+    rotate: string;
+  };
+  files: FileItem[];
+}
+
+const makeFiles = (prefix: string, tag: string, items: string[]): FileItem[] =>
+  items.map((title, index) => ({
+    id: `${prefix}-${index}`,
+    title,
+    tag,
+    summary: `A working note inside this investigation: ${title}. It captures the patterns, questions, experiments, and proof I keep returning to while building.`,
+    question: `How can ${title.toLowerCase()} become visible proof instead of remaining a private idea?`,
+    proof: 'Connected to portfolio experiments, product notes, local AI workflows, writing drafts, and build-driven learning loops.',
+  }));
+
+const DRAWERS: Drawer[] = [
   {
     id: 'ai-leverage',
     title: 'AI Leverage',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 47,
-    color: '#EAF2EC', // soft sage green
-    textColor: '#3b5440',
-    desktopPos: { left: '5%', top: '8%', rotate: '-6deg' }
+    count: 47,
+    cat: 'ai',
+    color: '#E8F5E9',
+    pos: { left: '7%', top: '7%', rotate: '-2deg' },
+    files: [
+      {
+        id: 'prompt-systems',
+        title: 'Prompt Systems',
+        tag: 'SYSTEMS',
+        summary: 'How I turn raw thoughts into structured prompts, critique loops, checklists, and build instructions that actually move projects forward.',
+        question: 'How do I make AI behave less like a chatbot and more like a disciplined execution partner?',
+        proof: 'Used ChatGPT and local coding agents to structure portfolio sections, critique ideas, plan build phases, and convert scattered thinking into shippable artifacts.',
+      },
+      {
+        id: 'agent-workflows',
+        title: 'Agent Workflows',
+        tag: 'CODING LOOPS',
+        summary: 'Exploring local and cloud agents that can inspect files, edit code, run checks, and help ship faster without replacing taste or judgment.',
+        question: 'Where should the human stay in control while AI handles the repetitive execution layer?',
+        proof: 'Experimented with repo edits, build checks, and AI-assisted website iteration while keeping design direction human-led.',
+      },
+      {
+        id: 'local-models',
+        title: 'Local Models',
+        tag: 'INFRASTRUCTURE',
+        summary: 'Ollama, Qwen, DeepSeek-style coding models, and the practical tradeoffs of running AI on a normal student laptop.',
+        question: 'Can local AI become a private workshop for learning, coding, and experimentation?',
+        proof: 'Set up local model workflows and tested them against real portfolio/product-building tasks.',
+      },
+      {
+        id: 'human-ai-collaboration',
+        title: 'Human-AI Collaboration',
+        tag: 'WORKFLOW DESIGN',
+        summary: 'A repeatable loop: idea → critique → improve → build → test → refine. AI accelerates the loop, but the builder owns the taste.',
+        question: 'What does a high-agency student builder look like when AI becomes leverage instead of distraction?',
+        proof: 'Used AI as a thinking partner across product design, storytelling, copy, code, and proof-of-work systems.',
+      },
+      {
+        id: 'ai-product-interfaces',
+        title: 'AI Product Interfaces',
+        tag: 'PRODUCT UX',
+        summary: 'Moving beyond chatboxes into canvases, workspaces, file systems, drawers, and visible thinking environments.',
+        question: 'How should AI products make thinking visible instead of hiding everything behind a prompt box?',
+        proof: 'This Thought Workspace section is itself an experiment in turning personal cognition into interface.',
+      },
+      {
+        id: 'automation-loops',
+        title: 'Automation Loops',
+        tag: 'EXECUTION',
+        summary: 'Systems that reduce friction: reminders, repeatable prompts, build checklists, repo updates, and progress tracking.',
+        question: 'Which parts of ambition can be systemized without killing creative energy?',
+        proof: 'Mapped build phases, QA loops, and iteration checklists for shipping faster without drowning in tutorials.',
+      },
+    ],
   },
   {
     id: 'ux-psychology',
     title: 'UX Psychology',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 18,
-    color: '#E6EDF5', // soft dusty blue
-    textColor: '#3b4c5e',
-    desktopPos: { left: '33%', top: '6%', rotate: '4deg' }
+    count: 18,
+    cat: 'ux',
+    color: '#FFF8E1',
+    pos: { left: '36%', top: '5%', rotate: '1deg' },
+    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues', 'Decision Paths']),
   },
   {
     id: 'startup-validation',
     title: 'Startup Validation',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 24,
-    color: '#F5EBE6', // soft sand / peach
-    textColor: '#5e483b',
-    desktopPos: { left: '72%', top: '10%', rotate: '-3deg' }
+    count: 24,
+    cat: 'validation',
+    color: '#F5EBE6',
+    pos: { left: '67%', top: '9%', rotate: '2deg' },
+    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals', 'Distribution Bets']),
   },
   {
     id: 'cinematic-storytelling',
     title: 'Cinematic Storytelling',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 32,
-    color: '#EAE6F2', // soft lavender
-    textColor: '#4b3b5e',
-    desktopPos: { left: '4%', top: '44%', rotate: '5deg' }
+    count: 32,
+    cat: 'story',
+    color: '#EAE6F2',
+    pos: { left: '4%', top: '43%', rotate: '2deg' },
+    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds', 'Concept Art']),
   },
   {
     id: 'investing-mental-models',
     title: 'Investing Mental Models',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 15,
-    color: '#F5F2E6', // soft warm yellow
-    textColor: '#5e5a3b',
-    desktopPos: { left: '75%', top: '42%', rotate: '-5deg' }
+    count: 15,
+    cat: 'investing',
+    color: '#F5F2E6',
+    pos: { left: '71%', top: '43%', rotate: '-2deg' },
+    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats', 'Optionality']),
   },
   {
     id: 'execution-psychology',
     title: 'Execution Psychology',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 29,
-    color: '#F5E6EC', // soft rose
-    textColor: '#5e3b4b',
-    desktopPos: { left: '10%', top: '78%', rotate: '-2deg' }
+    count: 29,
+    cat: 'execution',
+    color: '#F5E6EC',
+    pos: { left: '10%', top: '76%', rotate: '-1deg' },
+    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Decision Logs', 'Ship Criteria']),
   },
   {
     id: 'product-communication',
     title: 'Product Communication',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 12,
-    color: '#E6F5ED', // soft mint
-    textColor: '#3b5e4c',
-    desktopPos: { left: '42%', top: '80%', rotate: '3deg' }
+    count: 12,
+    cat: 'communication',
+    color: '#E6F5ED',
+    pos: { left: '40%', top: '78%', rotate: '1deg' },
+    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies', 'Audience Fit']),
   },
   {
     id: 'personal-proof-systems',
     title: 'Personal Proof Systems',
     status: 'ACTIVE INVESTIGATION',
-    filesCount: 21,
-    color: '#F2ECE6', // soft clay
-    textColor: '#54463b',
-    desktopPos: { left: '73%', top: '76%', rotate: '-4deg' }
-  }
-];
-
-const AI_LEVERAGE_FILES: FileItem[] = [
-  {
-    id: 'prompt-systems',
-    title: 'Prompt Systems',
-    tag: 'SYSTEMS ARCHITECTURE',
-    summary: 'Deep structures for directing LLMs. Moving from naive text prompts to structured JSON, multi-agent orchestrations, and prompt-as-code paradigms.',
-    question: 'How do we build deterministic prompt architectures on top of non-deterministic models?',
-    proof: 'Implemented structured system prompting in my current project that reduced hallucination rates by 42% under high-concurrency testing.',
-    desktopPos: { left: '10%', top: '15%', rotate: '-4deg' }
+    count: 21,
+    cat: 'proof',
+    color: '#F2ECE6',
+    pos: { left: '70%', top: '75%', rotate: '-1deg' },
+    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos', 'Public Notes']),
   },
-  {
-    id: 'agent-workflows',
-    title: 'Agent Workflows',
-    tag: 'BEHAVIOR LOOPS',
-    summary: 'Designing state machines for autonomous LLM loops. ReAct frameworks, reflection loops, and self-correcting routers that can solve multi-step problems without human intervention.',
-    question: 'Where is the boundary between static code control flow and dynamic model routing in robust agent architectures?',
-    proof: 'Built a CLI-based agent system capable of resolving workspace linting errors and automatically verifying changes using local unit tests.',
-    desktopPos: { left: '42%', top: '8%', rotate: '3deg' }
-  },
-  {
-    id: 'local-models',
-    title: 'Local Models',
-    tag: 'INFRASTRUCTURE',
-    summary: 'Running lightweight, open-weight LLMs (Llama 3, Phi 3, Mistral) locally. Quantization (GGUF, EXL2), inference speed, VRAM constraints, and offline privacy.',
-    question: 'Can a fine-tuned 8B local model outperform a generalized frontier API model for domain-specific agent tasks?',
-    proof: 'Configured and benchmarked Llama 3 8B Instruct running locally via Ollama, achieving sub-50ms time-to-first-token.',
-    desktopPos: { left: '72%', top: '14%', rotate: '-2deg' }
-  },
-  {
-    id: 'human-ai-collaboration',
-    title: 'Human-AI Collaboration',
-    tag: 'INTERACTION DESIGN',
-    summary: 'Interfaces that augment human capabilities rather than replace them. Dynamic workspaces, multiplayer canvas environments, and contextual agent assistance.',
-    question: 'How do we design feedback loops where AI learns from human micro-corrections in real time?',
-    proof: 'Designed a canvas-based writing workspace with inline suggestions triggered by semantic pauses.',
-    desktopPos: { left: '8%', top: '56%', rotate: '4deg' }
-  },
-  {
-    id: 'ai-product-interfaces',
-    title: 'AI Product Interfaces',
-    tag: 'PRODUCT UX',
-    summary: 'Moving beyond the chat box. Generative UI, canvas-based workspaces, structured card views, and interactive state representations.',
-    question: 'How does user agency evolve when the interface itself is dynamically generated by the application?',
-    proof: 'Created an experimental layout engine that renders custom visual cards based on raw JSON payloads returned by model API calls.',
-    desktopPos: { left: '40%', top: '58%', rotate: '-3deg' }
-  },
-  {
-    id: 'automation-loops',
-    title: 'Automation Loops',
-    tag: 'OPERATIONS',
-    summary: 'Self-triggering systems that connect LLM analysis to concrete actions. Cron triggers, webhook listeners, and continuous synthesis of incoming signal streams.',
-    question: 'How do we prevent infinite loops and manage cost/safety thresholds in self-directed automation?',
-    proof: 'Set up a serverless background worker that polls feed data, filters it using semantic embeddings, and compiles daily intelligence briefs.',
-    desktopPos: { left: '70%', top: '50%', rotate: '3deg' }
-  }
 ];
 
 export function ThoughtWorkspace() {
-  const [isDeskOpen, setIsDeskOpen] = useState(false);
-  const [activeFile, setActiveFile] = useState<FileItem | null>(null);
+  const [activeDrawerId, setActiveDrawerId] = useState<string | null>('ai-leverage');
+  const [activeFileId, setActiveFileId] = useState<string | null>('prompt-systems');
 
-  const handleDeckClick = (deckId: string) => {
-    if (deckId === 'ai-leverage') {
-      setIsDeskOpen(true);
-    }
+  const activeDrawer = useMemo(
+    () => DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
+    [activeDrawerId]
+  );
+
+  const activeFile = useMemo(() => {
+    if (!activeDrawer) return null;
+    return activeDrawer.files.find((file) => file.id === activeFileId) ?? activeDrawer.files[0];
+  }, [activeDrawer, activeFileId]);
+
+  const openDrawer = (drawer: Drawer) => {
+    setActiveDrawerId((current) => (current === drawer.id ? null : drawer.id));
+    setActiveFileId(drawer.files[0]?.id ?? null);
   };
 
   return (
     <section className="tw-section" id="thought-workspace" aria-label="Thought Workspace Section">
       <div className="tw-container">
-        
-        {/* Header Title */}
         <div className="tw-section-header">
-          <p className="tw-section-eyebrow">PHYSICAL DESK CONCEPT</p>
-          <h2 className="tw-section-title">Thought Workspace</h2>
+          <p className="tw-section-eyebrow">RECURRING INVESTIGATIONS</p>
+          <h2 className="tw-section-title">The Ideas I Keep Returning To</h2>
+          <p className="tw-section-subtitle">
+            A tilted desk of active drawers — each one opens into the files, questions, and proof behind the obsession.
+          </p>
         </div>
 
-        {/* Desktop Scattered Surfaces / Mobile Cards Container */}
         <div className="tw-desk-surface">
-          
-          {/* Grayscale photo of Hemanth in the center */}
-          <div className="tw-center-card">
-            <div className="tw-center-image-container">
-              <img 
-                src={getAssetUrl('hero-current.webp.webp')} 
-                alt="Hemanth Sai" 
-                className="tw-center-image" 
-              />
-            </div>
-            <h3 className="tw-center-title">Thought Workspace</h3>
-            <p className="tw-center-subtitle">recurring investigations</p>
+          <div className="tw-perspective-stage" aria-hidden="true">
+            <div className="tw-grid-floor" />
           </div>
 
-          {/* 8 Scattered Pastel Deck Objects */}
-          <div className="tw-decks-grid">
-            {DECKS_DATA.map((deck) => {
+          <div className="tw-drawers-layer">
+            {DRAWERS.map((drawer) => {
+              const isOpen = activeDrawerId === drawer.id;
               const style = {
-                '--deck-color': deck.color,
-                left: deck.desktopPos.left,
-                top: deck.desktopPos.top,
-                transform: `rotate(${deck.desktopPos.rotate})`
+                '--drawer-color': drawer.color,
+                left: drawer.pos.left,
+                top: drawer.pos.top,
+                transform: `rotate(${drawer.pos.rotate})`,
               } as React.CSSProperties;
 
               return (
-                <motion.div 
-                  key={deck.id} 
-                  className="tw-deck" 
+                <motion.button
+                  key={drawer.id}
+                  className={`tw-drawer ${isOpen ? 'open' : ''}`}
                   style={style}
-                  onClick={() => handleDeckClick(deck.id)}
-                  title={deck.id !== 'ai-leverage' ? 'Investigation Queued (Under Development)' : 'Click to inspect files'}
-                  whileHover={{ 
-                    scale: 1.04, 
-                    rotate: `${parseFloat(deck.desktopPos.rotate) * 0.5}deg`,
-                    transition: { type: 'spring', stiffness: 300, damping: 15 } 
-                  }}
+                  onClick={() => openDrawer(drawer)}
+                  whileHover={{ y: -4, scale: 1.012 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                  aria-label={`Open ${drawer.title} drawer`}
                 >
-                  <div className="tw-deck-stack">
-                    <div className="tw-deck-layer tw-deck-layer-1" />
-                    <div className="tw-deck-layer tw-deck-layer-2" />
-                    <div className="tw-deck-content">
-                      <div>
-                        <div className="tw-deck-status tw-deck-status-active">
-                          <span className="tw-deck-status-dot" />
-                          {deck.status}
-                        </div>
-                        <h4 className="tw-deck-title">{deck.title}</h4>
-                      </div>
-                      <div className="tw-deck-footer">
-                        <span className="tw-deck-file-count">{deck.filesCount} files</span>
-                        {deck.id === 'ai-leverage' && (
-                          <span className="tw-deck-action">Inspect</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                  <span className="tw-drawer-box">
+                    <span className="tw-drawer-back" />
+                    <span className="tw-drawer-side tw-drawer-side-left" />
+                    <span className="tw-drawer-side tw-drawer-side-right" />
+                    <span className="tw-drawer-lid">
+                      <span className="tw-mini-stack">
+                        {drawer.files.slice(0, 3).map((file, index) => (
+                          <span key={file.id} className={`tw-mini-file tw-mini-file-${index + 1}`}>
+                            {file.title}
+                          </span>
+                        ))}
+                      </span>
+                    </span>
+                    <span className="tw-drawer-front">
+                      <span className="tw-drawer-status"><span />{drawer.status}</span>
+                      <strong>{drawer.title}</strong>
+                      <small>{drawer.count} files</small>
+                      <span className="tw-drawer-handle" />
+                    </span>
+                  </span>
+                </motion.button>
               );
             })}
           </div>
-        </div>
 
-        {/* Overlay Desk for AI Leverage */}
-        <AnimatePresence>
-          {isDeskOpen && (
-            <motion.div 
-              className="tw-desk-overlay"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="tw-desk-header">
-                <div className="tw-desk-title-group">
-                  <p className="tw-desk-subtitle">ACTIVE INVESTIGATION</p>
-                  <h3 className="tw-desk-title">AI Leverage Desk</h3>
-                </div>
-                <button className="tw-back-btn" onClick={() => setIsDeskOpen(false)}>
-                  <ArrowLeft size={16} />
-                  Back to Workspace
-                </button>
-              </div>
+          <motion.div
+            className="tw-maker-card"
+            initial={{ opacity: 0, y: 20, rotateY: -35 }}
+            whileInView={{ opacity: 1, y: 0, rotateY: -35 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="tw-maker-desk-back" />
+            <div className="tw-maker-photo-wrap">
+              <img
+                src={getAssetUrl('hero-current.webp.webp')}
+                alt="Hemanth Sai working at a tilted desk"
+                className="tw-maker-photo"
+              />
+            </div>
+            <div className="tw-laptop-object">
+              <Laptop size={28} />
+              <span />
+            </div>
+            <div className="tw-maker-caption">
+              <span>HEMANTH SAI</span>
+              <strong>working through the drawers</strong>
+            </div>
+          </motion.div>
 
-              {/* Scattered File Cards */}
-              <motion.div 
-                className="tw-desk-grid"
-                initial="hidden"
-                animate="show"
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.06
-                    }
-                  }
-                }}
+          <AnimatePresence>
+            {activeDrawer && (
+              <motion.aside
+                key={activeDrawer.id}
+                className="tw-drawer-panel"
+                initial={{ opacity: 0, x: 28, scale: 0.98 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 28, scale: 0.98 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                {AI_LEVERAGE_FILES.map((file) => {
-                  const style = {
-                    left: file.desktopPos.left,
-                    top: file.desktopPos.top,
-                    transform: `rotate(${file.desktopPos.rotate})`
-                  } as React.CSSProperties;
-
-                  return (
-                    <motion.div 
-                      key={file.id} 
-                      className="tw-file-card" 
-                      style={style}
-                      onClick={() => setActiveFile(file)}
-                      variants={{
-                        hidden: { 
-                          opacity: 0, 
-                          y: 20, 
-                          rotate: parseFloat(file.desktopPos.rotate) - 2 
-                        },
-                        show: { 
-                          opacity: 1, 
-                          y: 0, 
-                          rotate: parseFloat(file.desktopPos.rotate),
-                          transition: { type: 'spring', stiffness: 220, damping: 20 }
-                        }
-                      }}
-                      whileHover={{
-                        scale: 1.03,
-                        rotate: `${parseFloat(file.desktopPos.rotate) * 0.5}deg`,
-                        zIndex: 25,
-                        transition: { type: 'spring', stiffness: 300, damping: 15 }
-                      }}
-                    >
-                      <div className="tw-file-tag">{file.tag}</div>
-                      <h4 className="tw-file-title">{file.title}</h4>
-                      <p className="tw-file-excerpt">{file.summary.substring(0, 85)}...</p>
-                      <div className="tw-file-action">
-                        View File <ChevronRight size={14} />
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Modal for file items */}
-        <AnimatePresence>
-          {activeFile && (
-            <motion.div 
-              className="tw-modal-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActiveFile(null)}
-            >
-              <motion.div 
-                className="tw-modal-card"
-                initial={{ opacity: 0, scale: 0.96, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96, y: 15 }}
-                transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="tw-modal-header">
-                  <h3 className="tw-modal-title">{activeFile.title}</h3>
-                  <button className="tw-modal-close-btn" onClick={() => setActiveFile(null)} aria-label="Close modal">
-                    <X size={18} />
+                <div className="tw-panel-header">
+                  <div>
+                    <p>{activeDrawer.status}</p>
+                    <h3>{activeDrawer.title}</h3>
+                  </div>
+                  <button onClick={() => setActiveDrawerId(null)} aria-label="Close drawer panel">
+                    <X size={16} />
                   </button>
                 </div>
-                <div className="tw-modal-body">
-                  
-                  <div className="tw-modal-section">
-                    <span className="tw-modal-label">Short Summary</span>
-                    <p className="tw-modal-content">{activeFile.summary}</p>
+
+                <div className="tw-panel-body">
+                  <div className="tw-file-list">
+                    {activeDrawer.files.map((file) => {
+                      const selected = activeFile?.id === file.id;
+                      return (
+                        <button
+                          key={file.id}
+                          className={`tw-file-row ${selected ? 'selected' : ''}`}
+                          onClick={() => setActiveFileId(file.id)}
+                        >
+                          <span>
+                            <strong>{file.title}</strong>
+                            <small>{file.tag}</small>
+                          </span>
+                          <ChevronRight size={14} />
+                        </button>
+                      );
+                    })}
                   </div>
 
-                  <div className="tw-modal-section">
-                    <span className="tw-modal-label">Key Question</span>
-                    <p className="tw-modal-content tw-modal-content-question">
-                      “{activeFile.question}”
-                    </p>
-                  </div>
-
-                  <div className="tw-modal-section">
-                    <span className="tw-modal-label">Related Proof</span>
-                    <div className="tw-modal-content tw-modal-content-proof">
-                      {activeFile.proof}
-                    </div>
-                  </div>
-
+                  {activeFile && (
+                    <motion.div
+                      key={activeFile.id}
+                      className="tw-file-detail"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <span className="tw-file-detail-tag">{activeFile.tag}</span>
+                      <h4>{activeFile.title}</h4>
+                      <p>{activeFile.summary}</p>
+                      <blockquote>“{activeFile.question}”</blockquote>
+                      <div className="tw-proof-note">
+                        <span>Related proof</span>
+                        {activeFile.proof}
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
+              </motion.aside>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
