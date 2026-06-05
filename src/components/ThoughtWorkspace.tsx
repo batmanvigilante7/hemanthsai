@@ -1,159 +1,101 @@
 import React, { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronRight, X } from 'lucide-react';
+import { ChevronRight, FileText, X } from 'lucide-react';
 import './ThoughtWorkspace.css';
-
-const getAssetUrl = (fileName: string) => {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  return `${baseUrl}assets/${fileName}`;
-};
 
 interface FileItem {
   id: string;
   title: string;
   tag: string;
   summary: string;
-  question: string;
-  proof: string;
 }
 
 interface WorkspaceDrawer {
   id: string;
   title: string;
-  status: string;
   count: number;
-  hotspot: {
-    left: string;
-    top: string;
-    width: string;
-    height: string;
-  };
+  color: string;
+  icon: string;
   files: FileItem[];
 }
 
-const makeFiles = (prefix: string, tag: string, items: string[]): FileItem[] =>
-  items.map((title, index) => ({
+const makeFiles = (prefix: string, tag: string, titles: string[]): FileItem[] =>
+  titles.map((title, index) => ({
     id: `${prefix}-${index}`,
     title,
     tag,
-    summary: `A working note inside this investigation: ${title}. It captures the patterns, questions, experiments, and proof I keep returning to while building.`,
-    question: `How can ${title.toLowerCase()} become visible proof instead of remaining a private idea?`,
-    proof: 'Connected to portfolio experiments, product notes, local AI workflows, writing drafts, and build-driven learning loops.',
+    summary: `A working note around ${title.toLowerCase()} — patterns, questions, experiments, and proof I keep returning to while building.`,
   }));
 
-const WORKSPACE_DRAWERS: WorkspaceDrawer[] = [
+const DRAWERS: WorkspaceDrawer[] = [
   {
     id: 'ai-leverage',
     title: 'AI Leverage',
-    status: 'ACTIVE INVESTIGATION',
     count: 47,
-    hotspot: { left: '25%', top: '25%', width: '17%', height: '19%' },
+    color: '#d8d2c5',
+    icon: '◈',
     files: [
-      {
-        id: 'prompt-systems',
-        title: 'Prompt Systems',
-        tag: 'SYSTEMS',
-        summary: 'How I turn raw thoughts into structured prompts, critique loops, checklists, and build instructions that actually move projects forward.',
-        question: 'How do I make AI behave less like a chatbot and more like a disciplined execution partner?',
-        proof: 'Used ChatGPT and local coding agents to structure portfolio sections, critique ideas, plan build phases, and convert scattered thinking into shippable artifacts.',
-      },
-      {
-        id: 'agent-workflows',
-        title: 'Agent Workflows',
-        tag: 'CODING LOOPS',
-        summary: 'Exploring local and cloud agents that can inspect files, edit code, run checks, and help ship faster without replacing taste or judgment.',
-        question: 'Where should the human stay in control while AI handles the repetitive execution layer?',
-        proof: 'Experimented with repo edits, build checks, and AI-assisted website iteration while keeping design direction human-led.',
-      },
-      {
-        id: 'local-models',
-        title: 'Local Models',
-        tag: 'INFRASTRUCTURE',
-        summary: 'Ollama, Qwen, DeepSeek-style coding models, and the practical tradeoffs of running AI on a normal student laptop.',
-        question: 'Can local AI become a private workshop for learning, coding, and experimentation?',
-        proof: 'Set up local model workflows and tested them against real portfolio/product-building tasks.',
-      },
-      {
-        id: 'human-ai-collaboration',
-        title: 'Human-AI Collaboration',
-        tag: 'WORKFLOW DESIGN',
-        summary: 'A repeatable loop: idea → critique → improve → build → test → refine. AI accelerates the loop, but the builder owns the taste.',
-        question: 'What does a high-agency student builder look like when AI becomes leverage instead of distraction?',
-        proof: 'Used AI as a thinking partner across product design, storytelling, copy, code, and proof-of-work systems.',
-      },
-      {
-        id: 'ai-product-interfaces',
-        title: 'AI Product Interfaces',
-        tag: 'PRODUCT UX',
-        summary: 'Moving beyond chatboxes into canvases, workspaces, file systems, drawers, and visible thinking environments.',
-        question: 'How should AI products make thinking visible instead of hiding everything behind a prompt box?',
-        proof: 'This Thought Workspace section is itself an experiment in turning personal cognition into interface.',
-      },
-      {
-        id: 'automation-loops',
-        title: 'Automation Loops',
-        tag: 'EXECUTION',
-        summary: 'Systems that reduce friction: reminders, repeatable prompts, build checklists, repo updates, and progress tracking.',
-        question: 'Which parts of ambition can be systemized without killing creative energy?',
-        proof: 'Mapped build phases, QA loops, and iteration checklists for shipping faster without drowning in tutorials.',
-      },
+      { id: 'prompt-systems', title: 'Prompt Systems', tag: 'SYSTEMS', summary: 'Turning raw thoughts into structured prompts, critique loops, checklists, and build instructions.' },
+      { id: 'agent-workflows', title: 'Agent Workflows', tag: 'CODING LOOPS', summary: 'Using agents to inspect files, edit code, run checks, and ship faster while keeping human judgment in control.' },
+      { id: 'local-models', title: 'Local Models', tag: 'INFRASTRUCTURE', summary: 'Testing Ollama, Qwen, and coding models as a private workshop for learning and building.' },
+      { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
     ],
   },
   {
     id: 'ux-psychology',
     title: 'UX Psychology',
-    status: 'ACTIVE INVESTIGATION',
     count: 18,
-    hotspot: { left: '45%', top: '23%', width: '15%', height: '17%' },
-    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues', 'Decision Paths']),
+    color: '#c99a5a',
+    icon: '◎',
+    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
   },
   {
     id: 'startup-validation',
     title: 'Startup Validation',
-    status: 'ACTIVE INVESTIGATION',
     count: 24,
-    hotspot: { left: '61%', top: '21%', width: '14%', height: '17%' },
-    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals', 'Distribution Bets']),
+    color: '#d5b18a',
+    icon: '▧',
+    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
   },
   {
     id: 'cinematic-storytelling',
     title: 'Cinematic Storytelling',
-    status: 'ACTIVE INVESTIGATION',
     count: 32,
-    hotspot: { left: '75%', top: '19%', width: '13%', height: '16%' },
-    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds', 'Concept Art']),
+    color: '#cfc1a8',
+    icon: '▤',
+    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
   },
   {
     id: 'investing-mental-models',
     title: 'Investing Mental Models',
-    status: 'ACTIVE INVESTIGATION',
     count: 15,
-    hotspot: { left: '24%', top: '48%', width: '17%', height: '19%' },
-    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats', 'Optionality']),
+    color: '#a66f35',
+    icon: '↗',
+    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
   },
   {
     id: 'execution-psychology',
     title: 'Execution Psychology',
-    status: 'ACTIVE INVESTIGATION',
     count: 29,
-    hotspot: { left: '43%', top: '49%', width: '16%', height: '18%' },
-    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Decision Logs', 'Ship Criteria']),
+    color: '#9e9066',
+    icon: 'ϟ',
+    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
   },
   {
     id: 'product-communication',
     title: 'Product Communication',
-    status: 'ACTIVE INVESTIGATION',
     count: 12,
-    hotspot: { left: '60%', top: '45%', width: '14%', height: '18%' },
-    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies', 'Audience Fit']),
+    color: '#8d9092',
+    icon: '◌',
+    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
   },
   {
     id: 'personal-proof-systems',
     title: 'Personal Proof Systems',
-    status: 'ACTIVE INVESTIGATION',
     count: 21,
-    hotspot: { left: '76%', top: '42%', width: '14%', height: '23%' },
-    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos', 'Public Notes']),
+    color: '#b6783e',
+    icon: '✎',
+    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
   },
 ];
 
@@ -162,7 +104,7 @@ export function ThoughtWorkspace() {
   const [activeFileId, setActiveFileId] = useState<string | null>('proof-0');
 
   const activeDrawer = useMemo(
-    () => WORKSPACE_DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
+    () => DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
     [activeDrawerId]
   );
 
@@ -178,7 +120,7 @@ export function ThoughtWorkspace() {
 
   return (
     <section className="tw-section" id="thought-workspace" aria-label="Thought Workspace Section">
-      <div className="tw-workshop-shell">
+      <div className="tw-sim-shell">
         <div className="tw-copy-panel">
           <p className="tw-section-eyebrow">THOUGHT WORKSPACE</p>
           <h2 className="tw-section-title">
@@ -188,47 +130,68 @@ export function ThoughtWorkspace() {
             A private workspace of ongoing investigations, systems, and experiments that shape the work I do.
           </p>
           <p className="tw-signature">— Hemanth Sai</p>
-
-          <div className="tw-stat-row" aria-label="Workspace statistics">
+          <div className="tw-stat-row">
             <div><strong>8</strong><span>Active Desks</span></div>
             <div><strong>57</strong><span>Files & Notes</span></div>
             <div><strong>∞</strong><span>Iterations</span></div>
           </div>
-
           <blockquote className="tw-quote-card">
             I don’t collect ideas.<br />I work with the ones<br />that don’t leave me.
           </blockquote>
         </div>
 
-        <div className="tw-scene-wrap">
-          <div
-            className="tw-scene-image"
-            style={{ backgroundImage: `url(${getAssetUrl('thought-workshop-scene.png')})` }}
-            aria-label="Cinematic thought workspace with drawers"
-          />
-          <div className="tw-scene-vignette" />
+        <div className="tw-workshop-stage">
+          <div className="tw-wall-art">Build in public.<br />Think in systems.<br />Ship with clarity.</div>
+          <div className="tw-props tw-props-left" />
+          <div className="tw-props tw-props-right" />
 
-          {WORKSPACE_DRAWERS.map((drawer) => {
-            const isActive = activeDrawerId === drawer.id;
-            return (
-              <motion.button
-                key={drawer.id}
-                type="button"
-                className={`tw-hotspot ${isActive ? 'active' : ''}`}
-                style={drawer.hotspot as React.CSSProperties}
-                onClick={() => openDrawer(drawer)}
-                whileHover={{ scale: 1.025 }}
-                whileTap={{ scale: 0.98 }}
-                aria-label={`${isActive ? 'Close' : 'Open'} ${drawer.title}`}
-              >
-                <span className="tw-hotspot-glow" />
-                <span className="tw-hotspot-label">
-                  <strong>{drawer.title}</strong>
-                  <small>{drawer.count} files</small>
-                </span>
-              </motion.button>
-            );
-          })}
+          <div className="tw-cabinet" aria-label="Interactive investigation drawer cabinet">
+            {DRAWERS.map((drawer) => {
+              const isOpen = activeDrawerId === drawer.id;
+              return (
+                <motion.button
+                  type="button"
+                  key={drawer.id}
+                  className={`tw-sim-drawer ${isOpen ? 'is-open' : ''}`}
+                  style={{ '--drawer-color': drawer.color } as React.CSSProperties}
+                  onClick={() => openDrawer(drawer)}
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.985 }}
+                  aria-label={`${isOpen ? 'Close' : 'Open'} ${drawer.title}`}
+                >
+                  <span className="tw-drawer-cavity">
+                    {drawer.files.slice(0, 5).map((file, index) => (
+                      <motion.span
+                        className="tw-paper-file"
+                        key={file.id}
+                        initial={false}
+                        animate={isOpen ? { y: 0, opacity: 1 } : { y: 16, opacity: 0 }}
+                        transition={{ delay: isOpen ? index * 0.045 : 0, duration: 0.22 }}
+                      >
+                        {file.title}
+                      </motion.span>
+                    ))}
+                  </span>
+                  <motion.span
+                    className="tw-drawer-front"
+                    animate={isOpen ? { y: 54, scale: 1.02 } : { y: 0, scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 260, damping: 24 }}
+                  >
+                    <span className="tw-drawer-title">{drawer.title}</span>
+                    <span className="tw-drawer-icon">{drawer.icon}</span>
+                    <span className="tw-drawer-handle" />
+                    <span className="tw-drawer-count">{drawer.count} files</span>
+                  </motion.span>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          <div className="tw-maker-silhouette">
+            <div className="tw-head" />
+            <div className="tw-body" />
+            <div className="tw-laptop" />
+          </div>
 
           <AnimatePresence>
             {activeDrawer && (
@@ -249,7 +212,6 @@ export function ThoughtWorkspace() {
                     <X size={16} />
                   </button>
                 </div>
-
                 <div className="tw-file-panel-list">
                   {activeDrawer.files.map((file) => {
                     const selected = activeFile?.id === file.id;
@@ -260,6 +222,7 @@ export function ThoughtWorkspace() {
                         className={`tw-file-tab ${selected ? 'selected' : ''}`}
                         onClick={() => setActiveFileId(file.id)}
                       >
+                        <FileText size={16} />
                         <span>
                           <strong>{file.title}</strong>
                           <small>{file.tag}</small>
@@ -269,7 +232,6 @@ export function ThoughtWorkspace() {
                     );
                   })}
                 </div>
-
                 {activeFile && (
                   <motion.div
                     key={activeFile.id}
@@ -286,8 +248,6 @@ export function ThoughtWorkspace() {
               </motion.aside>
             )}
           </AnimatePresence>
-
-          <div className="tw-bottom-hint">Click on any desk to open files</div>
         </div>
       </div>
     </section>
