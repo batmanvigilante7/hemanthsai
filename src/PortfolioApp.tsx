@@ -712,16 +712,12 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
     <FadeIn className={`${className} md:min-h-[360px] overflow-visible`}>
       <CardContainer divisor={18} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch overflow-visible" className="h-full w-full overflow-visible">
         <CardBody
-          onClick={() => {
-            console.log("chapter clicked", title);
-            onOpen();
-          }}
+          onClick={onOpen}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              console.log("chapter clicked via keyboard", title);
               onOpen();
             }
           }}
@@ -798,7 +794,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
 function ChapterStoryModal({ chapter, onClose }: { chapter: Chapter; onClose: () => void }) {
   const { number, title, src, alt, label, story, imagePosition } = chapter;
   useEffect(() => { const closeOnKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); }; window.addEventListener('keydown', closeOnKey); document.body.style.overflow = 'hidden'; return () => { window.removeEventListener('keydown', closeOnKey); document.body.style.overflow = ''; }; }, [onClose]);
-  return <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/76 px-4 py-8 backdrop-blur-xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise grid max-h-[88svh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-[#090909] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] md:grid-cols-[0.92fr_1.08fr] md:rounded-[3rem]"><div className="relative min-h-[260px] md:min-h-[560px]"><ImageFrame src={src} alt={alt} label={label} tone="soft" fit="cover" className="absolute inset-0 h-full w-full rounded-t-[2rem] md:rounded-l-[3rem] md:rounded-r-none md:rounded-t-none" imgStyle={{ objectPosition: imagePosition }} /><div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.72))]" /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-10"><button type="button" onClick={onClose} className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/70"><X className="h-5 w-5" /></button><p className="text-[10px] uppercase tracking-[0.28em] text-white/40">{number} / {label}</p><h3 className="mt-5 pr-12 text-[clamp(2.2rem,9vw,4.8rem)] font-black uppercase leading-[0.86] tracking-[-0.075em]">{title}</h3><p className="mt-7 text-base leading-relaxed text-white/72 sm:text-lg">{story}</p><p className="mt-8 text-[10px] uppercase tracking-[0.24em] text-white/35">Tap outside or press Esc to close</p></div></motion.article></motion.div>;
+  return <motion.div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/76 px-4 py-8 backdrop-blur-xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise grid max-h-[88svh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-[#090909] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] md:grid-cols-[0.92fr_1.08fr] md:rounded-[3rem]"><div className="relative min-h-[260px] md:min-h-[560px]"><ImageFrame src={src} alt={alt} label={label} tone="soft" fit="cover" className="absolute inset-0 h-full w-full rounded-t-[2rem] md:rounded-l-[3rem] md:rounded-r-none md:rounded-t-none" imgStyle={{ objectPosition: imagePosition }} /><div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.72))]" /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-10"><button type="button" onClick={onClose} className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/70"><X className="h-5 w-5" /></button><p className="text-[10px] uppercase tracking-[0.28em] text-white/40">{number} / {label}</p><h3 className="mt-5 pr-12 text-[clamp(2.2rem,9vw,4.8rem)] font-black uppercase leading-[0.86] tracking-[-0.075em]">{title}</h3><p className="mt-7 text-base leading-relaxed text-white/72 sm:text-lg">{story}</p><p className="mt-8 text-[10px] uppercase tracking-[0.24em] text-white/35">Tap outside or press Esc to close</p></div></motion.article></motion.div>;
 }
 
 function BeforeCode() {
