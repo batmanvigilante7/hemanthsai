@@ -52,8 +52,8 @@ const DRAWERS: WorkspaceDrawer[] = [
       { id: 'local-models', title: 'Local Models', tag: 'INFRASTRUCTURE', summary: 'Testing Ollama, Qwen, and coding models as a private workshop for learning and building.' },
       { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
     ],
-    polygonPoints: "57,227 407,218 407,417 57,430",
-    position: { left: '3.7%', top: '22.2%', width: '22.8%', height: '18.6%' },
+    polygonPoints: "53,214 409,211 409,408 53,423",
+    position: { left: '3.45%', top: '20.63%', width: '23.16%', height: '21.41%' },
   },
   {
     id: 'ux-psychology',
@@ -62,8 +62,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#c99a5a',
     icon: '◎',
     files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
-    polygonPoints: "432,202 737,192 737,392 432,407",
-    position: { left: '28.1%', top: '19.7%', width: '19.8%', height: '18.6%' },
+    polygonPoints: "431,197 739,188 739,385 431,400",
+    position: { left: '28.04%', top: '18.38%', width: '20.04%', height: '20.72%' },
   },
   {
     id: 'startup-validation',
@@ -72,8 +72,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#d5b18a',
     icon: '▧',
     files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
-    polygonPoints: "759,183 1004,176 1004,368 759,386",
-    position: { left: '49.4%', top: '17.9%', width: '15.9%', height: '18.1%' },
+    polygonPoints: "760,181 1004,172 1004,362 760,376",
+    position: { left: '49.45%', top: '16.81%', width: '15.88%', height: '19.94%' },
   },
   {
     id: 'cinematic-storytelling',
@@ -82,8 +82,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#cfc1a8',
     icon: '▤',
     files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
-    polygonPoints: "1030,162 1290,154 1290,344 1030,360",
-    position: { left: '67.0%', top: '15.8%', width: '16.9%', height: '17.8%' },
+    polygonPoints: "1026,161 1285,151 1285,338 1026,351",
+    position: { left: '66.75%', top: '14.76%', width: '16.85%', height: '19.55%' },
   },
   {
     id: 'investing-mental-models',
@@ -92,8 +92,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#a66f35',
     icon: '↗',
     files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
-    polygonPoints: "58,438 408,421 408,636 58,653",
-    position: { left: '3.8%', top: '42.8%', width: '22.8%', height: '19.4%' },
+    polygonPoints: "53,430 409,415 409,628 53,645",
+    position: { left: '3.45%', top: '40.57%', width: '23.16%', height: '22.48%' },
   },
   {
     id: 'execution-psychology',
@@ -102,8 +102,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#9e9066',
     icon: 'ϟ',
     files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
-    polygonPoints: "431,415 736,397 736,605 431,624",
-    position: { left: '28.0%', top: '40.6%', width: '19.8%', height: '18.6%' },
+    polygonPoints: "431,407 739,392 739,597 431,614",
+    position: { left: '28.04%', top: '38.32%', width: '20.04%', height: '21.7%' },
   },
   {
     id: 'product-communication',
@@ -112,8 +112,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#8d9092',
     icon: '◌',
     files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
-    polygonPoints: "759,389 1004,371 1004,569 759,589",
-    position: { left: '49.4%', top: '38.0%', width: '15.9%', height: '17.6%' },
+    polygonPoints: "760,384 1004,369 1004,562 760,579",
+    position: { left: '49.45%', top: '36.07%', width: '15.88%', height: '20.53%' },
   },
   {
     id: 'personal-proof-systems',
@@ -122,8 +122,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#b6783e',
     icon: '✎',
     files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
-    polygonPoints: "1030,360 1290,344 1290,538 1030,558",
-    position: { left: '67.0%', top: '35.2%', width: '16.9%', height: '17.4%' },
+    polygonPoints: "1026,359 1285,345 1285,532 1026,547",
+    position: { left: '66.75%', top: '33.72%', width: '16.85%', height: '19.75%' },
   },
 ];
 
@@ -228,7 +228,7 @@ export function ThoughtWorkspace() {
           <div className="tw-photo-wash" />
 
           {/* SVG Hotspots Overlay */}
-          <svg className="tw-hotspot-svg" viewBox="0 0 1537 1023" preserveAspectRatio="none">
+          <svg className="tw-hotspot-svg" viewBox="0 0 1537 1023" preserveAspectRatio="xMidYMid meet">
             {DRAWERS.map((drawer) => {
               const isActive = activeDrawerId === drawer.id;
               return (
