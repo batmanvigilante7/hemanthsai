@@ -684,7 +684,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
   return (
     <FadeIn className={className}>
       <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="w-full h-full">
-        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] sm:rounded-[2rem] flex flex-col justify-end [transform-style:preserve-3d]">
+        <CardBody className="chapter-card group relative h-full w-full p-4 rounded-[1.5rem] sm:rounded-[2rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col justify-start gap-3 md:p-5 md:gap-4 [transform-style:preserve-3d]">
           <button
             type="button"
             onClick={onOpen}
@@ -699,8 +699,8 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
 
           {/* Image layer */}
           <CardItem
-            translateZ="70"
-            className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden"
+            translateZ="95"
+            className="relative w-full h-[180px] md:h-[200px] overflow-hidden rounded-xl md:rounded-2xl select-none pointer-events-none z-0"
           >
             <ImageFrame
               src={src}
@@ -713,23 +713,15 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             />
           </CardItem>
           
-          {/* Gradient Overlay */}
-          <CardItem
-            translateZ="0"
-            className="absolute inset-0 z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.78))] w-full h-full"
-          >
-            {null}
-          </CardItem>
-          
           {/* Content layer */}
-          <div className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6 flex flex-col pointer-events-none [transform-style:preserve-3d]">
+          <div className="flex flex-col gap-1.5 md:gap-2 text-black [transform-style:preserve-3d]">
             <CardItem
               translateZ="70"
               translateY={-5}
-              className="chapter-chip mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]"
+              className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-black/58 sm:text-[10px]"
             >
               <span className="font-bold">{number}</span>
-              <span className="text-white/30">/</span>
+              <span className="text-black/30">/</span>
               <span>{label}</span>
             </CardItem>
             
@@ -738,7 +730,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateY={-4}
               className="w-full"
             >
-              <h3 className="chapter-card-title max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
+              <h3 className="chapter-card-title max-w-xl text-[clamp(1.15rem,2.8vw,1.6rem)] font-black uppercase leading-[1.05] tracking-[-0.04em] text-black">
                 {title}
               </h3>
             </CardItem>
@@ -748,7 +740,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateY={-2}
               className="w-full"
             >
-              <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem] mt-3">
+              <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-black/60 mt-0.5 line-clamp-2">
                 {caption}
               </p>
             </CardItem>
@@ -757,7 +749,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateZ="20"
               className="w-full"
             >
-              <p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">
+              <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-black/45">
                 Tap to read the story
               </p>
             </CardItem>
