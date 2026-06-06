@@ -711,16 +711,23 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
   return (
     <FadeIn className={`${className} md:min-h-[360px] overflow-visible`}>
       <CardContainer divisor={18} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch overflow-visible" className="h-full w-full overflow-visible">
-        <CardBody className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-visible rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d]">
-          <button
-            type="button"
-            onClick={onOpen}
-            className="absolute inset-0 z-50 rounded-[28px] cursor-pointer outline-none bg-transparent border-0"
-            aria-label={`Read story: ${title}`}
-          >
-            <span className="sr-only">Read story: {title}</span>
-          </button>
-          
+        <CardBody
+          onClick={() => {
+            console.log("chapter clicked", title);
+            onOpen();
+          }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              console.log("chapter clicked via keyboard", title);
+              onOpen();
+            }
+          }}
+          aria-label={`Read story: ${title}`}
+          className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-visible rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        >
           <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/18" />
           <div className="chapter-card-glow" />
 

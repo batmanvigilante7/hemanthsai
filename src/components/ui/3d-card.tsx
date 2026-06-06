@@ -93,10 +93,9 @@ export const CardBody = ({
   children,
   className,
   style,
-}: {
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
 }) => {
   const context = useContext(MouseEnterContext);
   const rotation = context ? context[2] : { rotateX: 0, rotateY: 0 };
@@ -116,6 +115,7 @@ export const CardBody = ({
         transition: isMouseEntered ? "none" : "transform 0.5s ease",
         ...style,
       }}
+      {...rest}
     >
       {children}
     </div>
