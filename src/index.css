@@ -104,62 +104,39 @@
 
 /* Chapter Card Playful Layered Depth Styling */
 .chapter-card {
-  transform: translateY(0);
-  transition: transform 380ms cubic-bezier(.2,.8,.2,1), border-color 380ms ease, box-shadow 380ms ease !important;
-  overflow: hidden;
+  transition: border-color 380ms ease, box-shadow 380ms ease !important;
+  overflow: visible;
   position: relative;
 }
 
 .chapter-card:hover {
-  transform: translateY(-6px);
   border-color: rgba(255, 255, 255, 0.18) !important;
   box-shadow: 0 32px 90px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
 }
 
-/* Image layer scale and translation */
+/* Image layer - managed by CardItem */
 .chapter-card-img {
-  transform: scale(1) translateY(0) !important;
-  transition: transform 480ms cubic-bezier(.2,.8,.2,1) !important;
 }
 
-.chapter-card:hover .chapter-card-img {
-  transform: scale(1.045) translateY(-4px) !important;
-}
-
-/* Title layer translate */
+/* Title layer - managed by CardItem */
 .chapter-card-title {
-  transform: translateY(0);
-  transition: transform 380ms cubic-bezier(.2,.8,.2,1);
 }
 
-.chapter-card:hover .chapter-card-title {
-  transform: translateY(-4px);
-}
-
-/* Caption opacity and translation */
+/* Caption - managed by CardItem */
 .chapter-card-caption {
   opacity: 0.76;
-  transform: translateY(0);
-  transition: opacity 380ms ease, transform 380ms cubic-bezier(.2,.8,.2,1);
+  transition: opacity 380ms ease;
 }
 
 .chapter-card:hover .chapter-card-caption {
   opacity: 0.95;
-  transform: translateY(-2px);
 }
 
-/* Chapter Number / Badge Chip floating & rotation */
+/* Chapter Number / Badge Chip - managed by CardItem */
 .chapter-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  transform: translateY(0) rotate(-2deg);
-  transition: transform 380ms cubic-bezier(.2,.8,.2,1);
-  transform-origin: left center;
-}
-
-.chapter-card:hover .chapter-chip {
-  transform: translateY(-5px);
 }
 
 /* Soft highlight spotlight hover glow */

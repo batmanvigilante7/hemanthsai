@@ -709,8 +709,8 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
   const desktopPlateHeight = imagePlate === 'wide' ? 'md:h-[240px]' : imagePlate === 'tall' ? 'md:h-[240px]' : 'md:h-[220px]';
   const desktopFitClass = imageFit === 'contain' ? 'md:object-contain' : 'md:object-cover';
   return (
-    <FadeIn className={`${className} md:min-h-[360px]`}>
-      <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="h-full w-full">
+    <FadeIn className={`${className} md:min-h-[360px] overflow-visible`}>
+      <CardContainer divisor={18} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch overflow-visible" className="h-full w-full overflow-visible">
         <CardBody className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-visible rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d]">
           <button
             type="button"
@@ -725,7 +725,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           <div className="chapter-card-glow" />
 
           <CardItem
-            translateZ="50"
+            translateZ={90}
             className="w-full"
           >
             <p className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-white/50 sm:text-[10px]">
@@ -739,7 +739,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           </CardItem>
 
           <CardItem
-            translateZ="60"
+            translateZ={75}
             className="w-full"
           >
             <p className="chapter-card-caption line-clamp-2 max-w-xl text-xs leading-relaxed text-white/58">
@@ -748,32 +748,34 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           </CardItem>
 
           <CardItem
-            translateZ="100"
-            className={`noise group relative z-0 mt-1 h-[190px] w-full select-none overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}
+            translateZ={140}
+            className="w-full mt-4"
           >
-            {useBlurBackplate && (
+            <div className={`noise group relative z-0 h-60 w-full select-none overflow-hidden rounded-xl border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}>
+              {useBlurBackplate && (
+                <img
+                  src={src}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  style={{ objectPosition: imagePosition }}
+                  className="pointer-events-none absolute inset-0 hidden h-full w-full scale-[1.08] object-cover opacity-[0.45] blur-xl md:block"
+                />
+              )}
               <img
                 src={src}
-                alt=""
-                aria-hidden="true"
+                alt={alt}
                 loading="lazy"
                 style={{ objectPosition: imagePosition }}
-                className="pointer-events-none absolute inset-0 hidden h-full w-full scale-[1.08] object-cover opacity-[0.45] blur-xl md:block"
+                className={`chapter-card-img relative z-10 h-full w-full object-cover ${desktopFitClass} brightness-100 contrast-105 saturate-[0.92]`}
               />
-            )}
-            <img
-              src={src}
-              alt={alt}
-              loading="lazy"
-              style={{ objectPosition: imagePosition }}
-              className={`chapter-card-img relative z-10 h-full w-full object-cover ${desktopFitClass} brightness-100 contrast-105 saturate-[0.92]`}
-            />
-            <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" />
-            <div className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" />
+              <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" />
+              <div className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" />
+            </div>
           </CardItem>
 
           <CardItem
-            translateZ="20"
+            translateZ={45}
             className="w-full"
           >
             <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-white/38">

@@ -1,17 +1,19 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-
 import React, {
   createContext,
   useState,
   useContext,
   useRef,
-  useEffect,
 } from "react";
 
 const MouseEnterContext = createContext<
-  [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
+  [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>,
+    { rotateX: number; rotateY: number }
+  ] | undefined
 >(undefined);
 
 export const CardContainer = ({
@@ -29,18 +31,19 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
+  const [rotation, setRotation] = useState({ rotateX: 0, rotateY: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     if (disableOnMobile && typeof window !== "undefined" && window.innerWidth < 768) {
-      containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+      setRotation({ rotateX: 0, rotateY: 0 });
       return;
     }
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
     const x = (e.clientX - left - width / 2) / divisor;
     const y = (e.clientY - top - height / 2) / divisor;
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+    setRotation({ rotateX: -y, rotateY: x });
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -48,19 +51,18 @@ export const CardContainer = ({
       return;
     }
     setIsMouseEntered(true);
-    if (!containerRef.current) return;
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
     setIsMouseEntered(false);
-    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    setRotation({ rotateX: 0, rotateY: 0 });
   };
+
   return (
-    <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
+    <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered, rotation]}>
       <div
         className={cn(
-          "py-20 flex items-center justify-center",
+          "py-20 flex items-center justify-center overflow-visible",
           containerClassName
         )}
         style={{
@@ -73,7 +75,7 @@ export const CardContainer = ({
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
           className={cn(
-            "flex items-center justify-center relative transition-all duration-200 ease-linear",
+            "flex items-center justify-center relative overflow-visible",
             className
           )}
           style={{
@@ -90,18 +92,29 @@ export const CardContainer = ({
 export const CardBody = ({
   children,
   className,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }) => {
+  const context = useContext(MouseEnterContext);
+  const rotation = context ? context[2] : { rotateX: 0, rotateY: 0 };
+  const [isMouseEntered] = useMouseEnter();
+
+  const transform = `rotateX(${rotation.rotateX}deg) rotateY(${rotation.rotateY}deg)`;
+
   return (
     <div
       className={cn(
-        "h-96 w-96 [transform-style:preserve-3d]  [&>*]:[transform-style:preserve-3d]",
+        "h-96 w-96 [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d]",
         className
       )}
       style={{
         transformStyle: "preserve-3d",
+        transform,
+        transition: isMouseEntered ? "none" : "transform 0.5s ease",
+        ...style,
       }}
     >
       {children}
@@ -120,6 +133,7 @@ export const CardItem = ({
   rotateY = 0,
   rotateZ = 0,
   scale = 1,
+  style,
   ...rest
 }: {
   as?: React.ElementType;
@@ -132,28 +146,17 @@ export const CardItem = ({
   rotateY?: number | string;
   rotateZ?: number | string;
   scale?: number | string;
+  style?: React.CSSProperties;
   [key: string]: any;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isMouseEntered] = useMouseEnter();
-
-  useEffect(() => {
-    handleAnimations();
-  }, [isMouseEntered]);
-
-  const handleAnimations = () => {
-    if (!ref.current) return;
-    if (isMouseEntered) {
-      ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
-    } else {
-      ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)`;
-    }
-  };
+  const transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
 
   return (
     <Tag
       ref={ref}
       className={cn("w-fit transition duration-200 ease-linear", className)}
+      style={{ ...style, transform }}
       {...rest}
     >
       {children}
