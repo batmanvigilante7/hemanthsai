@@ -126,6 +126,10 @@ export function ThoughtWorkspace() {
                         initial={false}
                         animate={isOpen ? { y: 0, opacity: 1 } : { y: 16, opacity: 0 }}
                         transition={{ delay: isOpen ? index * 0.045 : 0, duration: 0.22 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveFileId(file.id);
+                        }}
                       >
                         {file.title}
                       </motion.span>
@@ -133,7 +137,7 @@ export function ThoughtWorkspace() {
                   </span>
                   <motion.span
                     className="tw-drawer-front"
-                    animate={isOpen ? { y: 54, scale: 1.02 } : { y: 0, scale: 1 }}
+                    animate={isOpen ? { y: 28, scale: 1.01 } : { y: 0, scale: 1 }}
                     transition={{ type: 'spring', stiffness: 260, damping: 24 }}
                   >
                     <span className="tw-drawer-title">{drawer.title}</span>
