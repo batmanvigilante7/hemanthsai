@@ -683,13 +683,13 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
   const [number, title, caption, src, alt, label, imgClassName] = chapter;
   return (
     <FadeIn className={className}>
-      <CardContainer containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="w-full h-full">
-        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] sm:rounded-[2rem] flex flex-col justify-end overflow-hidden [transform-style:preserve-3d]">
+      <CardContainer divisor={50} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="w-full h-full">
+        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] sm:rounded-[2rem] flex flex-col justify-end [transform-style:preserve-3d]">
           <CardItem
             as="button"
             type="button"
             onClick={onOpen}
-            translateZ="100"
+            translateZ="110"
             className="absolute inset-0 z-30 w-full h-full cursor-pointer outline-none bg-transparent border-0"
             aria-label={`Read story: ${title}`}
           >
@@ -701,7 +701,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
 
           {/* Image layer */}
           <CardItem
-            translateZ="-20"
+            translateZ="90"
             className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden"
           >
             <ImageFrame
@@ -726,7 +726,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
           {/* Content layer */}
           <div className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6 flex flex-col pointer-events-none [transform-style:preserve-3d]">
             <CardItem
-              translateZ="40"
+              translateZ="70"
               className="chapter-chip mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]"
             >
               <span className="font-bold">{number}</span>
@@ -735,7 +735,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             </CardItem>
             
             <CardItem
-              translateZ="60"
+              translateZ="55"
               className="w-full"
             >
               <h3 className="chapter-card-title max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
@@ -744,7 +744,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             </CardItem>
             
             <CardItem
-              translateZ="80"
+              translateZ="35"
               className="w-full"
             >
               <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem] mt-3">
@@ -753,7 +753,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             </CardItem>
             
             <CardItem
-              translateZ="100"
+              translateZ="20"
               className="w-full"
             >
               <p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">
