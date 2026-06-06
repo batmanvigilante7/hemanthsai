@@ -127,6 +127,57 @@ const DRAWERS: WorkspaceDrawer[] = [
   },
 ];
 
+const trayVariants = {
+  hidden: { opacity: 0, scale: 0.96, y: 3 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 200,
+      damping: 26,
+      staggerChildren: 0.04,
+      delayChildren: 0.02,
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.96,
+    y: 3,
+    transition: {
+      duration: 0.15,
+      ease: 'easeOut',
+    }
+  }
+};
+
+const fileVariants = {
+  hidden: { y: 15, opacity: 0 },
+  inactive: {
+    y: 0,
+    scale: 1,
+    rotate: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 220,
+      damping: 26,
+    }
+  },
+  active: (index: number) => ({
+    y: -10,
+    scale: 1.05,
+    rotate: index % 2 === 0 ? 1 : -1,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 220,
+      damping: 26,
+    }
+  })
+};
+
 export function ThoughtWorkspace() {
   const [activeDrawerId, setActiveDrawerId] = useState<string | null>('personal-proof-systems');
   const [activeFileId, setActiveFileId] = useState<string | null>('proof-0');
@@ -214,10 +265,10 @@ export function ThoughtWorkspace() {
                 >
                   <motion.div
                     className="tw-open-tray"
-                    initial={{ opacity: 0, scale: 0.9, y: 5 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 5 }}
-                    transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                    variants={trayVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
                   >
                     {/* Close button inside the tray to toggle back to hotspot */}
                     <button
@@ -246,19 +297,9 @@ export function ThoughtWorkspace() {
                               e.stopPropagation();
                               setActiveFileId(file.id);
                             }}
-                            initial={{ y: 15, opacity: 0 }}
-                            animate={isFileActive ? {
-                              y: -14,
-                              scale: 1.06,
-                              rotate: index % 2 === 0 ? 1.5 : -1.5,
-                              opacity: 1,
-                            } : {
-                              y: 0,
-                              scale: 1,
-                              rotate: 0,
-                              opacity: 1,
-                            }}
-                            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                            variants={fileVariants}
+                            custom={index}
+                            animate={isFileActive ? 'active' : 'inactive'}
                           >
                             {file.title}
                           </motion.button>

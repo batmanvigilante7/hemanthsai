@@ -172,9 +172,10 @@
 
 .tw-drawer-poly:hover,
 .tw-drawer-poly.is-active {
-  fill: rgba(255, 221, 162, 0.04);
-  stroke: rgba(255, 222, 165, 0.55);
-  filter: drop-shadow(0 0 14px rgba(255, 190, 100, 0.35));
+  fill: rgba(255, 225, 175, 0.02);
+  stroke: rgba(255, 228, 185, 0.35);
+  stroke-width: 1.5px;
+  filter: drop-shadow(0 0 8px rgba(255, 195, 120, 0.18));
 }
 
 .tw-open-tray-wrapper {
@@ -188,19 +189,19 @@
 /* Open Tray Overlay - paper box physical container */
 .tw-open-tray {
   position: absolute;
-  inset: -6px;
-  background: linear-gradient(135deg, #fdfbf7 0%, #f4f0e6 100%);
-  border: 1px solid rgba(139, 115, 85, 0.32);
-  border-radius: 8px;
+  inset: -2px; /* much closer to the drawer edges */
+  background: linear-gradient(135deg, #fdfbf5 0%, #f7f3e8 100%);
+  border: 1px solid rgba(120, 95, 70, 0.25);
+  border-radius: 4px; /* tighter corner radius */
   box-shadow: 
-    0 16px 36px rgba(39, 30, 19, 0.24),
-    0 3px 8px rgba(39, 30, 19, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    0 6px 16px rgba(39, 30, 19, 0.15),
+    0 1px 3px rgba(39, 30, 19, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding: 8px;
+  padding: 4px 6px 4px;
   z-index: 5;
   overflow: visible;
 }
@@ -208,12 +209,12 @@
 /* Small paper close button */
 .tw-tray-close-btn {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 18px;
-  height: 18px;
+  top: 3px;
+  right: 3px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 1px solid rgba(139, 115, 85, 0.24);
+  border: 1px solid rgba(139, 115, 85, 0.2);
   background: rgba(255, 255, 255, 0.9);
   color: #5a4c3a;
   display: flex;
@@ -238,28 +239,28 @@
   justify-content: center;
   align-items: flex-end;
   width: 100%;
-  height: calc(100% - 8px);
-  gap: 2px;
+  height: calc(100% - 10px);
+  gap: -3px; /* slight negative gap/overlap for paper stack feel */
   overflow: visible;
-  padding-bottom: 2px;
+  padding-bottom: 1px;
 }
 
 /* Paper-style abstract file tab */
 .tw-paper-file {
   position: relative;
-  width: 20px;
-  height: 34px;
-  border-radius: 4px 4px 0 0;
+  width: 18px; /* slightly narrower */
+  height: 30px; /* slightly shorter to fit better */
+  border-radius: 2px 2px 0 0;
   background: linear-gradient(to bottom, #fffef9 0%, #ede8d7 100%);
-  border: 1px solid rgba(139, 115, 85, 0.4);
+  border: 1px solid rgba(139, 115, 85, 0.35);
   box-shadow: 
-    0 -2px 6px rgba(39, 30, 19, 0.08),
-    -1px 0 2px rgba(0, 0, 0, 0.04);
+    0 -1px 3px rgba(39, 30, 19, 0.06),
+    -1px 0 1px rgba(0, 0, 0, 0.03);
   font-size: 0px !important;
   color: transparent;
   cursor: pointer;
   flex-shrink: 0;
-  margin: 0;
+  margin: 0 -1px; /* negative margin for overlapping stack look */
   padding: 0;
   outline: none;
   transform-origin: bottom center;
@@ -276,8 +277,8 @@
   background: linear-gradient(to bottom, #ffffff 0%, #f7f3e8 100%);
   border-color: #c99a5a;
   box-shadow: 
-    0 -8px 20px rgba(182, 120, 62, 0.24),
-    0 4px 10px rgba(0, 0, 0, 0.1);
+    0 -6px 12px rgba(182, 120, 62, 0.2),
+    0 3px 6px rgba(39, 30, 19, 0.08);
   z-index: 6;
 }
 
@@ -292,41 +293,43 @@
 
 .tw-file-panel {
   position: absolute;
-  right: -18px;
+  right: -12px;
   top: 12%;
-  width: 280px;
-  max-height: 83%;
+  width: 260px;
+  max-height: 80%;
   overflow: auto;
   z-index: 9;
-  border-radius: 26px;
-  background: rgba(255, 251, 241, .86);
-  border: 1px solid rgba(86, 65, 42, .16);
-  box-shadow: 0 28px 70px rgba(33, 24, 16, .22), inset 0 1px 0 rgba(255,255,255,.6);
-  backdrop-filter: blur(22px) saturate(1.08);
-  padding: 1rem;
-  opacity: 0.94;
+  border-radius: 20px;
+  background: rgba(255, 253, 248, 0.92);
+  border: 1px solid rgba(139, 115, 85, 0.16);
+  box-shadow: 
+    0 16px 48px rgba(33, 24, 16, 0.12),
+    0 2px 8px rgba(33, 24, 16, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px) saturate(1.04);
+  padding: 0.9rem;
 }
 
 .tw-file-panel-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: .75rem;
-  border-bottom: 1px solid rgba(82, 63, 41, .14);
+  gap: 0.8rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(139, 115, 85, 0.12);
 }
 
 .tw-file-panel-header h3 {
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: 1.55rem;
+  font-size: 1.45rem;
   line-height: 1;
   margin: 0;
   color: #241a12;
 }
 
 .tw-file-panel-header p {
-  margin: .35rem 0 0;
-  font-size: .72rem;
+  margin: .3rem 0 0;
+  font-size: 0.68rem;
   color: #8e7d69;
   text-transform: uppercase;
   letter-spacing: .1em;
@@ -334,42 +337,45 @@
 }
 
 .tw-file-panel-header button {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 1px solid rgba(78, 58, 37, .16);
-  background: rgba(255,255,255,.7);
+  border: 1px solid rgba(139, 115, 85, 0.15);
+  background: rgba(255,255,255,.8);
   color: #4a3524;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tw-file-panel-list {
   display: grid;
-  gap: .52rem;
-  margin-top: .9rem;
+  gap: .45rem;
+  margin-top: 0.75rem;
 }
 
 .tw-file-tab {
   width: 100%;
-  border: 1px solid rgba(88, 67, 43, .12);
-  background: rgba(255,255,255,.56);
-  border-radius: 15px;
-  padding: .72rem;
+  border: 1px solid rgba(139, 115, 85, 0.08);
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+  padding: 0.6rem;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: .65rem;
+  gap: 0.5rem;
   text-align: left;
-  color: #2c2119;
+  color: #3a322b;
   cursor: pointer;
   transition: transform .2s ease, background .2s ease, border-color .2s ease;
 }
 
 .tw-file-tab:hover,
 .tw-file-tab.selected {
-  transform: translateX(-3px);
-  background: rgba(255, 244, 222, .9);
-  border-color: rgba(156, 104, 51, .28);
+  transform: translateX(-2px);
+  background: rgba(255, 248, 235, 0.95);
+  border-color: rgba(199, 154, 90, 0.3);
 }
 
 .tw-file-tab strong {
