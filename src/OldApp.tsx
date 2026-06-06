@@ -684,14 +684,14 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
   return (
     <FadeIn className={className}>
       <CardContainer className="w-full h-full" containerClassName="py-0 w-full h-full">
-        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] transition duration-300 hover:border-black/20 hover:ring-4 hover:ring-blue-500/80 sm:rounded-[2rem] flex flex-col justify-end">
+        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] transition duration-300 hover:border-black/20 sm:rounded-[2rem] flex flex-col justify-end">
           <button
             type="button"
             onClick={onOpen}
             className="absolute inset-0 z-30 cursor-pointer outline-none bg-transparent border-0"
             aria-label={`Read story: ${title}`}
           />
-          <CardItem translateZ="120" className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
+          <CardItem translateZ="45" className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
             <ImageFrame
               src={src}
               alt={alt}
@@ -710,12 +710,12 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             <p className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]">
               {number} / {label}
             </p>
-            <CardItem translateZ="80" className="block w-full">
+            <CardItem translateZ="30" className="block w-full">
               <h3 className="max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
                 {title}
               </h3>
             </CardItem>
-            <CardItem translateZ="50" className="block w-full mt-3">
+            <CardItem translateZ="18" className="block w-full mt-3">
               <p className="max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem]">
                 {caption}
               </p>
