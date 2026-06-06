@@ -117,9 +117,10 @@
 
 .tw-workshop-stage {
   position: relative;
-  min-height: 680px;
+  width: 100%;
+  aspect-ratio: 1537 / 1023;
   border-radius: 32px;
-  overflow: hidden;
+  overflow: visible;
   background: #241a13;
   border: 1px solid rgba(83, 63, 41, .18);
   box-shadow: 0 28px 90px rgba(33, 24, 16, .16), inset 0 1px 0 rgba(255,255,255,.18);
@@ -137,6 +138,7 @@
   transform: scale(1.01);
   pointer-events: none;
   user-select: none;
+  border-radius: 32px;
 }
 
 .tw-photo-wash {
@@ -144,66 +146,43 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  border-radius: 32px;
   background:
     radial-gradient(circle at 54% 52%, rgba(255, 223, 165, .04), transparent 35%),
     linear-gradient(90deg, rgba(24,17,11,.16), transparent 32%, rgba(16,12,9,.20));
 }
 
-.tw-cabinet {
-  position: absolute;
-  left: 3.7%;
-  top: 18.8%;
-  width: 82.6%;
-  height: 43.8%;
-  z-index: 4;
-  perspective: 1000px;
-  pointer-events: auto;
-}
-
-.tw-sim-drawer {
-  position: absolute;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-  min-width: 0;
-  min-height: 0;
-  outline: none;
-  transform-style: preserve-3d;
-}
-
-.tw-sim-drawer::before {
-  content: "";
-  position: absolute;
-  inset: 0px;
-  border-radius: 6px;
-  background: transparent;
-  border: 1px solid transparent;
-  transition: all 0.24s ease;
-  z-index: 0;
-  box-shadow: none;
-  pointer-events: none;
-}
-
-.tw-sim-drawer:hover::before,
-.tw-sim-drawer.is-open::before {
-  background: rgba(255, 221, 162, 0.04);
-  border: 1.5px solid rgba(255, 184, 77, 0.45);
-  box-shadow: 0 0 16px rgba(255, 184, 77, 0.3);
-}
-
-/* Hotspot trigger covers the drawer area when closed */
-.tw-hotspot-trigger {
+.tw-hotspot-svg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  border: none;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.tw-drawer-poly {
+  fill: rgba(255, 220, 150, 0);
+  stroke: transparent;
+  stroke-width: 3;
+  pointer-events: auto;
   cursor: pointer;
-  z-index: 2;
-  outline: none;
+  transition: fill 180ms ease, stroke 180ms ease, filter 180ms ease;
+}
+
+.tw-drawer-poly:hover,
+.tw-drawer-poly.is-active {
+  fill: rgba(255, 221, 162, 0.04);
+  stroke: rgba(255, 222, 165, 0.55);
+  filter: drop-shadow(0 0 14px rgba(255, 190, 100, 0.35));
+}
+
+.tw-open-tray-wrapper {
+  position: absolute;
+  z-index: 5;
+  pointer-events: auto;
+  transform-origin: center center;
+  overflow: visible;
 }
 
 /* Open Tray Overlay - paper box physical container */
@@ -451,7 +430,8 @@
   }
 
   .tw-workshop-stage {
-    min-height: 680px;
+    min-height: auto;
+    aspect-ratio: 1537 / 1023;
   }
 }
 
@@ -470,29 +450,28 @@
   }
 
   .tw-workshop-stage {
-    min-height: 860px;
+    min-height: auto;
+    aspect-ratio: 1537 / 1023;
     border-radius: 24px;
+    overflow: visible;
   }
 
   .tw-scene-photo {
-    height: 320px;
-    object-position: center top;
-  }
-
-  .tw-cabinet {
-    left: 6%;
-    right: 6%;
-    top: 335px;
-    width: auto;
-    height: 340px;
+    height: 100%;
+    object-position: center center;
+    border-radius: 24px;
   }
 
   .tw-file-panel {
-    left: 1rem;
-    right: 1rem;
+    position: relative;
+    left: auto;
+    right: auto;
     top: auto;
-    bottom: 1rem;
-    width: auto;
-    max-height: 310px;
+    bottom: auto;
+    width: 100%;
+    max-height: none;
+    margin-top: 1.5rem;
+    opacity: 0.96;
+    z-index: 9;
   }
 }

@@ -22,6 +22,7 @@ interface WorkspaceDrawer {
   color: string;
   icon: string;
   files: FileItem[];
+  polygonPoints: string;
   position: {
     left: string;
     top: string;
@@ -51,7 +52,8 @@ const DRAWERS: WorkspaceDrawer[] = [
       { id: 'local-models', title: 'Local Models', tag: 'INFRASTRUCTURE', summary: 'Testing Ollama, Qwen, and coding models as a private workshop for learning and building.' },
       { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
     ],
-    position: { left: '4%', top: '20%', width: '25%', height: '22%' },
+    polygonPoints: "57,227 407,218 407,417 57,430",
+    position: { left: '3.7%', top: '22.2%', width: '22.8%', height: '18.6%' },
   },
   {
     id: 'ux-psychology',
@@ -60,7 +62,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#c99a5a',
     icon: '◎',
     files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
-    position: { left: '29%', top: '19%', width: '24%', height: '22%' },
+    polygonPoints: "432,202 737,192 737,392 432,407",
+    position: { left: '28.1%', top: '19.7%', width: '19.8%', height: '18.6%' },
   },
   {
     id: 'startup-validation',
@@ -69,7 +72,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#d5b18a',
     icon: '▧',
     files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
-    position: { left: '53%', top: '18.5%', width: '19%', height: '22%' },
+    polygonPoints: "759,183 1004,176 1004,368 759,386",
+    position: { left: '49.4%', top: '17.9%', width: '15.9%', height: '18.1%' },
   },
   {
     id: 'cinematic-storytelling',
@@ -78,7 +82,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#cfc1a8',
     icon: '▤',
     files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
-    position: { left: '72%', top: '18%', width: '22%', height: '22%' },
+    polygonPoints: "1030,162 1290,154 1290,344 1030,360",
+    position: { left: '67.0%', top: '15.8%', width: '16.9%', height: '17.8%' },
   },
   {
     id: 'investing-mental-models',
@@ -87,7 +92,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#a66f35',
     icon: '↗',
     files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
-    position: { left: '4%', top: '44.5%', width: '25%', height: '22%' },
+    polygonPoints: "58,438 408,421 408,636 58,653",
+    position: { left: '3.8%', top: '42.8%', width: '22.8%', height: '19.4%' },
   },
   {
     id: 'execution-psychology',
@@ -96,7 +102,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#9e9066',
     icon: 'ϟ',
     files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
-    position: { left: '29%', top: '43.5%', width: '24%', height: '22%' },
+    polygonPoints: "431,415 736,397 736,605 431,624",
+    position: { left: '28.0%', top: '40.6%', width: '19.8%', height: '18.6%' },
   },
   {
     id: 'product-communication',
@@ -105,7 +112,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#8d9092',
     icon: '◌',
     files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
-    position: { left: '53%', top: '42.8%', width: '19%', height: '22%' },
+    polygonPoints: "759,389 1004,371 1004,569 759,589",
+    position: { left: '49.4%', top: '38.0%', width: '15.9%', height: '17.6%' },
   },
   {
     id: 'personal-proof-systems',
@@ -114,7 +122,8 @@ const DRAWERS: WorkspaceDrawer[] = [
     color: '#b6783e',
     icon: '✎',
     files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
-    position: { left: '72%', top: '42%', width: '22%', height: '22%' },
+    polygonPoints: "1030,360 1290,344 1290,538 1030,558",
+    position: { left: '67.0%', top: '35.2%', width: '16.9%', height: '17.4%' },
   },
 ];
 
@@ -167,98 +176,100 @@ export function ThoughtWorkspace() {
           />
           <div className="tw-photo-wash" />
 
-          <div className="tw-cabinet" aria-label="Interactive investigation drawer cabinet">
+          {/* SVG Hotspots Overlay */}
+          <svg className="tw-hotspot-svg" viewBox="0 0 1537 1023" preserveAspectRatio="none">
             {DRAWERS.map((drawer) => {
-              const isOpen = activeDrawerId === drawer.id;
-              const style = {
-                '--drawer-color': drawer.color,
-                left: drawer.position.left,
-                top: drawer.position.top,
-                width: drawer.position.width,
-                height: drawer.position.height,
-              } as React.CSSProperties;
-
+              const isActive = activeDrawerId === drawer.id;
               return (
-                <motion.div
+                <polygon
                   key={drawer.id}
-                  className={`tw-sim-drawer ${isOpen ? 'is-open' : ''}`}
-                  style={style}
-                  whileHover={{ y: -2 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                  {/* Invisible hotspot trigger, active only when closed */}
-                  {!isOpen && (
-                    <button
-                      type="button"
-                      className="tw-hotspot-trigger"
-                      onClick={() => openDrawer(drawer)}
-                      aria-label={`Open ${drawer.title}`}
-                    />
-                  )}
-
-                  {/* Open Tray Overlay */}
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        className="tw-open-tray"
-                        initial={{ opacity: 0, scale: 0.9, y: 5 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 5 }}
-                        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                      >
-                        {/* Close button inside the tray to toggle back to hotspot */}
-                        <button
-                          type="button"
-                          className="tw-tray-close-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveDrawerId(null);
-                            setActiveFileId(null);
-                          }}
-                          aria-label="Close drawer"
-                        >
-                          <X size={10} />
-                        </button>
-
-                        {/* Staggered File Divider Cards */}
-                        <div className="tw-tray-files">
-                          {drawer.files.slice(0, 5).map((file, index) => {
-                            const isFileActive = activeFileId === file.id;
-                            return (
-                              <motion.button
-                                key={file.id}
-                                type="button"
-                                className={`tw-paper-file ${isFileActive ? 'active' : ''}`}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveFileId(file.id);
-                                }}
-                                initial={{ y: 15, opacity: 0 }}
-                                animate={isFileActive ? {
-                                  y: -14,
-                                  scale: 1.06,
-                                  rotate: index % 2 === 0 ? 1.5 : -1.5,
-                                  opacity: 1,
-                                } : {
-                                  y: 0,
-                                  scale: 1,
-                                  rotate: 0,
-                                  opacity: 1,
-                                }}
-                                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-                              >
-                                {file.title}
-                              </motion.button>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
+                  points={drawer.polygonPoints}
+                  className={`tw-drawer-poly ${isActive ? 'is-active' : ''}`}
+                  onClick={() => openDrawer(drawer)}
+                  aria-label={`Open ${drawer.title}`}
+                />
               );
             })}
-          </div>
+          </svg>
+
+          {/* Active Drawer Open Tray Overlay */}
+          <AnimatePresence>
+            {activeDrawer && (() => {
+              const isLeftSide = ['ai-leverage', 'ux-psychology', 'investing-mental-models', 'execution-psychology'].includes(activeDrawer.id);
+              const skewTransform = isLeftSide
+                ? 'rotate(-0.5deg) skewX(-1deg)'
+                : 'rotate(0.4deg) skewX(-1.2deg)';
+
+              return (
+                <div
+                  key={`tray-wrapper-${activeDrawer.id}`}
+                  className="tw-open-tray-wrapper"
+                  style={{
+                    left: activeDrawer.position.left,
+                    top: activeDrawer.position.top,
+                    width: activeDrawer.position.width,
+                    height: activeDrawer.position.height,
+                    transform: skewTransform,
+                  } as React.CSSProperties}
+                >
+                  <motion.div
+                    className="tw-open-tray"
+                    initial={{ opacity: 0, scale: 0.9, y: 5 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 5 }}
+                    transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                  >
+                    {/* Close button inside the tray to toggle back to hotspot */}
+                    <button
+                      type="button"
+                      className="tw-tray-close-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveDrawerId(null);
+                        setActiveFileId(null);
+                      }}
+                      aria-label="Close drawer"
+                    >
+                      <X size={10} />
+                    </button>
+
+                    {/* Staggered File Divider Cards */}
+                    <div className="tw-tray-files">
+                      {activeDrawer.files.slice(0, 5).map((file, index) => {
+                        const isFileActive = activeFileId === file.id;
+                        return (
+                          <motion.button
+                            key={file.id}
+                            type="button"
+                            className={`tw-paper-file ${isFileActive ? 'active' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveFileId(file.id);
+                            }}
+                            initial={{ y: 15, opacity: 0 }}
+                            animate={isFileActive ? {
+                              y: -14,
+                              scale: 1.06,
+                              rotate: index % 2 === 0 ? 1.5 : -1.5,
+                              opacity: 1,
+                            } : {
+                              y: 0,
+                              scale: 1,
+                              rotate: 0,
+                              opacity: 1,
+                            }}
+                            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                          >
+                            {file.title}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </div>
+              );
+            })()}
+          </AnimatePresence>
 
           <AnimatePresence>
             {activeDrawer && (
