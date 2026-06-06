@@ -784,7 +784,27 @@ function BeforeCode() {
     ['05', 'Present Chapter', 'GITAM is the current arena — software, AI, design, product thinking, and sharper proof.', images.gitam, 'GITAM campus portrait', 'GITAM', 'object-[50%_45%]', 'GITAM is my current arena. This is where I am exploring software, AI, design, and product thinking while learning how to turn scattered curiosity into visible work. I am still early, but this is where the builder version of me is taking shape.'],
   ] as const;
 
-  return <section id="before-code" className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Before the code</SectionLabel><SectionHeading>The chapters that formed me.</SectionHeading><p className="mt-5 max-w-2xl text-base leading-relaxed text-black/55 sm:mt-6 sm:text-lg">These are not decorative images. They are proof of the environments, pressure, discipline, and people that shaped how I build now.</p></FadeIn><div className="mt-10 grid gap-4 sm:mt-14"><ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="aspect-[16/9]" /><div className="grid gap-4 md:grid-cols-5 md:items-stretch"><ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="min-h-[520px] md:col-span-2 md:h-full md:min-h-[780px]" /><div className="grid gap-4 md:col-span-3"><ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="aspect-[16/9]" /><ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="aspect-[4/5]" /></div></div><ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="aspect-[16/9]" /></div></div>{activeChapter !== null && <ChapterStoryModal chapter={chapters[activeChapter]} onClose={() => setActiveChapter(null)} />}</section>;
+  return (
+    <section id="before-code" className="bg-white px-5 py-16 text-black sm:px-8 md:px-10 md:py-[72px]">
+      <div className="mx-auto max-w-7xl">
+        <FadeIn>
+          <SectionLabel>Before the code</SectionLabel>
+          <SectionHeading>The chapters that formed me.</SectionHeading>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-black/55 sm:mt-6 sm:text-lg">
+            These are not decorative images. They are proof of the environments, pressure, discipline, and people that shaped how I build now.
+          </p>
+        </FadeIn>
+        <div className="mt-10 grid gap-4 sm:mt-14 md:mt-10 md:grid-cols-6 md:gap-6 md:items-stretch">
+          <ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="aspect-[16/9] md:aspect-auto md:col-span-2" />
+          <ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="min-h-[520px] md:min-h-0 md:col-span-2" />
+          <ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="aspect-[16/9] md:aspect-auto md:col-span-2" />
+          <ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="aspect-[4/5] md:aspect-auto md:col-span-3" />
+          <ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="aspect-[16/9] md:aspect-auto md:col-span-3" />
+        </div>
+      </div>
+      {activeChapter !== null && <ChapterStoryModal chapter={chapters[activeChapter]} onClose={() => setActiveChapter(null)} />}
+    </section>
+  );
 }
 function Contact() { return <section id="contact" className="bg-[#050505] px-5 py-20 text-white sm:px-8 sm:py-28 md:px-10"><div className="liquid-glass mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] md:grid-cols-[0.86fr_1.14fr] md:rounded-[4rem]"><ImageFrame src={images.blazer} alt="Blazer portrait" label="Blazer portrait" tone="natural" className="aspect-[4/5] md:min-h-[580px]" imgClassName="object-[45%_16%] scale-[1.06]" /><div className="flex flex-col justify-center p-6 sm:p-8 md:p-16"><FadeIn><h2 className="text-[clamp(2.4rem,11vw,5.8rem)] font-black uppercase leading-[0.88] tracking-[-0.08em]">Still early. Still building.</h2><p className="mt-6 max-w-2xl text-base leading-relaxed text-white/66 sm:mt-7 sm:text-lg">I’m interested in AI, software, design, writing, product thinking, and ambitious people who care about visible proof.</p><div className="mt-8 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap sm:gap-4"><Button href="mailto:hemanthsairoyal7@gmail.com">Email me</Button><div className="flex justify-center gap-3 sm:justify-start">{socials.map(([label, href, Icon]) => { const external = href.startsWith('http'); return <a key={label} href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined} aria-label={label} className="liquid-glass grid h-12 w-12 place-items-center rounded-full text-white/75 hover:text-white"><Icon className="h-5 w-5" /></a>; })}</div></div></FadeIn></div></div></section>; }
 export default function PortfolioApp() {
