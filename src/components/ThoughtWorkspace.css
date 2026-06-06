@@ -156,16 +156,12 @@
   width: 82.6%;
   height: 43.8%;
   z-index: 4;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 1.2%;
   perspective: 1000px;
   pointer-events: auto;
 }
 
 .tw-sim-drawer {
-  position: relative;
+  position: absolute;
   padding: 0;
   border: 0;
   background: transparent;

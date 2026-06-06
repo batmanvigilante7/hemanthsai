@@ -22,6 +22,12 @@ interface WorkspaceDrawer {
   color: string;
   icon: string;
   files: FileItem[];
+  position: {
+    left: string;
+    top: string;
+    width: string;
+    height: string;
+  };
 }
 
 const makeFiles = (prefix: string, tag: string, titles: string[]): FileItem[] =>
@@ -45,14 +51,71 @@ const DRAWERS: WorkspaceDrawer[] = [
       { id: 'local-models', title: 'Local Models', tag: 'INFRASTRUCTURE', summary: 'Testing Ollama, Qwen, and coding models as a private workshop for learning and building.' },
       { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
     ],
+    position: { left: '4%', top: '20%', width: '25%', height: '22%' },
   },
-  { id: 'ux-psychology', title: 'UX Psychology', count: 18, color: '#c99a5a', icon: '◎', files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']) },
-  { id: 'startup-validation', title: 'Startup Validation', count: 24, color: '#d5b18a', icon: '▧', files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']) },
-  { id: 'cinematic-storytelling', title: 'Cinematic Storytelling', count: 32, color: '#cfc1a8', icon: '▤', files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']) },
-  { id: 'investing-mental-models', title: 'Investing Mental Models', count: 15, color: '#a66f35', icon: '↗', files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']) },
-  { id: 'execution-psychology', title: 'Execution Psychology', count: 29, color: '#9e9066', icon: 'ϟ', files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']) },
-  { id: 'product-communication', title: 'Product Communication', count: 12, color: '#8d9092', icon: '◌', files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']) },
-  { id: 'personal-proof-systems', title: 'Personal Proof Systems', count: 21, color: '#b6783e', icon: '✎', files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']) },
+  {
+    id: 'ux-psychology',
+    title: 'UX Psychology',
+    count: 18,
+    color: '#c99a5a',
+    icon: '◎',
+    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
+    position: { left: '29%', top: '19%', width: '24%', height: '22%' },
+  },
+  {
+    id: 'startup-validation',
+    title: 'Startup Validation',
+    count: 24,
+    color: '#d5b18a',
+    icon: '▧',
+    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
+    position: { left: '53%', top: '18.5%', width: '19%', height: '22%' },
+  },
+  {
+    id: 'cinematic-storytelling',
+    title: 'Cinematic Storytelling',
+    count: 32,
+    color: '#cfc1a8',
+    icon: '▤',
+    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
+    position: { left: '72%', top: '18%', width: '22%', height: '22%' },
+  },
+  {
+    id: 'investing-mental-models',
+    title: 'Investing Mental Models',
+    count: 15,
+    color: '#a66f35',
+    icon: '↗',
+    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
+    position: { left: '4%', top: '44.5%', width: '25%', height: '22%' },
+  },
+  {
+    id: 'execution-psychology',
+    title: 'Execution Psychology',
+    count: 29,
+    color: '#9e9066',
+    icon: 'ϟ',
+    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
+    position: { left: '29%', top: '43.5%', width: '24%', height: '22%' },
+  },
+  {
+    id: 'product-communication',
+    title: 'Product Communication',
+    count: 12,
+    color: '#8d9092',
+    icon: '◌',
+    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
+    position: { left: '53%', top: '42.8%', width: '19%', height: '22%' },
+  },
+  {
+    id: 'personal-proof-systems',
+    title: 'Personal Proof Systems',
+    count: 21,
+    color: '#b6783e',
+    icon: '✎',
+    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
+    position: { left: '72%', top: '42%', width: '22%', height: '22%' },
+  },
 ];
 
 export function ThoughtWorkspace() {
@@ -112,7 +175,13 @@ export function ThoughtWorkspace() {
                   type="button"
                   key={drawer.id}
                   className={`tw-sim-drawer ${isOpen ? 'is-open' : ''}`}
-                  style={{ '--drawer-color': drawer.color } as React.CSSProperties}
+                  style={{
+                    '--drawer-color': drawer.color,
+                    left: drawer.position.left,
+                    top: drawer.position.top,
+                    width: drawer.position.width,
+                    height: drawer.position.height,
+                  } as React.CSSProperties}
                   onClick={() => openDrawer(drawer)}
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.985 }}
