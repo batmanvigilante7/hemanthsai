@@ -715,7 +715,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           <button
             type="button"
             onClick={onOpen}
-            className="absolute inset-0 z-30 w-full h-full cursor-pointer outline-none bg-transparent border-0"
+            className="absolute inset-0 z-50 rounded-[28px] cursor-pointer outline-none bg-transparent border-0"
             aria-label={`Read story: ${title}`}
           >
             <span className="sr-only">Read story: {title}</span>
