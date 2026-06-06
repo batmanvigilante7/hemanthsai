@@ -18,24 +18,35 @@ export const CardContainer = ({
   children,
   className,
   containerClassName,
+  divisor = 22,
+  disableOnMobile = true,
 }: {
   children?: React.ReactNode;
   className?: string;
   containerClassName?: string;
+  divisor?: number;
+  disableOnMobile?: boolean;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
+    if (disableOnMobile && typeof window !== "undefined" && window.innerWidth < 768) {
+      containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+      return;
+    }
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 22;
-    const y = (e.clientY - top - height / 2) / 22;
+    const x = (e.clientX - left - width / 2) / divisor;
+    const y = (e.clientY - top - height / 2) / divisor;
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (disableOnMobile && typeof window !== "undefined" && window.innerWidth < 768) {
+      return;
+    }
     setIsMouseEntered(true);
     if (!containerRef.current) return;
   };
@@ -108,6 +119,7 @@ export const CardItem = ({
   rotateX = 0,
   rotateY = 0,
   rotateZ = 0,
+  scale = 1,
   ...rest
 }: {
   as?: React.ElementType;
@@ -119,6 +131,7 @@ export const CardItem = ({
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
+  scale?: number | string;
   [key: string]: any;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -131,9 +144,9 @@ export const CardItem = ({
   const handleAnimations = () => {
     if (!ref.current) return;
     if (isMouseEntered) {
-      ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+      ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
     } else {
-      ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
+      ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1)`;
     }
   };
 

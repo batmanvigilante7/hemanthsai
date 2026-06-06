@@ -1,372 +1,160 @@
-import React, { useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronRight, FileText, X } from 'lucide-react';
-import './ThoughtWorkspace.css';
+import React from 'react';
+import { ImagesBadge } from '@/components/ui/images-badge';
 
-const getAssetUrl = (fileName: string) => {
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  return `${baseUrl}assets/${fileName}`;
-};
+const getAssetUrl = (fileName: string) => `/assets/${fileName}`;
 
-interface FileItem {
-  id: string;
-  title: string;
-  tag: string;
-  summary: string;
-}
+const defaultPreviewImages = [
+  getAssetUrl('thought-workspace-bg.webp'),
+  getAssetUrl('thought-workspace-bg.webp'),
+  getAssetUrl('thought-workspace-bg.webp'),
+];
 
-interface WorkspaceDrawer {
-  id: string;
-  title: string;
-  count: number;
-  color: string;
-  icon: string;
-  files: FileItem[];
-  polygonPoints: string;
-  position: {
-    left: string;
-    top: string;
-    width: string;
-    height: string;
-  };
-}
-
-const makeFiles = (prefix: string, tag: string, titles: string[]): FileItem[] =>
-  titles.map((title, index) => ({
-    id: `${prefix}-${index}`,
-    title,
-    tag,
-    summary: `A working note around ${title.toLowerCase()} — patterns, questions, experiments, and proof I keep returning to while building.`,
-  }));
-
-const DRAWERS: WorkspaceDrawer[] = [
+const WORKSPACES = [
   {
     id: 'ai-leverage',
     title: 'AI Leverage',
-    count: 47,
-    color: '#d8d2c5',
-    icon: '◈',
-    files: [
-      { id: 'prompt-systems', title: 'Prompt Systems', tag: 'SYSTEMS', summary: 'Turning raw thoughts into structured prompts, critique loops, checklists, and build instructions.' },
-      { id: 'agent-workflows', title: 'Agent Workflows', tag: 'CODING LOOPS', summary: 'Using agents to inspect files, edit code, run checks, and ship faster while keeping human judgment in control.' },
-      { id: 'local-models', title: 'Local Models', tag: 'INFRASTRUCTURE', summary: 'Testing Ollama, Qwen, and coding models as a private workshop for learning and building.' },
-      { id: 'ai-interfaces', title: 'AI Product Interfaces', tag: 'PRODUCT UX', summary: 'Moving beyond chatboxes into canvases, workspaces, drawers, files, and visible thinking systems.' },
-    ],
-    polygonPoints: "53,214 409,211 409,408 53,423",
-    position: { left: '3.45%', top: '20.63%', width: '23.16%', height: '21.41%' },
+    description:
+      'Prompt systems, agent workflows, local models, and AI product interfaces.',
+    images: defaultPreviewImages,
   },
   {
     id: 'ux-psychology',
     title: 'UX Psychology',
-    count: 18,
-    color: '#c99a5a',
-    icon: '◎',
-    files: makeFiles('ux', 'BEHAVIOR', ['Attention', 'Friction', 'Mental Models', 'Microcopy', 'Trust Cues']),
-    polygonPoints: "431,197 739,188 739,385 431,400",
-    position: { left: '28.04%', top: '18.38%', width: '20.04%', height: '20.72%' },
+    description:
+      'Attention, friction, mental models, microcopy, and trust cues.',
+    images: defaultPreviewImages,
   },
   {
     id: 'startup-validation',
     title: 'Startup Validation',
-    count: 24,
-    color: '#d5b18a',
-    icon: '▧',
-    files: makeFiles('validation', 'REALITY TESTING', ['Problem Discovery', 'User Interviews', 'Landing Tests', 'MVP Scope', 'PMF Signals']),
-    polygonPoints: "760,181 1004,172 1004,362 760,376",
-    position: { left: '49.45%', top: '16.81%', width: '15.88%', height: '19.94%' },
+    description:
+      'Problem discovery, user interviews, landing tests, MVP scope, and PMF signals.',
+    images: defaultPreviewImages,
   },
   {
     id: 'cinematic-storytelling',
     title: 'Cinematic Storytelling',
-    count: 32,
-    color: '#cfc1a8',
-    icon: '▤',
-    files: makeFiles('story', 'NARRATIVE', ['Visual Metaphors', 'Scene Design', 'Hero Framing', 'Attention Beats', 'Brand Worlds']),
-    polygonPoints: "1026,161 1285,151 1285,338 1026,351",
-    position: { left: '66.75%', top: '14.76%', width: '16.85%', height: '19.55%' },
+    description:
+      'Visual metaphors, scene design, hero framing, attention beats, and brand worlds.',
+    images: defaultPreviewImages,
   },
   {
     id: 'investing-mental-models',
     title: 'Investing Mental Models',
-    count: 15,
-    color: '#a66f35',
-    icon: '↗',
-    files: makeFiles('investing', 'MODELS', ['Compounding', 'Incentives', 'Risk', 'Cycles', 'Moats']),
-    polygonPoints: "53,430 409,415 409,628 53,645",
-    position: { left: '3.45%', top: '40.57%', width: '23.16%', height: '22.48%' },
+    description:
+      'Compounding, incentives, risk, cycles, and moats.',
+    images: defaultPreviewImages,
   },
   {
     id: 'execution-psychology',
     title: 'Execution Psychology',
-    count: 29,
-    color: '#9e9066',
-    icon: 'ϟ',
-    files: makeFiles('execution', 'MOMENTUM', ['21-Day Sprints', 'Activation Energy', 'Deep Work', 'Feedback Loops', 'Ship Criteria']),
-    polygonPoints: "431,407 739,392 739,597 431,614",
-    position: { left: '28.04%', top: '38.32%', width: '20.04%', height: '21.7%' },
+    description:
+      '21-day sprints, activation energy, deep work, feedback loops, and ship criteria.',
+    images: defaultPreviewImages,
   },
   {
     id: 'product-communication',
     title: 'Product Communication',
-    count: 12,
-    color: '#8d9092',
-    icon: '◌',
-    files: makeFiles('communication', 'CLARITY', ['Positioning', 'Launch Copy', 'Feature Narratives', 'Demos', 'Case Studies']),
-    polygonPoints: "760,384 1004,369 1004,562 760,579",
-    position: { left: '49.45%', top: '36.07%', width: '15.88%', height: '20.53%' },
+    description:
+      'Positioning, launch copy, feature narratives, demos, and case studies.',
+    images: defaultPreviewImages,
   },
   {
     id: 'personal-proof-systems',
     title: 'Personal Proof Systems',
-    count: 21,
-    color: '#b6783e',
-    icon: '✎',
-    files: makeFiles('proof', 'EVIDENCE', ['Portfolio Hub', 'Build Logs', 'Framework Library', 'GitHub Proof', 'Demo Videos']),
-    polygonPoints: "1026,359 1285,345 1285,532 1026,547",
-    position: { left: '66.75%', top: '33.72%', width: '16.85%', height: '19.75%' },
+    description:
+      'Portfolio hub, build logs, framework library, GitHub proof, and demo videos.',
+    images: defaultPreviewImages,
   },
 ];
 
-const trayVariants = {
-  hidden: { opacity: 0, scale: 0.96, y: 3 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 200,
-      damping: 26,
-      staggerChildren: 0.04,
-      delayChildren: 0.02,
-    }
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.96,
-    y: 3,
-    transition: {
-      duration: 0.15,
-      ease: 'easeOut' as const,
-    }
-  }
-};
-
-const fileVariants = {
-  hidden: { y: 15, opacity: 0 },
-  inactive: {
-    y: 0,
-    scale: 1,
-    rotate: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 220,
-      damping: 26,
-    }
-  },
-  active: (index: number) => ({
-    y: -10,
-    scale: 1.05,
-    rotate: index % 2 === 0 ? 1 : -1,
-    opacity: 1,
-    transition: {
-      type: 'spring' as const,
-      stiffness: 220,
-      damping: 26,
-    }
-  })
-};
-
 export function ThoughtWorkspace() {
-  const [activeDrawerId, setActiveDrawerId] = useState<string | null>('personal-proof-systems');
-  const [activeFileId, setActiveFileId] = useState<string | null>('proof-0');
-
-  const activeDrawer = useMemo(
-    () => DRAWERS.find((drawer) => drawer.id === activeDrawerId) ?? null,
-    [activeDrawerId]
-  );
-
-  const activeFile = useMemo(() => {
-    if (!activeDrawer) return null;
-    return activeDrawer.files.find((file) => file.id === activeFileId) ?? activeDrawer.files[0];
-  }, [activeDrawer, activeFileId]);
-
-  const openDrawer = (drawer: WorkspaceDrawer) => {
-    setActiveDrawerId((current) => (current === drawer.id ? null : drawer.id));
-    setActiveFileId(drawer.files[0]?.id ?? null);
-  };
-
   return (
-    <section className="tw-section" id="thought-workspace" aria-label="Thought Workspace Section">
-      <div className="tw-sim-shell">
-        <div className="tw-copy-panel">
-          <p className="tw-section-eyebrow">THOUGHT WORKSPACE</p>
-          <h2 className="tw-section-title">
-            The Ideas<br />I Keep<br /><span>Returning To</span>
-          </h2>
-          <p className="tw-section-subtitle">
-            A private workspace of ongoing investigations, systems, and experiments that shape the work I do.
-          </p>
-          <p className="tw-signature">— Hemanth Sai</p>
-          <div className="tw-stat-row">
-            <div><strong>8</strong><span>Active Desks</span></div>
-            <div><strong>57</strong><span>Files & Notes</span></div>
-            <div><strong>∞</strong><span>Iterations</span></div>
+    <section
+      id="thought-workspace"
+      className="relative overflow-hidden bg-[#0b0b0a] px-6 py-24 text-white"
+      aria-label="Thought Workspace Section"
+    >
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-14 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-300/80">
+              Thought Workspace
+            </p>
+
+            <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
+              The desks inside my mind.
+            </h2>
           </div>
-          <blockquote className="tw-quote-card">
-            I don’t collect ideas.<br />I work with the ones<br />that don’t leave me.
-          </blockquote>
+
+          <div>
+            <p className="max-w-xl text-base leading-7 text-white/60 md:text-lg">
+              A visual map of the systems I keep returning to while building
+              with AI, software, design, product thinking, and storytelling.
+            </p>
+          </div>
         </div>
 
-        <div className="tw-workshop-stage">
+        <div className="relative mb-10 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] shadow-2xl">
           <img
-            className="tw-scene-photo"
-            src={getAssetUrl('thought-workshop-scene.webp')}
-            alt="Hemanth Sai working inside a warm thought workspace"
+            src={getAssetUrl('thought-workspace-bg.webp')}
+            alt="Cinematic thought workspace scene"
+            className="h-[420px] w-full object-cover md:h-[560px]"
           />
-          <div className="tw-photo-wash" />
 
-          {/* SVG Hotspots Overlay */}
-          <svg className="tw-hotspot-svg" viewBox="0 0 1537 1023" preserveAspectRatio="xMidYMid meet">
-            {DRAWERS.map((drawer) => {
-              const isActive = activeDrawerId === drawer.id;
-              return (
-                <polygon
-                  key={drawer.id}
-                  points={drawer.polygonPoints}
-                  className={`tw-drawer-poly ${isActive ? 'is-active' : ''}`}
-                  onClick={() => openDrawer(drawer)}
-                  aria-label={`Open ${drawer.title}`}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
+
+          <div className="absolute bottom-0 left-0 max-w-2xl p-6 md:p-10">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-amber-200/80">
+              Active System
+            </p>
+
+            <h3 className="text-2xl font-semibold md:text-4xl">
+              Ideas become useful when they get a workspace.
+            </h3>
+
+            <p className="mt-4 text-sm leading-6 text-white/60 md:text-base">
+              This section is not a library. It is a working desk for the
+              obsessions that keep shaping my proof-of-work.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {WORKSPACES.map((workspace) => (
+            <article
+              key={workspace.id}
+              className="group rounded-3xl border border-white/10 bg-white/[0.035] p-6 transition duration-300 hover:-translate-y-1 hover:border-amber-300/30 hover:bg-white/[0.06]"
+            >
+              <div className="mb-8 flex items-start justify-between gap-6">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-white/35">
+                    Workspace
+                  </p>
+
+                  <h3 className="mt-3 text-2xl font-semibold text-white">
+                    {workspace.title}
+                  </h3>
+                </div>
+
+                <ImagesBadge
+                  text="Preview"
+                  images={workspace.images}
+                  folderSize={{ width: 36, height: 27 }}
+                  teaserImageSize={{ width: 22, height: 15 }}
+                  hoverImageSize={{ width: 52, height: 34 }}
+                  hoverTranslateY={-38}
+                  hoverSpread={22}
+                  hoverRotation={14}
+                  className="shrink-0 text-white/70 hover:text-amber-200"
                 />
-              );
-            })}
-          </svg>
+              </div>
 
-          {/* Active Drawer Open Tray Overlay */}
-          <AnimatePresence>
-            {activeDrawer && (() => {
-              const isLeftSide = ['ai-leverage', 'ux-psychology', 'investing-mental-models', 'execution-psychology'].includes(activeDrawer.id);
-              const skewTransform = isLeftSide
-                ? 'rotate(-0.5deg) skewX(-1deg)'
-                : 'rotate(0.4deg) skewX(-1.2deg)';
-
-              return (
-                <div
-                  key={`tray-wrapper-${activeDrawer.id}`}
-                  className="tw-open-tray-wrapper"
-                  style={{
-                    left: activeDrawer.position.left,
-                    top: activeDrawer.position.top,
-                    width: activeDrawer.position.width,
-                    height: activeDrawer.position.height,
-                    transform: skewTransform,
-                  } as React.CSSProperties}
-                >
-                  <motion.div
-                    className="tw-open-tray"
-                    variants={trayVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    {/* Close button inside the tray to toggle back to hotspot */}
-                    <button
-                      type="button"
-                      className="tw-tray-close-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveDrawerId(null);
-                        setActiveFileId(null);
-                      }}
-                      aria-label="Close drawer"
-                    >
-                      <X size={10} />
-                    </button>
-
-                    {/* Staggered File Divider Cards */}
-                    <div className="tw-tray-files">
-                      {activeDrawer.files.slice(0, 5).map((file, index) => {
-                        const isFileActive = activeFileId === file.id;
-                        return (
-                          <motion.button
-                            key={file.id}
-                            type="button"
-                            className={`tw-paper-file ${isFileActive ? 'active' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActiveFileId(file.id);
-                            }}
-                            variants={fileVariants}
-                            custom={index}
-                            animate={isFileActive ? 'active' : 'inactive'}
-                          >
-                            {file.title}
-                          </motion.button>
-                        );
-                      })}
-                    </div>
-                  </motion.div>
-                </div>
-              );
-            })()}
-          </AnimatePresence>
-
-          <AnimatePresence>
-            {activeDrawer && (
-              <motion.aside
-                key={activeDrawer.id}
-                className="tw-file-panel"
-                initial={{ opacity: 0, x: 34, scale: 0.98 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 34, scale: 0.98 }}
-                transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div className="tw-file-panel-header">
-                  <div>
-                    <h3>{activeDrawer.title}</h3>
-                    <p>{activeDrawer.files.length} files</p>
-                  </div>
-                  <button type="button" onClick={() => setActiveDrawerId(null)} aria-label="Close file panel">
-                    <X size={16} />
-                  </button>
-                </div>
-                <div className="tw-file-panel-list">
-                  {activeDrawer.files.map((file) => {
-                    const selected = activeFile?.id === file.id;
-                    return (
-                      <button
-                        key={file.id}
-                        type="button"
-                        className={`tw-file-tab ${selected ? 'selected' : ''}`}
-                        onClick={() => setActiveFileId(file.id)}
-                      >
-                        <FileText size={16} />
-                        <span>
-                          <strong>{file.title}</strong>
-                          <small>{file.tag}</small>
-                        </span>
-                        <ChevronRight size={14} />
-                      </button>
-                    );
-                  })}
-                </div>
-                {activeFile && (
-                  <motion.div
-                    key={activeFile.id}
-                    className="tw-file-preview"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.22 }}
-                  >
-                    <span>{activeFile.tag}</span>
-                    <h4>{activeFile.title}</h4>
-                    <p>{activeFile.summary}</p>
-                  </motion.div>
-                )}
-              </motion.aside>
-            )}
-          </AnimatePresence>
+              <p className="max-w-xl text-sm leading-6 text-white/55">
+                {workspace.description}
+              </p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
