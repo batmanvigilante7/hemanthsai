@@ -134,7 +134,7 @@ const trayVariants = {
     scale: 1,
     y: 0,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 200,
       damping: 26,
       staggerChildren: 0.04,
@@ -147,7 +147,7 @@ const trayVariants = {
     y: 3,
     transition: {
       duration: 0.15,
-      ease: 'easeOut',
+      ease: 'easeOut' as const,
     }
   }
 };
@@ -160,7 +160,7 @@ const fileVariants = {
     rotate: 0,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 220,
       damping: 26,
     }
@@ -171,7 +171,7 @@ const fileVariants = {
     rotate: index % 2 === 0 ? 1 : -1,
     opacity: 1,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       stiffness: 220,
       damping: 26,
     }

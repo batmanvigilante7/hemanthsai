@@ -4,6 +4,7 @@ import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, 
 import MobileSemiOrbitLoop from './components/MobileSemiOrbitLoop';
 import IdentityStack from './components/IdentityStack';
 import ThoughtWorkspace from './components/ThoughtWorkspace';
+import { CardContainer, CardBody, CardItem } from './components/ui/3d-card';
 
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
@@ -680,7 +681,53 @@ function Capabilities() { return <section className="bg-white px-5 py-16 text-bl
 function Obsessions() { return <section className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Current explorations</SectionLabel><SectionHeading light>The ideas I keep returning to.</SectionHeading></FadeIn><div className="mt-10 grid gap-3.5 sm:mt-14 md:grid-cols-2">{obsessions.map((obsession, index) => <FadeIn key={obsession} delay={index * 0.03}><div className="liquid-glass flex min-h-16 items-center justify-between gap-5 rounded-[1.5rem] px-5 py-5 sm:rounded-[2rem] sm:px-6 sm:py-6"><span className="text-xl font-semibold tracking-[-0.05em] sm:text-2xl">{obsession}</span><span className="shrink-0 text-[10px] uppercase tracking-[0.18em] text-white/35 sm:text-xs sm:tracking-[0.24em]">Active</span></div></FadeIn>)}</div></div></section>; }
 function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [string, string, string, string, string, string, string, string]; onOpen: () => void; className?: string }) {
   const [number, title, caption, src, alt, label, imgClassName] = chapter;
-  return <FadeIn className={className}><button type="button" onClick={onOpen} className="block h-full w-full cursor-pointer text-left"><article className="group relative h-full min-h-[320px] overflow-hidden rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] transition duration-300 hover:scale-[1.01] hover:border-black/20 sm:min-h-[360px] sm:rounded-[2rem] md:min-h-0"><ImageFrame src={src} alt={alt} label={label} tone="soft" fit="cover" className="absolute inset-0 h-full w-full" imgClassName={imgClassName} /><div className="absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.78))]" /><div className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6"><p className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]">{number} / {label}</p><h3 className="max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em]">{title}</h3><p className="mt-3 max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem]">{caption}</p><p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">Tap to read the story</p></div></article></button></FadeIn>;
+  return (
+    <FadeIn className={className}>
+      <CardContainer className="w-full h-full" containerClassName="py-0 w-full h-full">
+        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] transition duration-300 hover:border-black/20 hover:ring-4 hover:ring-blue-500/80 sm:rounded-[2rem] flex flex-col justify-end">
+          <button
+            type="button"
+            onClick={onOpen}
+            className="absolute inset-0 z-30 cursor-pointer outline-none bg-transparent border-0"
+            aria-label={`Read story: ${title}`}
+          />
+          <CardItem translateZ="120" className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
+            <ImageFrame
+              src={src}
+              alt={alt}
+              label={label}
+              tone="soft"
+              fit="cover"
+              className="h-full w-full"
+              imgClassName={imgClassName}
+            />
+          </CardItem>
+          <div className="absolute inset-0 z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.78))]" />
+          <div
+            className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6 flex flex-col pointer-events-none"
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            <p className="mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]">
+              {number} / {label}
+            </p>
+            <CardItem translateZ="80" className="block w-full">
+              <h3 className="max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
+                {title}
+              </h3>
+            </CardItem>
+            <CardItem translateZ="50" className="block w-full mt-3">
+              <p className="max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem]">
+                {caption}
+              </p>
+            </CardItem>
+            <p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">
+              Tap to read the story
+            </p>
+          </div>
+        </CardBody>
+      </CardContainer>
+    </FadeIn>
+  );
 }
 
 function ChapterStoryModal({ chapter, onClose }: { chapter: readonly [string, string, string, string, string, string, string, string]; onClose: () => void }) {
