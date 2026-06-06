@@ -191,9 +191,9 @@
 
 .tw-sim-drawer:hover::before,
 .tw-sim-drawer.is-open::before {
-  background: rgba(255, 221, 162, 0.10);
-  border: 1px solid rgba(255, 226, 174, 0.33);
-  box-shadow: 0 0 34px rgba(255, 205, 125, 0.30);
+  background: rgba(255, 221, 162, 0.08);
+  border: 1px solid rgba(255, 226, 174, 0.22);
+  box-shadow: 0 0 34px rgba(255, 205, 125, 0.25);
 }
 
 .tw-drawer-cavity {
@@ -203,9 +203,9 @@
   top: 8%;
   height: 72%;
   border-radius: 13px;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  background: linear-gradient(180deg, rgba(36, 26, 19, 0.95), rgba(18, 12, 8, 0.98));
+  border: 1px solid rgba(255, 228, 184, 0.12);
+  box-shadow: inset 0 12px 24px rgba(0, 0, 0, 0.65);
   overflow: hidden;
   z-index: 1;
 }
@@ -228,13 +228,68 @@
   box-shadow: 0 4px 8px rgba(0,0,0,.22);
 }
 
-/* Hide all visible drawer front elements */
-.tw-drawer-front,
-.tw-drawer-title,
-.tw-drawer-icon,
-.tw-drawer-handle,
+.tw-drawer-front {
+  position: absolute;
+  inset: 7%;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18), transparent 28%),
+    linear-gradient(135deg, color-mix(in srgb, var(--drawer-color) 78%, #fff 22%), var(--drawer-color));
+  border: 1px solid rgba(57, 37, 21, 0.36);
+  box-shadow: 
+    0 10px 24px rgba(26,15,8,0.22), 
+    inset 0 1px 0 rgba(255,255,255,0.38);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
+  gap: 0.3rem;
+  padding: 0.65rem;
+  color: #261a11;
+  transition: box-shadow 0.22s ease;
+}
+
+.tw-sim-drawer.is-open .tw-drawer-front {
+  box-shadow: 
+    0 20px 42px rgba(18,10,4,0.35), 
+    inset 0 1px 0 rgba(255,255,255,0.38);
+}
+
+.tw-drawer-title {
+  font-size: clamp(0.52rem, 0.95vw, 0.8rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  align-self: start;
+  max-width: 100%;
+}
+
+.tw-drawer-icon {
+  font-size: clamp(0.7rem, 1vw, 1rem);
+  opacity: 0.72;
+}
+
+.tw-drawer-handle {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 42px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  border-radius: 99px;
+  background: rgba(43, 30, 20, 0.22);
+  border: 1px solid rgba(35, 22, 13, 0.25);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.24);
+}
+
 .tw-drawer-count {
-  display: none !important;
+  align-self: end;
+  justify-self: start;
+  font-size: clamp(0.42rem, 0.72vw, 0.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  color: rgba(39, 26, 16, 0.62);
 }
 
 .tw-file-panel {
