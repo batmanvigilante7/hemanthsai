@@ -1,5 +1,5 @@
-import OldApp from "./OldApp";
+import PortfolioApp from "./PortfolioApp";
 
 export default function App() {
-  return <OldApp />;
+  return <PortfolioApp />;
 }
