@@ -133,7 +133,7 @@
 }
 
 .chapter-card:hover .chapter-card-title {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
 
 /* Caption opacity and translation */
@@ -145,7 +145,7 @@
 
 .chapter-card:hover .chapter-card-caption {
   opacity: 0.95;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 /* Chapter Number / Badge Chip floating & rotation */
@@ -159,7 +159,7 @@
 }
 
 .chapter-card:hover .chapter-chip {
-  transform: translateY(-8px) rotate(1deg);
+  transform: translateY(-5px);
 }
 
 /* Soft highlight spotlight hover glow */
