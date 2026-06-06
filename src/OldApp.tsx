@@ -4,6 +4,7 @@ import { ArrowUpRight, BrainCircuit, Brush, Code2, Github, Instagram, Linkedin, 
 import MobileSemiOrbitLoop from './components/MobileSemiOrbitLoop';
 import IdentityStack from './components/IdentityStack';
 import ThoughtWorkspace from './components/ThoughtWorkspace';
+import { CardContainer, CardBody, CardItem } from './components/ui/3d-card';
 
 const asset = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
@@ -682,54 +683,86 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
   const [number, title, caption, src, alt, label, imgClassName] = chapter;
   return (
     <FadeIn className={className}>
-      <article className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] sm:rounded-[2rem] flex flex-col justify-end overflow-hidden">
-        <button
-          type="button"
-          onClick={onOpen}
-          className="absolute inset-0 z-30 cursor-pointer outline-none bg-transparent border-0"
-          aria-label={`Read story: ${title}`}
-        />
-        
-        {/* Soft highlight glow follows hover */}
-        <div className="chapter-card-glow" />
+      <CardContainer containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="w-full h-full">
+        <CardBody className="chapter-card group relative h-full w-full rounded-[1.5rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] sm:rounded-[2rem] flex flex-col justify-end overflow-hidden [transform-style:preserve-3d]">
+          <CardItem
+            as="button"
+            type="button"
+            onClick={onOpen}
+            translateZ="100"
+            className="absolute inset-0 z-30 w-full h-full cursor-pointer outline-none bg-transparent border-0"
+            aria-label={`Read story: ${title}`}
+          >
+            <span className="sr-only">Read story: {title}</span>
+          </CardItem>
+          
+          {/* Soft highlight glow follows hover */}
+          <div className="chapter-card-glow" />
 
-        {/* Image layer */}
-        <div className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden">
-          <ImageFrame
-            src={src}
-            alt={alt}
-            label={label}
-            tone="soft"
-            fit="cover"
-            className="h-full w-full"
-            imgClassName={`chapter-card-img ${imgClassName}`}
-          />
-        </div>
-        
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.78))]" />
-        
-        {/* Content layer */}
-        <div className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6 flex flex-col pointer-events-none">
-          <div className="chapter-chip mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]">
-            <span className="font-bold">{number}</span>
-            <span className="text-white/30">/</span>
-            <span>{label}</span>
+          {/* Image layer */}
+          <CardItem
+            translateZ="-20"
+            className="absolute inset-0 h-full w-full z-0 select-none pointer-events-none rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden"
+          >
+            <ImageFrame
+              src={src}
+              alt={alt}
+              label={label}
+              tone="soft"
+              fit="cover"
+              className="h-full w-full"
+              imgClassName={`chapter-card-img ${imgClassName}`}
+            />
+          </CardItem>
+          
+          {/* Gradient Overlay */}
+          <CardItem
+            translateZ="0"
+            className="absolute inset-0 z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(0,0,0,0.78))] w-full h-full"
+          >
+            {null}
+          </CardItem>
+          
+          {/* Content layer */}
+          <div className="absolute inset-x-0 bottom-0 z-20 p-4 text-white sm:p-5 lg:p-6 flex flex-col pointer-events-none [transform-style:preserve-3d]">
+            <CardItem
+              translateZ="40"
+              className="chapter-chip mb-2 text-[9px] uppercase tracking-[0.2em] text-white/58 sm:text-[10px]"
+            >
+              <span className="font-bold">{number}</span>
+              <span className="text-white/30">/</span>
+              <span>{label}</span>
+            </CardItem>
+            
+            <CardItem
+              translateZ="60"
+              className="w-full"
+            >
+              <h3 className="chapter-card-title max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
+                {title}
+              </h3>
+            </CardItem>
+            
+            <CardItem
+              translateZ="80"
+              className="w-full"
+            >
+              <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem] mt-3">
+                {caption}
+              </p>
+            </CardItem>
+            
+            <CardItem
+              translateZ="100"
+              className="w-full"
+            >
+              <p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">
+                Tap to read the story
+              </p>
+            </CardItem>
           </div>
-          
-          <h3 className="chapter-card-title max-w-xl text-[clamp(1.35rem,3.4vw,2.55rem)] font-black uppercase leading-[0.92] tracking-[-0.055em] text-white">
-            {title}
-          </h3>
-          
-          <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-white/78 sm:text-sm lg:text-[0.95rem] mt-3">
-            {caption}
-          </p>
-          
-          <p className="mt-4 text-[9px] uppercase tracking-[0.24em] text-white/48">
-            Tap to read the story
-          </p>
-        </div>
-      </article>
+        </CardBody>
+      </CardContainer>
     </FadeIn>
   );
 }
