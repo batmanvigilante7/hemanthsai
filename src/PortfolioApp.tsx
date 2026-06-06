@@ -682,9 +682,9 @@ function Obsessions() { return <section className="bg-[#050505] px-5 py-16 text-
 function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [string, string, string, string, string, string, string, string]; onOpen: () => void; className?: string }) {
   const [number, title, caption, src, alt, label, imgClassName] = chapter;
   return (
-    <FadeIn className={className}>
-      <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="w-full h-full">
-        <CardBody className="chapter-card group relative h-full w-full p-4 rounded-[1.5rem] sm:rounded-[2rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col justify-start gap-3 md:p-5 md:gap-4 [transform-style:preserve-3d]">
+    <FadeIn className={`${className} md:min-h-[390px] outline outline-2 outline-red-500`}>
+      <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch outline outline-2 outline-red-500" className="w-full h-full md:w-full md:h-full outline outline-2 outline-red-500">
+        <CardBody className="chapter-card group relative h-full w-full p-4 rounded-[1.5rem] sm:rounded-[2rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col justify-start gap-3 md:p-5 md:gap-4 md:min-h-[390px] md:w-full md:h-full block md:block opacity-100 visible [transform-style:preserve-3d] outline outline-2 outline-red-500">
           <button
             type="button"
             onClick={onOpen}
@@ -700,7 +700,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
           {/* Image layer */}
           <CardItem
             translateZ="95"
-            className="relative w-full h-[180px] md:h-[200px] overflow-hidden rounded-xl md:rounded-2xl select-none pointer-events-none z-0"
+            className="relative w-full h-[180px] md:h-[210px] overflow-hidden rounded-xl md:rounded-2xl select-none pointer-events-none z-0 md:relative md:block md:w-full"
           >
             <ImageFrame
               src={src}
@@ -714,7 +714,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
           </CardItem>
           
           {/* Content layer */}
-          <div className="flex flex-col gap-1.5 md:gap-2 text-black [transform-style:preserve-3d]">
+          <div className="flex flex-col gap-1.5 md:gap-2 text-black [transform-style:preserve-3d] md:relative md:inset-auto md:flex md:flex-col">
             <CardItem
               translateZ="70"
               translateY={-5}
@@ -777,7 +777,7 @@ function BeforeCode() {
   ] as const;
 
   return (
-    <section id="before-code" className="bg-white px-5 py-16 text-black sm:px-8 md:px-10 md:py-[72px]">
+    <section id="before-code" className="bg-white px-5 py-12 text-black sm:px-8 md:px-10 md:py-[72px]">
       <div className="mx-auto max-w-7xl">
         <FadeIn>
           <SectionLabel>Before the code</SectionLabel>
@@ -786,12 +786,12 @@ function BeforeCode() {
             These are not decorative images. They are proof of the environments, pressure, discipline, and people that shaped how I build now.
           </p>
         </FadeIn>
-        <div className="mt-10 grid gap-4 sm:mt-14 md:mt-10 md:grid-cols-6 md:gap-6 md:items-stretch">
-          <ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="aspect-[16/9] md:aspect-auto md:col-span-2" />
-          <ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="min-h-[520px] md:min-h-0 md:col-span-2" />
-          <ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="aspect-[16/9] md:aspect-auto md:col-span-2" />
-          <ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="aspect-[4/5] md:aspect-auto md:col-span-3" />
-          <ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="aspect-[16/9] md:aspect-auto md:col-span-3" />
+        <div className="mt-7 grid gap-4 sm:mt-10 md:mt-8 md:grid-cols-6 md:gap-6 md:items-stretch">
+          <ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="aspect-[16/9] md:aspect-auto md:col-span-2 md:min-h-[390px]" />
+          <ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="min-h-[520px] md:min-h-[390px] md:col-span-2" />
+          <ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="aspect-[16/9] md:aspect-auto md:col-span-2 md:min-h-[390px]" />
+          <ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="aspect-[4/5] md:aspect-auto md:col-span-3 md:min-h-[390px]" />
+          <ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="aspect-[16/9] md:aspect-auto md:col-span-3 md:min-h-[390px]" />
         </div>
       </div>
       {activeChapter !== null && <ChapterStoryModal chapter={chapters[activeChapter]} onClose={() => setActiveChapter(null)} />}
