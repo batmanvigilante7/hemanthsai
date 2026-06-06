@@ -166,7 +166,7 @@ function Button({ children, href = '#' }: { children: ReactNode; href?: string }
 const SectionLabel = ({ children }: { children: ReactNode }) => <p className="mb-4 text-[10px] uppercase tracking-[0.28em] text-current/45 sm:text-xs sm:tracking-[0.32em]">{children}</p>;
 const SectionHeading = ({ children, light = false }: { children: ReactNode; light?: boolean }) => <h2 className={`max-w-5xl text-[clamp(2.45rem,12vw,5.8rem)] font-black uppercase leading-[0.92] tracking-[-0.075em] ${light ? 'text-white' : 'text-black'}`}>{children}</h2>;
 type ChapterImageFit = 'cover' | 'contain';
-type ChapterImagePlate = 'normal' | 'tall';
+type ChapterImagePlate = 'normal' | 'wide' | 'tall';
 type Chapter = {
   number: string;
   title: string;
@@ -706,7 +706,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
     imagePlate = 'normal',
     useBlurBackplate = false,
   } = chapter;
-  const desktopPlateHeight = imagePlate === 'tall' ? 'md:h-[280px]' : 'md:h-[210px]';
+  const desktopPlateHeight = imagePlate === 'wide' ? 'md:h-[240px]' : imagePlate === 'tall' ? 'md:h-[240px]' : 'md:h-[220px]';
   const desktopFitClass = imageFit === 'contain' ? 'md:object-contain' : 'md:object-cover';
   return (
     <FadeIn className={`${className} md:min-h-[360px]`}>
@@ -811,7 +811,8 @@ function BeforeCode() {
     ['05', 'Present Chapter', 'GITAM is the current arena — software, AI, design, product thinking, and sharper proof.', images.gitam, 'GITAM campus portrait', 'GITAM', 'object-[50%_45%]', 'GITAM is my current arena. This is where I am exploring software, AI, design, and product thinking while learning how to turn scattered curiosity into visible work. I am still early, but this is where the builder version of me is taking shape.'],
   ] as const;
   const chapters: Chapter[] = chapterRows.map(([number, title, caption, src, alt, label, imagePosition, story]) => {
-    const shouldContain = label === 'Leadership' || label === 'Voice';
+    const shouldContain = label === 'Leadership' || label === 'Voice' || label === 'GITAM';
+    const isBottomWideCard = label === 'Voice' || label === 'GITAM';
     return {
       number,
       title,
@@ -821,8 +822,8 @@ function BeforeCode() {
       label,
       story,
       imageFit: shouldContain ? 'contain' : 'cover',
-      imagePosition: imagePosition.replace('object-[', '').replace(']', '').replace('_', ' '),
-      imagePlate: shouldContain ? 'tall' : 'normal',
+      imagePosition: label === 'GITAM' ? 'center center' : imagePosition.replace('object-[', '').replace(']', '').replace('_', ' '),
+      imagePlate: isBottomWideCard ? 'wide' : 'normal',
       useBlurBackplate: shouldContain,
     };
   });
