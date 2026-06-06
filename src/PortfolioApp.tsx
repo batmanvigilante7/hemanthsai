@@ -711,7 +711,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
   return (
     <FadeIn className={`${className} md:min-h-[360px]`}>
       <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="h-full w-full">
-        <CardBody className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d]">
+        <CardBody className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-visible rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d]">
           <button
             type="button"
             onClick={onOpen}
