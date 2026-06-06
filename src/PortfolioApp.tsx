@@ -708,6 +708,12 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
   } = chapter;
   const desktopPlateHeight = imagePlate === 'wide' ? 'md:h-[240px]' : imagePlate === 'tall' ? 'md:h-[240px]' : 'md:h-[220px]';
   const desktopFitClass = imageFit === 'contain' ? 'md:object-contain' : 'md:object-cover';
+  const isWide = imagePlate === 'wide';
+  const imageTranslateZ = isWide ? 72 : 140;
+  const backplateScaleClass = isWide ? 'scale-[1.03]' : 'scale-[1.08]';
+  const backplateBlurClass = isWide ? 'blur-lg' : 'blur-xl';
+  const backplateOpacityClass = isWide ? 'opacity-[0.18]' : 'opacity-[0.45]';
+  const imagePlateWidthClass = isWide ? 'mx-auto w-[calc(100%-2rem)] md:w-[calc(100%-2rem)]' : 'w-full';
   return (
     <FadeIn className={`${className} md:min-h-[360px] overflow-visible`}>
       <CardContainer divisor={18} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch overflow-visible" className="h-full w-full overflow-visible">
@@ -751,10 +757,10 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           </CardItem>
 
           <CardItem
-            translateZ={140}
+            translateZ={imageTranslateZ}
             className="w-full mt-4"
           >
-            <div className={`noise group relative z-0 h-60 w-full select-none overflow-hidden rounded-xl border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}>
+            <div className={`noise group relative z-0 h-60 select-none overflow-hidden rounded-xl border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight} ${imagePlateWidthClass}`}>
               {useBlurBackplate && (
                 <img
                   src={src}
@@ -762,7 +768,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
                   aria-hidden="true"
                   loading="lazy"
                   style={{ objectPosition: imagePosition }}
-                  className="pointer-events-none absolute inset-0 hidden h-full w-full scale-[1.08] object-cover opacity-[0.45] blur-xl md:block"
+                  className={`pointer-events-none absolute inset-0 hidden h-full w-full object-cover ${backplateScaleClass} ${backplateOpacityClass} ${backplateBlurClass} md:block`}
                 />
               )}
               <img
