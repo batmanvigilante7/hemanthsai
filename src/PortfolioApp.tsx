@@ -120,7 +120,6 @@ const pillars = [
   ['05', 'Execution Systems', 'Using sprints, proof loops, and feedback cycles to convert ideas into output.', Target],
 ] as const;
 
-const obsessions = ['AI leverage', 'UX psychology', 'Startup validation', 'Cinematic storytelling', 'Investing mental models', 'Execution psychology', 'Product communication', 'Personal proof systems'];
 const learningLoop = [
   ['01', 'Project', 'Curiosity creates direction.', 'Curiosity becomes real only when it finds a container. I start with a project because a project gives curiosity direction, pressure, and a place to turn into visible work.'],
   ['02', 'Problem', 'Work reveals friction.', 'Once the project begins, the vague idea meets reality. Bugs, unclear structure, weak design, and missing logic reveal the real problem that needs attention.'],
@@ -166,6 +165,22 @@ function ImageFrame({
 function Button({ children, href = '#' }: { children: ReactNode; href?: string }) { return <a href={href} className="liquid-glass group inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full px-5 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-white transition duration-300 hover:scale-[1.02] hover:bg-white/[0.07] sm:w-auto sm:px-6 sm:text-sm sm:tracking-[0.2em]">{children}<ArrowUpRight className="h-4 w-4 shrink-0 transition group-hover:-translate-y-1 group-hover:translate-x-1" /></a>; }
 const SectionLabel = ({ children }: { children: ReactNode }) => <p className="mb-4 text-[10px] uppercase tracking-[0.28em] text-current/45 sm:text-xs sm:tracking-[0.32em]">{children}</p>;
 const SectionHeading = ({ children, light = false }: { children: ReactNode; light?: boolean }) => <h2 className={`max-w-5xl text-[clamp(2.45rem,12vw,5.8rem)] font-black uppercase leading-[0.92] tracking-[-0.075em] ${light ? 'text-white' : 'text-black'}`}>{children}</h2>;
+type ChapterImageFit = 'cover' | 'contain';
+type ChapterImagePlate = 'normal' | 'tall';
+type Chapter = {
+  number: string;
+  title: string;
+  caption: string;
+  src: string;
+  alt: string;
+  label: string;
+  story: string;
+  imageFit?: ChapterImageFit;
+  imagePosition?: string;
+  imagePlate?: ChapterImagePlate;
+  useBlurBackplate?: boolean;
+};
+
 function Divider({ text }: { text: string }) { return <section className="relative overflow-hidden border-y border-white/10 bg-[#050505] py-9 sm:py-14 md:py-16"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_55%)]" /><div className="relative flex animate-marquee-left whitespace-nowrap text-[22vw] font-black uppercase leading-none tracking-[-0.08em] text-white/[0.075] sm:text-[12vw] lg:text-[8vw]">{[0, 1, 2, 3].map((item) => <span key={item} className="mx-5 sm:mx-8">{text}</span>)}</div></section>; }
 
 function Hero() {
@@ -678,13 +693,25 @@ function LearningStackCard({ item, index, onOpen }: { item: typeof learningStack
 function LearningStackModal({ item, onClose }: { item: typeof learningStack[number]; onClose: () => void }) { const [number, title, belief, meaning, focus, story] = item; useEffect(() => { const closeOnKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); }; window.addEventListener('keydown', closeOnKey); document.body.style.overflow = 'hidden'; return () => { window.removeEventListener('keydown', closeOnKey); document.body.style.overflow = ''; }; }, [onClose]); return <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-[#eef2ff]/30 px-4 py-8 backdrop-blur-2xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise max-h-[88svh] w-full max-w-4xl overflow-y-auto rounded-[2rem] border border-white/80 bg-white/70 p-6 text-black shadow-[0_44px_180px_rgba(56,76,116,0.28)] backdrop-blur-3xl sm:p-8 md:rounded-[3rem] md:p-10"><button type="button" onClick={onClose} className="float-right grid h-11 w-11 place-items-center rounded-full border border-black/10 bg-white/55 text-black/70 backdrop-blur-xl"><X className="h-5 w-5" /></button><p className="text-[10px] font-black uppercase tracking-[0.28em] text-black/48">{number} / Learning Stack</p><h3 className="mt-5 max-w-3xl text-[clamp(2.5rem,12vw,5.4rem)] font-black uppercase leading-[0.84] tracking-[-0.08em] text-black">{title}</h3><p className="mt-6 max-w-2xl text-xl font-black leading-snug tracking-[-0.045em] text-black/86 sm:text-2xl">{belief}</p><p className="mt-6 max-w-3xl text-base font-medium leading-relaxed text-black/68 sm:text-lg">{story}</p><div className="mt-8 rounded-3xl border border-[#8da2ff]/20 bg-white/60 p-5 backdrop-blur-xl"><p className="text-[10px] font-black uppercase tracking-[0.24em] text-black/45">How it shows up</p><p className="mt-2 text-sm font-black uppercase tracking-[0.16em] text-black/72 sm:text-base">{focus}</p></div><p className="mt-7 text-[10px] font-black uppercase tracking-[0.24em] text-black/42">Tap outside or press Esc to close</p></motion.article></motion.div>; }
 function Work() { const [activeLearning, setActiveLearning] = useState<number | null>(null); return <section id="work" className="relative overflow-hidden bg-[#edf1f7] px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(255,255,255,0.96),transparent_34%),radial-gradient(circle_at_86%_10%,rgba(197,210,255,0.56),transparent_31%),radial-gradient(circle_at_52%_92%,rgba(236,245,255,0.88),transparent_39%),linear-gradient(135deg,#f8fafc_0%,#e8edf4_42%,#f4f7fb_100%)]" /><div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.45),transparent_38%,rgba(141,162,255,0.10)_68%,transparent)]" /><div className="relative mx-auto max-w-[1500px]"><FadeIn><p className="mb-4 text-[10px] font-black uppercase tracking-[0.28em] text-black sm:text-xs sm:tracking-[0.32em]">Active learning stack</p><h2 className="max-w-6xl text-[clamp(3rem,14vw,8rem)] font-black uppercase leading-[0.84] tracking-[-0.09em] text-black">The Learning Stack</h2><p className="mt-5 max-w-3xl text-xl font-medium leading-relaxed text-black/70 sm:text-2xl">The interests, instincts, and disciplines I’m actively building around.</p></FadeIn><div className="mt-10 grid gap-4 sm:mt-14 md:grid-cols-2 xl:grid-cols-3">{learningStack.map((item, index) => <LearningStackCard key={item[1]} item={item} index={index} onOpen={() => setActiveLearning(index)} />)}</div></div>{activeLearning !== null && <LearningStackModal item={learningStack[activeLearning]} onClose={() => setActiveLearning(null)} />}</section>; }
 function Capabilities() { return <section className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionHeading>Capability pillars.</SectionHeading></FadeIn><div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-5">{pillars.map(([number, title, text, Icon]) => <div key={title} className="rounded-[1.5rem] border border-black/10 bg-black/[0.035] p-5 sm:rounded-[2rem] sm:p-6"><Icon className="mb-7 h-8 w-8 sm:mb-10" /><p className="text-sm text-black/35">{number}</p><h3 className="mt-4 text-lg font-black uppercase tracking-[-0.04em] sm:text-xl">{title}</h3><p className="mt-4 text-sm leading-relaxed text-black/60">{text}</p></div>)}</div></div></section>; }
-function Obsessions() { return <section className="bg-[#050505] px-5 py-16 text-white sm:px-8 sm:py-24 md:px-10"><div className="mx-auto max-w-7xl"><FadeIn><SectionLabel>Current explorations</SectionLabel><SectionHeading light>The ideas I keep returning to.</SectionHeading></FadeIn><div className="mt-10 grid gap-3.5 sm:mt-14 md:grid-cols-2">{obsessions.map((obsession, index) => <FadeIn key={obsession} delay={index * 0.03}><div className="liquid-glass flex min-h-16 items-center justify-between gap-5 rounded-[1.5rem] px-5 py-5 sm:rounded-[2rem] sm:px-6 sm:py-6"><span className="text-xl font-semibold tracking-[-0.05em] sm:text-2xl">{obsession}</span><span className="shrink-0 text-[10px] uppercase tracking-[0.18em] text-white/35 sm:text-xs sm:tracking-[0.24em]">Active</span></div></FadeIn>)}</div></div></section>; }
-function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [string, string, string, string, string, string, string, string]; onOpen: () => void; className?: string }) {
-  const [number, title, caption, src, alt, label, imgClassName] = chapter;
+function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; onOpen: () => void; className?: string }) {
+  const {
+    number,
+    title,
+    caption,
+    src,
+    alt,
+    label,
+    imageFit = 'cover',
+    imagePosition,
+    imagePlate = 'normal',
+    useBlurBackplate = false,
+  } = chapter;
+  const desktopPlateHeight = imagePlate === 'tall' ? 'md:h-[280px]' : 'md:h-[210px]';
+  const desktopFitClass = imageFit === 'contain' ? 'md:object-contain' : 'md:object-cover';
   return (
-    <FadeIn className={`${className} md:min-h-[390px] outline outline-2 outline-red-500`}>
-      <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch outline outline-2 outline-red-500" className="w-full h-full md:w-full md:h-full outline outline-2 outline-red-500">
-        <CardBody className="chapter-card group relative h-full w-full p-4 rounded-[1.5rem] sm:rounded-[2rem] border border-black/10 bg-black/[0.035] shadow-[0_24px_80px_rgba(0,0,0,0.12)] flex flex-col justify-start gap-3 md:p-5 md:gap-4 md:min-h-[390px] md:w-full md:h-full block md:block opacity-100 visible [transform-style:preserve-3d] outline outline-2 outline-red-500">
+    <FadeIn className={`${className} md:min-h-[360px]`}>
+      <CardContainer divisor={35} containerClassName="py-0 h-full w-full flex items-stretch justify-stretch" className="h-full w-full">
+        <CardBody className="chapter-card group relative flex h-full min-h-[360px] w-full flex-col justify-start gap-4 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[linear-gradient(145deg,#111111,#050505)] p-4 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_22px_70px_rgba(0,0,0,0.34),0_0_42px_rgba(255,255,255,0.025)] sm:rounded-[1.75rem] md:min-h-[360px] md:p-5 [transform-style:preserve-3d]">
           <button
             type="button"
             onClick={onOpen}
@@ -694,34 +721,42 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
             <span className="sr-only">Read story: {title}</span>
           </button>
           
-          {/* Soft highlight glow follows hover */}
+          <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/18" />
           <div className="chapter-card-glow" />
 
-          {/* Image layer */}
           <CardItem
             translateZ="95"
-            className="relative w-full h-[180px] md:h-[210px] overflow-hidden rounded-xl md:rounded-2xl select-none pointer-events-none z-0 md:relative md:block md:w-full"
+            className={`noise group relative z-0 h-[190px] w-full select-none overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}
           >
-            <ImageFrame
+            {useBlurBackplate && (
+              <img
+                src={src}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                style={{ objectPosition: imagePosition }}
+                className="pointer-events-none absolute inset-0 hidden h-full w-full scale-[1.08] object-cover opacity-[0.45] blur-xl md:block"
+              />
+            )}
+            <img
               src={src}
               alt={alt}
-              label={label}
-              tone="soft"
-              fit="cover"
-              className="h-full w-full"
-              imgClassName={`chapter-card-img ${imgClassName}`}
+              loading="lazy"
+              style={{ objectPosition: imagePosition }}
+              className={`chapter-card-img relative z-10 h-full w-full object-cover ${desktopFitClass} brightness-100 contrast-105 saturate-[0.92]`}
             />
+            <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" />
+            <div className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" />
           </CardItem>
           
-          {/* Content layer */}
-          <div className="flex flex-col gap-1.5 md:gap-2 text-black [transform-style:preserve-3d] md:relative md:inset-auto md:flex md:flex-col">
+          <div className="flex flex-col gap-2 text-white [transform-style:preserve-3d]">
             <CardItem
               translateZ="70"
               translateY={-5}
-              className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-black/58 sm:text-[10px]"
+              className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-white/50 sm:text-[10px]"
             >
               <span className="font-bold">{number}</span>
-              <span className="text-black/30">/</span>
+              <span className="text-white/24">/</span>
               <span>{label}</span>
             </CardItem>
             
@@ -730,7 +765,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateY={-4}
               className="w-full"
             >
-              <h3 className="chapter-card-title max-w-xl text-[clamp(1.15rem,2.8vw,1.6rem)] font-black uppercase leading-[1.05] tracking-[-0.04em] text-black">
+              <h3 className="chapter-card-title max-w-xl text-[clamp(1.15rem,2.8vw,1.55rem)] font-black uppercase leading-[1.05] tracking-[-0.04em] text-white">
                 {title}
               </h3>
             </CardItem>
@@ -740,7 +775,7 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateY={-2}
               className="w-full"
             >
-              <p className="chapter-card-caption max-w-xl text-xs leading-relaxed text-black/60 mt-0.5 line-clamp-2">
+              <p className="chapter-card-caption mt-0.5 line-clamp-2 max-w-xl text-xs leading-relaxed text-white/58">
                 {caption}
               </p>
             </CardItem>
@@ -749,8 +784,8 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
               translateZ="20"
               className="w-full"
             >
-              <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-black/45">
-                Tap to read the story
+              <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-white/38">
+                View chapter -&gt;
               </p>
             </CardItem>
           </div>
@@ -760,38 +795,55 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: readonly [s
   );
 }
 
-function ChapterStoryModal({ chapter, onClose }: { chapter: readonly [string, string, string, string, string, string, string, string]; onClose: () => void }) {
-  const [number, title, , src, alt, label, imgClassName, story] = chapter;
+function ChapterStoryModal({ chapter, onClose }: { chapter: Chapter; onClose: () => void }) {
+  const { number, title, src, alt, label, story, imagePosition } = chapter;
   useEffect(() => { const closeOnKey = (event: KeyboardEvent) => { if (event.key === 'Escape') onClose(); }; window.addEventListener('keydown', closeOnKey); document.body.style.overflow = 'hidden'; return () => { window.removeEventListener('keydown', closeOnKey); document.body.style.overflow = ''; }; }, [onClose]);
-  return <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/76 px-4 py-8 backdrop-blur-xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise grid max-h-[88svh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-[#090909] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] md:grid-cols-[0.92fr_1.08fr] md:rounded-[3rem]"><div className="relative min-h-[260px] md:min-h-[560px]"><ImageFrame src={src} alt={alt} label={label} tone="soft" fit="cover" className="absolute inset-0 h-full w-full rounded-t-[2rem] md:rounded-l-[3rem] md:rounded-r-none md:rounded-t-none" imgClassName={imgClassName} /><div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.72))]" /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-10"><button type="button" onClick={onClose} className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/70"><X className="h-5 w-5" /></button><p className="text-[10px] uppercase tracking-[0.28em] text-white/40">{number} / {label}</p><h3 className="mt-5 pr-12 text-[clamp(2.2rem,9vw,4.8rem)] font-black uppercase leading-[0.86] tracking-[-0.075em]">{title}</h3><p className="mt-7 text-base leading-relaxed text-white/72 sm:text-lg">{story}</p><p className="mt-8 text-[10px] uppercase tracking-[0.24em] text-white/35">Tap outside or press Esc to close</p></div></motion.article></motion.div>;
+  return <motion.div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/76 px-4 py-8 backdrop-blur-xl" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}><motion.article initial={{ opacity: 0, y: 34, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()} className="noise grid max-h-[88svh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/15 bg-[#090909] text-white shadow-[0_44px_180px_rgba(0,0,0,0.78)] md:grid-cols-[0.92fr_1.08fr] md:rounded-[3rem]"><div className="relative min-h-[260px] md:min-h-[560px]"><ImageFrame src={src} alt={alt} label={label} tone="soft" fit="cover" className="absolute inset-0 h-full w-full rounded-t-[2rem] md:rounded-l-[3rem] md:rounded-r-none md:rounded-t-none" imgStyle={{ objectPosition: imagePosition }} /><div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.72))]" /></div><div className="relative flex flex-col justify-center p-6 sm:p-8 md:p-10"><button type="button" onClick={onClose} className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-white/70"><X className="h-5 w-5" /></button><p className="text-[10px] uppercase tracking-[0.28em] text-white/40">{number} / {label}</p><h3 className="mt-5 pr-12 text-[clamp(2.2rem,9vw,4.8rem)] font-black uppercase leading-[0.86] tracking-[-0.075em]">{title}</h3><p className="mt-7 text-base leading-relaxed text-white/72 sm:text-lg">{story}</p><p className="mt-8 text-[10px] uppercase tracking-[0.24em] text-white/35">Tap outside or press Esc to close</p></div></motion.article></motion.div>;
 }
 
 function BeforeCode() {
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
-  const chapters = [
+  const chapterRows = [
     ['01', 'Seven Years of Structure', 'Seven years at Sainik School Korukonda shaped my relationship with routine, standards, accountability, and brotherhood.', images.sainik, 'Sainik School Korukonda passing out batch', 'Structure', 'object-[50%_48%]', 'Seven years at Sainik School Korukonda gave me my first real understanding of structure. Routine, accountability, standards, and brotherhood were not ideas there — they were daily practice. It shaped how I respond to pressure and why I respect discipline before ambition.'],
     ['02', 'Discipline Into Leadership', 'NCC turned discipline into responsibility — command, presence, and carrying yourself with standards.', images.ncc, 'NCC portrait', 'Leadership', 'object-[50%_42%]', 'NCC helped me understand that discipline is not just personal. It becomes leadership when people depend on how you carry yourself. It taught me presence, responsibility, and the importance of standards when you are part of something bigger than yourself.'],
     ['03', 'Turning Ideas Visible', 'TEPE was where building became public — explaining, demonstrating, and turning curiosity into interaction.', images.tepe, 'TEPE exhibition demonstration', 'Builder Mode', 'object-[50%_45%]', 'TEPE was one of the first places where curiosity became visible. I was not just learning privately; I was explaining, demonstrating, and making ideas interactive for others. It pushed me toward building things that can be shown, questioned, and improved.'],
     ['04', 'Voice', 'Ideas become useful only when they can be communicated clearly.', images.voice, 'Public speaking close-up', 'Voice', 'object-[50%_36%]', 'Public speaking taught me that ideas do not matter much if they stay trapped inside your head. Voice gave me a way to structure thoughts, explain clearly, and stand behind what I believe. It connects my technical curiosity with communication.'],
     ['05', 'Present Chapter', 'GITAM is the current arena — software, AI, design, product thinking, and sharper proof.', images.gitam, 'GITAM campus portrait', 'GITAM', 'object-[50%_45%]', 'GITAM is my current arena. This is where I am exploring software, AI, design, and product thinking while learning how to turn scattered curiosity into visible work. I am still early, but this is where the builder version of me is taking shape.'],
   ] as const;
+  const chapters: Chapter[] = chapterRows.map(([number, title, caption, src, alt, label, imagePosition, story]) => {
+    const shouldContain = label === 'Leadership' || label === 'Voice';
+    return {
+      number,
+      title,
+      caption,
+      src,
+      alt,
+      label,
+      story,
+      imageFit: shouldContain ? 'contain' : 'cover',
+      imagePosition: imagePosition.replace('object-[', '').replace(']', '').replace('_', ' '),
+      imagePlate: shouldContain ? 'tall' : 'normal',
+      useBlurBackplate: shouldContain,
+    };
+  });
 
   return (
-    <section id="before-code" className="bg-white px-5 py-12 text-black sm:px-8 md:px-10 md:py-[72px]">
-      <div className="mx-auto max-w-7xl">
+    <section id="before-code" className="relative overflow-hidden bg-[#030303] px-5 py-[72px] text-white sm:px-8 md:px-10">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(120,120,120,0.12),transparent_35%)]" />
+      <div className="relative mx-auto max-w-[1280px]">
         <FadeIn>
-          <SectionLabel>Before the code</SectionLabel>
-          <SectionHeading>The chapters that formed me.</SectionHeading>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-black/55 sm:mt-6 sm:text-lg">
+          <p className="mb-4 text-[10px] uppercase tracking-[0.28em] text-white/45 sm:text-xs sm:tracking-[0.32em]">Before the code</p>
+          <h2 className="max-w-5xl text-[clamp(2.45rem,12vw,5.8rem)] font-black uppercase leading-[0.92] tracking-[-0.075em] text-white">The chapters that formed me.</h2>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/58 sm:mt-6 sm:text-lg">
             These are not decorative images. They are proof of the environments, pressure, discipline, and people that shaped how I build now.
           </p>
         </FadeIn>
-        <div className="mt-7 grid gap-4 sm:mt-10 md:mt-8 md:grid-cols-6 md:gap-6 md:items-stretch">
-          <ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="aspect-[16/9] md:aspect-auto md:col-span-2 md:min-h-[390px]" />
-          <ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="min-h-[520px] md:min-h-[390px] md:col-span-2" />
-          <ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="aspect-[16/9] md:aspect-auto md:col-span-2 md:min-h-[390px]" />
-          <ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="aspect-[4/5] md:aspect-auto md:col-span-3 md:min-h-[390px]" />
-          <ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="aspect-[16/9] md:aspect-auto md:col-span-3 md:min-h-[390px]" />
+        <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-6 md:gap-6 md:items-stretch">
+          <ChapterCard chapter={chapters[0]} onOpen={() => setActiveChapter(0)} className="md:col-span-2" />
+          <ChapterCard chapter={chapters[1]} onOpen={() => setActiveChapter(1)} className="md:col-span-2" />
+          <ChapterCard chapter={chapters[2]} onOpen={() => setActiveChapter(2)} className="md:col-span-2" />
+          <ChapterCard chapter={chapters[3]} onOpen={() => setActiveChapter(3)} className="md:col-span-3" />
+          <ChapterCard chapter={chapters[4]} onOpen={() => setActiveChapter(4)} className="md:col-span-3" />
         </div>
       </div>
       {activeChapter !== null && <ChapterStoryModal chapter={chapters[activeChapter]} onClose={() => setActiveChapter(null)} />}
@@ -813,7 +865,6 @@ export default function PortfolioApp() {
       <Divider text="EXECUTION" />
       <Work />
       <Capabilities />
-      <Obsessions />
       <BeforeCode />
       <Contact />
     </main>
