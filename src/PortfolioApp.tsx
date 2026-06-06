@@ -725,8 +725,31 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
           <div className="chapter-card-glow" />
 
           <CardItem
-            translateZ="95"
-            className={`noise group relative z-0 h-[190px] w-full select-none overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}
+            translateZ="50"
+            className="w-full"
+          >
+            <p className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-white/50 sm:text-[10px]">
+              <span className="font-bold">{number}</span>
+              <span className="text-white/24">/</span>
+              <span>{label}</span>
+            </p>
+            <h3 className="chapter-card-title mt-3 max-w-xl text-[clamp(1.15rem,2.8vw,1.55rem)] font-black uppercase leading-[1.05] tracking-[-0.04em] text-white">
+              {title}
+            </h3>
+          </CardItem>
+
+          <CardItem
+            translateZ="60"
+            className="w-full"
+          >
+            <p className="chapter-card-caption line-clamp-2 max-w-xl text-xs leading-relaxed text-white/58">
+              {caption}
+            </p>
+          </CardItem>
+
+          <CardItem
+            translateZ="100"
+            className={`noise group relative z-0 mt-1 h-[190px] w-full select-none overflow-hidden rounded-[1.15rem] border border-white/10 bg-black/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] ${desktopPlateHeight}`}
           >
             {useBlurBackplate && (
               <img
@@ -748,47 +771,15 @@ function ChapterCard({ chapter, onOpen, className = '' }: { chapter: Chapter; on
             <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,0.34))]" />
             <div className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_70px_rgba(0,0,0,0.45)] sm:shadow-[inset_0_0_100px_rgba(0,0,0,0.55)]" />
           </CardItem>
-          
-          <div className="flex flex-col gap-2 text-white [transform-style:preserve-3d]">
-            <CardItem
-              translateZ="70"
-              translateY={-5}
-              className="chapter-chip text-[9px] uppercase tracking-[0.2em] text-white/50 sm:text-[10px]"
-            >
-              <span className="font-bold">{number}</span>
-              <span className="text-white/24">/</span>
-              <span>{label}</span>
-            </CardItem>
-            
-            <CardItem
-              translateZ="55"
-              translateY={-4}
-              className="w-full"
-            >
-              <h3 className="chapter-card-title max-w-xl text-[clamp(1.15rem,2.8vw,1.55rem)] font-black uppercase leading-[1.05] tracking-[-0.04em] text-white">
-                {title}
-              </h3>
-            </CardItem>
-            
-            <CardItem
-              translateZ="35"
-              translateY={-2}
-              className="w-full"
-            >
-              <p className="chapter-card-caption mt-0.5 line-clamp-2 max-w-xl text-xs leading-relaxed text-white/58">
-                {caption}
-              </p>
-            </CardItem>
-            
-            <CardItem
-              translateZ="20"
-              className="w-full"
-            >
-              <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-white/38">
-                View chapter -&gt;
-              </p>
-            </CardItem>
-          </div>
+
+          <CardItem
+            translateZ="20"
+            className="w-full"
+          >
+            <p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-white/38">
+              View chapter -&gt;
+            </p>
+          </CardItem>
         </CardBody>
       </CardContainer>
     </FadeIn>
