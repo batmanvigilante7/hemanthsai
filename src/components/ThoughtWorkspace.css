@@ -183,55 +183,123 @@
   transition: all 0.24s ease;
   z-index: 0;
   box-shadow: none;
+  pointer-events: none;
 }
 
 .tw-sim-drawer:hover::before,
 .tw-sim-drawer.is-open::before {
-  background: rgba(255, 221, 162, 0.06);
-  border: 1px solid rgba(255, 226, 174, 0.28);
-  box-shadow: 0 0 24px rgba(255, 205, 125, 0.22);
+  background: rgba(255, 221, 162, 0.04);
+  border: 1.5px solid rgba(255, 184, 77, 0.45);
+  box-shadow: 0 0 16px rgba(255, 184, 77, 0.3);
 }
 
-.tw-drawer-cavity {
+/* Hotspot trigger covers the drawer area when closed */
+.tw-hotspot-trigger {
   position: absolute;
-  left: 5%;
-  right: 5%;
-  top: 8%;
-  height: 72%;
-  border-radius: 13px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   background: transparent;
   border: none;
-  box-shadow: none;
-  overflow: hidden;
-  z-index: 1;
+  cursor: pointer;
+  z-index: 2;
+  outline: none;
+}
+
+/* Open Tray Overlay - paper box physical container */
+.tw-open-tray {
+  position: absolute;
+  inset: -6px;
+  background: linear-gradient(135deg, #fdfbf7 0%, #f4f0e6 100%);
+  border: 1px solid rgba(139, 115, 85, 0.32);
+  border-radius: 8px;
+  box-shadow: 
+    0 16px 36px rgba(39, 30, 19, 0.24),
+    0 3px 8px rgba(39, 30, 19, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+  z-index: 5;
+  overflow: visible;
+}
+
+/* Small paper close button */
+.tw-tray-close-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(139, 115, 85, 0.24);
+  background: rgba(255, 255, 255, 0.9);
+  color: #5a4c3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.15s ease;
+  z-index: 7;
+}
+
+.tw-tray-close-btn:hover {
+  background: #fdfbf7;
+  color: #9c6632;
+  border-color: rgba(156, 104, 51, 0.5);
+  transform: scale(1.1);
+}
+
+/* Staggered files layout inside tray */
+.tw-tray-files {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding: 0 6px 1px;
-  gap: 3px;
+  width: 100%;
+  height: calc(100% - 8px);
+  gap: 2px;
+  overflow: visible;
+  padding-bottom: 2px;
 }
 
+/* Paper-style abstract file tab */
 .tw-paper-file {
   position: relative;
-  display: block;
-  width: 18px;
-  height: 32px;
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(180deg, #fffcf0, #e6d3aa);
-  border: 1px solid rgba(86, 65, 42, 0.25);
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
+  width: 20px;
+  height: 34px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(to bottom, #fffef9 0%, #ede8d7 100%);
+  border: 1px solid rgba(139, 115, 85, 0.4);
+  box-shadow: 
+    0 -2px 6px rgba(39, 30, 19, 0.08),
+    -1px 0 2px rgba(0, 0, 0, 0.04);
   font-size: 0px !important;
   color: transparent;
   cursor: pointer;
   flex-shrink: 0;
   margin: 0;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+  padding: 0;
+  outline: none;
+  transform-origin: bottom center;
+  z-index: 2;
 }
 
 .tw-paper-file:hover {
-  transform: translateY(-4px) scale(1.05);
   background: #ffffff;
-  border-color: #d97706;
+  border-color: rgba(217, 119, 6, 0.7);
+  z-index: 4;
+}
+
+.tw-paper-file.active {
+  background: linear-gradient(to bottom, #ffffff 0%, #f7f3e8 100%);
+  border-color: #c99a5a;
+  box-shadow: 
+    0 -8px 20px rgba(182, 120, 62, 0.24),
+    0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 6;
 }
 
 /* Hide all visible drawer front elements to let the photo show through */
@@ -257,6 +325,7 @@
   box-shadow: 0 28px 70px rgba(33, 24, 16, .22), inset 0 1px 0 rgba(255,255,255,.6);
   backdrop-filter: blur(22px) saturate(1.08);
   padding: 1rem;
+  opacity: 0.94;
 }
 
 .tw-file-panel-header {

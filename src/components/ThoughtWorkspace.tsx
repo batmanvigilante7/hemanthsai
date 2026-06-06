@@ -170,51 +170,92 @@ export function ThoughtWorkspace() {
           <div className="tw-cabinet" aria-label="Interactive investigation drawer cabinet">
             {DRAWERS.map((drawer) => {
               const isOpen = activeDrawerId === drawer.id;
+              const style = {
+                '--drawer-color': drawer.color,
+                left: drawer.position.left,
+                top: drawer.position.top,
+                width: drawer.position.width,
+                height: drawer.position.height,
+              } as React.CSSProperties;
+
               return (
-                <motion.button
-                  type="button"
+                <motion.div
                   key={drawer.id}
                   className={`tw-sim-drawer ${isOpen ? 'is-open' : ''}`}
-                  style={{
-                    '--drawer-color': drawer.color,
-                    left: drawer.position.left,
-                    top: drawer.position.top,
-                    width: drawer.position.width,
-                    height: drawer.position.height,
-                  } as React.CSSProperties}
-                  onClick={() => openDrawer(drawer)}
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.985 }}
-                  aria-label={`${isOpen ? 'Close' : 'Open'} ${drawer.title}`}
+                  style={style}
+                  whileHover={{ y: -2 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
-                  <span className="tw-drawer-cavity">
-                    {drawer.files.slice(0, 5).map((file, index) => (
-                      <motion.span
-                        className="tw-paper-file"
-                        key={file.id}
-                        initial={false}
-                        animate={isOpen ? { y: 0, opacity: 1 } : { y: 16, opacity: 0 }}
-                        transition={{ delay: isOpen ? index * 0.045 : 0, duration: 0.22 }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveFileId(file.id);
-                        }}
+                  {/* Invisible hotspot trigger, active only when closed */}
+                  {!isOpen && (
+                    <button
+                      type="button"
+                      className="tw-hotspot-trigger"
+                      onClick={() => openDrawer(drawer)}
+                      aria-label={`Open ${drawer.title}`}
+                    />
+                  )}
+
+                  {/* Open Tray Overlay */}
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        className="tw-open-tray"
+                        initial={{ opacity: 0, scale: 0.9, y: 5 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 5 }}
+                        transition={{ type: 'spring', stiffness: 280, damping: 22 }}
                       >
-                        {file.title}
-                      </motion.span>
-                    ))}
-                  </span>
-                  <motion.span
-                    className="tw-drawer-front"
-                    animate={isOpen ? { y: 28, scale: 1.01 } : { y: 0, scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 260, damping: 24 }}
-                  >
-                    <span className="tw-drawer-title">{drawer.title}</span>
-                    <span className="tw-drawer-icon">{drawer.icon}</span>
-                    <span className="tw-drawer-handle" />
-                    <span className="tw-drawer-count">{drawer.count} files</span>
-                  </motion.span>
-                </motion.button>
+                        {/* Close button inside the tray to toggle back to hotspot */}
+                        <button
+                          type="button"
+                          className="tw-tray-close-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveDrawerId(null);
+                            setActiveFileId(null);
+                          }}
+                          aria-label="Close drawer"
+                        >
+                          <X size={10} />
+                        </button>
+
+                        {/* Staggered File Divider Cards */}
+                        <div className="tw-tray-files">
+                          {drawer.files.slice(0, 5).map((file, index) => {
+                            const isFileActive = activeFileId === file.id;
+                            return (
+                              <motion.button
+                                key={file.id}
+                                type="button"
+                                className={`tw-paper-file ${isFileActive ? 'active' : ''}`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveFileId(file.id);
+                                }}
+                                initial={{ y: 15, opacity: 0 }}
+                                animate={isFileActive ? {
+                                  y: -14,
+                                  scale: 1.06,
+                                  rotate: index % 2 === 0 ? 1.5 : -1.5,
+                                  opacity: 1,
+                                } : {
+                                  y: 0,
+                                  scale: 1,
+                                  rotate: 0,
+                                  opacity: 1,
+                                }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                              >
+                                {file.title}
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
               );
             })}
           </div>
