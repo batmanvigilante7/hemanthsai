@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import * as Icons from "lucide-react";
 import { thoughtWorkspaces, getWorkspaceById } from "@/data/thought-workspaces";
 import { ThoughtWorkspaceNode } from "./ThoughtWorkspaceNode";
 import { ConnectionLines } from "./ConnectionLines";
 import { ThoughtDock } from "./ThoughtDock";
 import { ThoughtPanel } from "./ThoughtPanel";
+import { cn } from "@/lib/utils";
 
 const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
@@ -132,6 +134,29 @@ export function ThoughtWorkspace() {
               activeId={activeId}
               onSelect={setActiveId}
             />
+          </div>
+
+          {/* Mobile Navigation Pill Bar */}
+          <div className="flex lg:hidden overflow-x-auto gap-3.5 pb-4 scrollbar-none snap-x snap-mandatory -mt-2 mb-2">
+            {thoughtWorkspaces.map((node) => {
+              const isActive = node.id === activeId;
+              const IconComponent = (Icons as any)[node.iconName] || Icons.HelpCircle;
+              return (
+                <button
+                  key={node.id}
+                  onClick={() => setActiveId(node.id)}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2.5 rounded-full border text-xs font-bold uppercase tracking-wider shrink-0 snap-start transition-all duration-200",
+                    isActive
+                      ? "bg-amber-400/20 border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.3)]"
+                      : "bg-white/5 border-white/10 text-white/60"
+                  )}
+                >
+                  <IconComponent className="h-3.5 w-3.5" />
+                  <span>{node.title}</span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Right Column: Sliding Active File Panel */}

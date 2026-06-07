@@ -17,12 +17,6 @@ export interface WorkspaceNode {
 
 const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
-const defaultPreviewImages = [
-  getAssetUrl('thought-workspace-bg.webp'),
-  getAssetUrl('thought-workshop-scene.webp'),
-  getAssetUrl('identity-cinematic-poster.webp'),
-];
-
 export const thoughtWorkspaces: WorkspaceNode[] = [
   {
     id: 'ai-leverage',
@@ -38,7 +32,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'Most people treat AI as a Q&A search box. It becomes real leverage only when integrated into custom automation chains.',
     tension: 'Autonomy vs. Control',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-builder.webp'),
+      getAssetUrl('thought-workshop-scene.webp'),
+      getAssetUrl('blazer-v2.webp.webp'),
+    ],
     position: { x: 50, y: 15 },
     connections: ['execution-psychology', 'personal-proof-systems']
   },
@@ -56,7 +54,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'The distance between an idea and an artifact is simply the courage to start with a flawed first version.',
     tension: 'Speed vs. Precision',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-discipline.webp'),
+      getAssetUrl('karate-roots.webp.webp'),
+      getAssetUrl('shotput.webp'),
+    ],
     position: { x: 82, y: 30 },
     connections: ['personal-proof-systems', 'startup-validation']
   },
@@ -74,7 +76,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'Resumes are declarative noise. Interactive proof engines are imperative facts.',
     tension: 'Marketing vs. Substance',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('thought-workshop-scene.webp'),
+      getAssetUrl('identity-cinematic-poster.webp'),
+      getAssetUrl('gitam-sign.webp'),
+    ],
     position: { x: 88, y: 62 },
     connections: ['product-communication', 'ai-leverage']
   },
@@ -92,7 +98,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'Building the software is only 50% of the puzzle. The remaining 50% is creating the bridge of meaning for the user.',
     tension: 'Accessibility vs. Depth',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-voice.webp'),
+      getAssetUrl('voice.webp'),
+      getAssetUrl('tepe-exhibition.webp'),
+    ],
     position: { x: 74, y: 82 },
     connections: ['cinematic-storytelling', 'personal-proof-systems']
   },
@@ -110,7 +120,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'A launch video is not a list of features; it is a short film where the product is the hero solving a real crisis.',
     tension: 'Aesthetics vs. Utility',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-cinematic-poster.webp'),
+      getAssetUrl('blazer-v2.webp.webp'),
+      getAssetUrl('thought-workspace-bg.webp'),
+    ],
     position: { x: 50, y: 88 },
     connections: ['investing-mental-models', 'product-communication']
   },
@@ -128,7 +142,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'Most builders optimize for today\'s validation. Investors optimize for the decade\'s compound.',
     tension: 'Patience vs. Urgency',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-structure.webp'),
+      getAssetUrl('ncc.webp'),
+      getAssetUrl('gitam-sign.webp'),
+    ],
     position: { x: 26, y: 82 },
     connections: ['ux-psychology', 'cinematic-storytelling']
   },
@@ -146,7 +164,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'The cleanest interface is the one that aligns so closely with the user\'s mental model that instruction is unnecessary.',
     tension: 'Familiarity vs. Innovation',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('identity-voice.webp'),
+      getAssetUrl('thought-workshop-scene.webp'),
+      getAssetUrl('hero-current.webp.webp'),
+    ],
     position: { x: 12, y: 62 },
     connections: ['startup-validation', 'investing-mental-models']
   },
@@ -164,7 +186,11 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
     ],
     realization: 'Feedback is noise unless it is accompanied by commitment—either of time, reputation, or money.',
     tension: 'Vision vs. Feedback',
-    images: defaultPreviewImages,
+    images: [
+      getAssetUrl('tepe-exhibition.webp'),
+      getAssetUrl('identity-builder.webp'),
+      getAssetUrl('thought-workspace-bg.webp'),
+    ],
     position: { x: 18, y: 30 },
     connections: ['ai-leverage', 'ux-psychology', 'execution-psychology']
   }

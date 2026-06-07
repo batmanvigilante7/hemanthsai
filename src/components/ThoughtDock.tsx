@@ -18,7 +18,7 @@ export function ThoughtDock({
   onSelect,
 }: ThoughtDockProps) {
   return (
-    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-[90vw]">
+    <div className="absolute bottom-[35%] md:bottom-[32%] left-1/2 -translate-x-1/2 z-40 max-w-[90vw] hidden md:block">
       <Dock className="bg-black/60 border-white/10 backdrop-blur-xl px-4 py-2 flex items-center justify-center gap-3">
         {workspaces.map((node) => {
           const IconComponent = (Icons as any)[node.iconName] || Icons.HelpCircle;
