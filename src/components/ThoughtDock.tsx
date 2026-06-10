@@ -1,9 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { ComponentType, SVGProps } from "react";
 import { WorkspaceNode } from "@/data/thought-workspaces";
 import { Dock, DockIcon } from "@/components/ui/magnetic-dock";
-import { getWorkspaceIcon } from "./ThoughtWorkspaceNode";
+import {
+  BrainCircuit,
+  Eye,
+  ChartNoAxes,
+  Clapperboard,
+  TrendingUp,
+  Zap,
+  MessageSquareText,
+  ShieldCheck,
+} from "lucide-react";
 
 interface ThoughtDockProps {
   workspaces: WorkspaceNode[];
@@ -16,11 +25,24 @@ export function ThoughtDock({
   activeId,
   onSelect,
 }: ThoughtDockProps) {
+  const dockMeta: Record<string, { shortLabel: string; Icon: ComponentType<SVGProps<SVGSVGElement>> }> = {
+    "ai-leverage": { shortLabel: "AI", Icon: BrainCircuit },
+    "ux-psychology": { shortLabel: "UX", Icon: Eye },
+    "startup-validation": { shortLabel: "PMF", Icon: ChartNoAxes },
+    "cinematic-storytelling": { shortLabel: "Story", Icon: Clapperboard },
+    "investing-mental-models": { shortLabel: "Invest", Icon: TrendingUp },
+    "execution-psychology": { shortLabel: "Do", Icon: Zap },
+    "product-communication": { shortLabel: "Comms", Icon: MessageSquareText },
+    "personal-proof-systems": { shortLabel: "Proof", Icon: ShieldCheck },
+  };
+
   return (
     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 max-w-[90vw] hidden md:block">
       <Dock className="bg-[#10100f]/60 border-white/10 backdrop-blur-xl px-4 py-2 flex items-center justify-center gap-3">
         {workspaces.map((node) => {
-          const IconComponent = getWorkspaceIcon(node.iconName);
+          const meta = dockMeta[node.id];
+          if (!meta) return null;
+          const IconComponent = meta.Icon;
           const isActive = node.id === activeId;
 
           return (
