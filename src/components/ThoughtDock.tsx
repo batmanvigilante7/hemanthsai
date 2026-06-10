@@ -6,7 +6,7 @@ import { Dock, DockIcon } from "@/components/ui/magnetic-dock";
 import {
   BrainCircuit,
   Eye,
-  ChartNoAxes,
+  PieChart,
   Clapperboard,
   TrendingUp,
   Zap,
@@ -28,7 +28,7 @@ export function ThoughtDock({
   const dockMeta: Record<string, { shortLabel: string; Icon: ComponentType<SVGProps<SVGSVGElement>> }> = {
     "ai-leverage": { shortLabel: "AI", Icon: BrainCircuit },
     "ux-psychology": { shortLabel: "UX", Icon: Eye },
-    "startup-validation": { shortLabel: "PMF", Icon: ChartNoAxes },
+    "startup-validation": { shortLabel: "PMF", Icon: PieChart },
     "cinematic-storytelling": { shortLabel: "Story", Icon: Clapperboard },
     "investing-mental-models": { shortLabel: "Invest", Icon: TrendingUp },
     "execution-psychology": { shortLabel: "Do", Icon: Zap },
