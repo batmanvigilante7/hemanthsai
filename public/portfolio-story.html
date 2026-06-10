@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hemanth Sai — 15-Second Cinematic Portfolio Story</title>
+  
+  <!-- Fonts: Instrument Serif & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    /* Reset & Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #111111;
+      color: #111111;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Fixed Aspect Ratio Viewport Container */
+    #viewport {
+      width: 1920px;
+      height: 1080px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      overflow: hidden;
+      background-color: #faf7f0;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8);
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Fine Editorial Grid background & lines */
+    .grid-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+    
+    .grid-h {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba(17, 17, 17, 0.07);
+    }
+    
+    .grid-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color: rgba(17, 17, 17, 0.07);
+    }
+
+    /* High-end Paper Noise Texture */
+    .paper-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      mix-blend-mode: multiply;
+      opacity: 0.16;
+    }
+
+    /* Global Header & Footer (Editorial branding) */
+    .brand-header {
+      position: absolute;
+      top: 60px;
+      left: 80px;
+      right: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      z-index: 50;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+      padding-bottom: 15px;
+    }
+
+    .brand-header .right-info {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-size: 18px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .brand-footer {
+      position: absolute;
+      bottom: 50px;
+      left: 80px;
+      right: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 50;
+    }
+
+    /* Scene styling */
+    .scene {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: none; /* Managed by GSAP */
+      background-color: #faf7f0;
+      padding: 160px 80px 120px 80px;
+    }
+
+    .scene-active {
+      display: block;
+    }
+
+    /* Typography */
+    .serif-display {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 110px;
+      line-height: 0.95;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .serif-italic {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      text-transform: none;
+    }
+
+    .body-editorial {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #333333;
+      max-width: 480px;
+    }
+
+    .accent-stamp {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      color: #9e2a2b;
+      font-size: 24px;
+    }
+
+    /* Scene 1 Elements */
+    #scene1 .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+      align-items: center;
+      gap: 100px;
+    }
+
+    .student-graphic {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 500px;
+    }
+
+    /* Compressing Ink Block */
+    .ink-block-wrap {
+      position: relative;
+      width: 380px;
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ink-block {
+      width: 100%;
+      height: 100%;
+      background-color: #111111;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #faf7f0;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      border: 4px solid #111111;
+      transform-origin: center center;
+    }
+
+    .ink-block .label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: rgba(250, 247, 240, 0.6);
+    }
+
+    .ink-block .counter-val {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 72px;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .cursive-note {
+      position: absolute;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-size: 28px;
+      color: #9e2a2b;
+      transform: rotate(-10deg);
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Scene 2 Elements */
+    #scene2 .column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      height: 100%;
+      gap: 40px;
+      padding-top: 40px;
+    }
+
+    .editorial-col {
+      border-right: 1px solid rgba(17, 17, 17, 0.1);
+      padding-right: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .editorial-col:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .col-header {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: 2px solid #111111;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Modular blueprint systems boxes */
+    .system-blueprint {
+      flex: 1;
+      border: 1px dashed rgba(17, 17, 17, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      position: relative;
+      background-color: rgba(17, 17, 17, 0.01);
+    }
+
+    .bp-node {
+      border: 1px solid #111111;
+      padding: 15px;
+      text-align: center;
+      background-color: #faf7f0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      box-shadow: 4px 4px 0px rgba(17, 17, 17, 0.9);
+      position: relative;
+    }
+
+    .bp-line {
+      position: absolute;
+      width: 2px;
+      background-color: #111111;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+
+    /* Scene 3 Elements */
+    #scene3 .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .proof-graphic {
+      position: relative;
+      height: 550px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Pile of overlapping proof cards */
+    .proof-deck {
+      position: relative;
+      width: 480px;
+      height: 340px;
+    }
+
+    .proof-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #faf7f0;
+      border: 1px solid #111111;
+      border-radius: 12px;
+      box-shadow: 0 15px 35px rgba(17, 17, 17, 0.08);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform-origin: center center;
+    }
+
+    .proof-card-dark {
+      background-color: #111111;
+      color: #faf7f0;
+      border-color: #111111;
+    }
+
+    .proof-card .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+      padding-bottom: 12px;
+    }
+
+    .proof-card-dark .card-head {
+      border-bottom-color: rgba(250, 247, 240, 0.15);
+    }
+
+    .proof-card .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px 0;
+    }
+
+    .proof-card .card-body h3 {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 38px;
+      font-weight: 400;
+    }
+
+    .proof-card .card-footer {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.6;
+    }
+
+    /* Scene 4 Elements */
+    #scene4 .cover-layout {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      position: relative;
+    }
+
+    .giant-badge-wrap {
+      position: relative;
+      margin-top: 40px;
+    }
+
+    /* Rotating Stamp */
+    .round-stamp {
+      width: 200px;
+      height: 200px;
+      border: 3px dashed #9e2a2b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotateStamp 20s linear infinite;
+      position: relative;
+    }
+
+    .round-stamp-text {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9e2a2b;
+    }
+
+    .round-stamp-inner {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 40px;
+      font-style: italic;
+      color: #9e2a2b;
+      z-index: 5;
+    }
+
+    /* TRANSITIONS OVERLAYS */
+    /* 1. Flash Transition */
+    .flash-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: #faf7f0;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* 2. Sliding Panels Transition */
+    .sliding-panels-container {
+      position: absolute;
+      inset: 0;
+      z-index: 85;
+      display: flex;
+      pointer-events: none;
+    }
+
+    .slide-panel {
+      flex: 1;
+      height: 100%;
+      background-color: #111111;
+      transform: translateY(-100%);
+    }
+
+    /* 3. Wipe Transition Curtain */
+    .wipe-curtain {
+      position: absolute;
+      inset: 0;
+      background-color: #111111;
+      z-index: 80;
+      clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+      pointer-events: none;
+    }
+
+    /* 4. Sliding curtain panels */
+    .slide-curtains-container {
+      position: absolute;
+      inset: 0;
+      z-index: 88;
+      display: flex;
+      pointer-events: none;
+    }
+
+    .curtain-left, .curtain-right {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background-color: #111111;
+    }
+    
+    .curtain-left {
+      left: 0;
+      transform: translateX(-100%);
+    }
+    
+    .curtain-right {
+      right: 0;
+      transform: translateX(100%);
+    }
+
+    /* Timeline Navigation / Control Bar */
+    .timeline-tracker {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background-color: rgba(17, 17, 17, 0.1);
+      z-index: 95;
+    }
+
+    .timeline-progress {
+      height: 100%;
+      width: 0%;
+      background-color: #9e2a2b;
+    }
+
+    /* Controls Overlay */
+    .controls-overlay {
+      position: absolute;
+      bottom: 60px;
+      right: 80px;
+      z-index: 60;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-control {
+      background: none;
+      border: 1px solid #111111;
+      color: #111111;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #faf7f0;
+      transition: all 0.2s ease;
+    }
+
+    .btn-control:hover {
+      background-color: #111111;
+      color: #faf7f0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed 1920x1080 Viewport -->
+  <div id="viewport">
+    
+    <!-- Editorial Grid Background Lines -->
+    <div class="grid-lines">
+      <!-- Horizontal lines -->
+      <div class="grid-h" style="top: 15%;"></div>
+      <div class="grid-h" style="top: 50%;"></div>
+      <div class="grid-h" style="top: 85%;"></div>
+      <!-- Vertical lines -->
+      <div class="grid-v" style="left: 15%;"></div>
+      <div class="grid-v" style="left: 50%;"></div>
+      <div class="grid-v" style="left: 85%;"></div>
+    </div>
+
+    <!-- Paper Texture Overlay -->
+    <div class="paper-overlay">
+      <svg width="100%" height="100%">
+        <filter id="paper-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+          <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.07 0"></feColorMatrix>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#paper-noise)"></rect>
+      </svg>
+    </div>
+
+    <!-- Brand Header -->
+    <div class="brand-header">
+      <div class="left-brand">Hemanth Sai Royal / Portfolio Chronicle</div>
+      <div class="right-info">Volume I: The Narrative</div>
+    </div>
+
+    <!-- Timeline Progress Tracker Bar -->
+    <div class="timeline-tracker">
+      <div class="timeline-progress" id="progressBar"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-overlay">
+      <button class="btn-control" id="btnPlayPause">Pause</button>
+      <button class="btn-control" id="btnRestart">Restart</button>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCENE 1: STUDENT (Formed by Pressure)          -->
+    <!-- ============================================== -->
+    <div class="scene scene-active" id="scene1">
+      <div class="content-grid">
+        <div class="text-section">
+          <div class="accent-stamp" style="margin-bottom: 20px; font-size: 32px;">01 • Act I</div>
+          <h1 class="serif-display" style="margin-bottom: 30px;">
+            Formed By<br>
+            <span class="serif-italic" style="color: #9e2a2b;">Pressure</span>
+          </h1>
+          <p class="body-editorial">
+            Rigid structures build resilient foundations. Shaped by academic challenge and the discipline of competitive athletics, learning to stand firm under weight.
+          </p>
+        </div>
+        <div class="student-graphic">
+          <div class="cursive-note" style="top: 40px; left: 80px;">* Sainik School discipline</div>
+          <div class="ink-block-wrap">
+            <div class="ink-block" id="s1InkBlock">
+              <span class="label">Academic Rigor</span>
+              <span class="counter-val" id="s1Counter">2018</span>
+              <span class="label" style="margin-top: 10px; font-size: 8px;">Development Arc</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCENE 2: BUILDER (Curiosity Becomes Systems)   -->
+    <!-- ============================================== -->
+    <div class="scene" id="scene2">
+      <div class="column-layout">
+        <!-- Col 1 -->
+        <div class="editorial-col" id="s2Col1">
+          <div>
+            <div class="col-header">
+              <span>Section A</span>
+              <span>02</span>
+            </div>
+            <h2 class="serif-display" style="font-size: 55px; margin-bottom: 20px;">
+              Curiosity<br>
+              <span class="serif-italic" style="font-size: 50px;">to</span> Systems
+            </h2>
+            <p class="body-editorial" style="font-size: 15px;">
+              Moving beyond theoretical frameworks. Curiosity transforms into structured code, automated pipelines, and architectures designed for leverage.
+            </p>
+          </div>
+          <div class="accent-stamp" style="font-size: 26px;">* Architecture & Code</div>
+        </div>
+        <!-- Col 2 -->
+        <div class="editorial-col" id="s2Col2">
+          <div class="col-header">
+            <span>Modular Diagram</span>
+            <span>Blueprint</span>
+          </div>
+          <div class="system-blueprint">
+            <div class="bp-line" style="top: 0; bottom: 0; height: 100%;"></div>
+            <div class="bp-node" id="bpNode1">Raw Exploration</div>
+            <div class="bp-node" id="bpNode2">Functional Logic</div>
+            <div class="bp-node" id="bpNode3">System Integration</div>
+          </div>
+        </div>
+        <!-- Col 3 -->
+        <div class="editorial-col" id="s2Col3">
+          <div>
+            <div class="col-header">
+              <span>Thesis</span>
+              <span>Log</span>
+            </div>
+            <blockquote style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1.3; font-style: italic; color: #9e2a2b; border-left: 2px solid #9e2a2b; padding-left: 20px; margin-bottom: 20px;">
+              "Software is psychology made visible. Interfaces must conform to expectations, not database models."
+            </blockquote>
+            <p style="font-size: 13px; color: #666; line-height: 1.5;">
+              Every line of engineering serves to bridge abstract computation with real human interaction.
+            </p>
+          </div>
+          <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-top: 1px solid #111; pt: 10px;">
+            Status: Fully Compiled
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCENE 3: PROOF (Evidence Over Claims)          -->
+    <!-- ============================================== -->
+    <div class="scene" id="scene3">
+      <div class="content-grid">
+        <div class="text-section">
+          <div class="accent-stamp" style="margin-bottom: 20px; font-size: 32px;">03 • Act III</div>
+          <h1 class="serif-display" style="margin-bottom: 30px;">
+            Evidence<br>
+            <span class="serif-italic" style="color: #9e2a2b;">Over Claims</span>
+          </h1>
+          <p class="body-editorial" style="margin-bottom: 30px;">
+            Unverifiable potential is indistinguishable from zero. Credibility is built through visible, functional, and public proof of execution.
+          </p>
+          <div style="border-top: 1px solid #111; padding-top: 20px; max-width: 480px;">
+            <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; display: block; margin-bottom: 5px;">Validated Commits Metric</span>
+            <span id="s3Counter" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 56px; font-style: italic; color: #111111; line-height: 1;">000,000</span>
+          </div>
+        </div>
+        <div class="proof-graphic">
+          <div class="proof-deck">
+            <!-- Card 1 -->
+            <div class="proof-card proof-card-dark" id="pCard1" style="z-index: 13; transform: rotate(-4deg) translate(-10px, -10px);">
+              <div class="card-head">
+                <span>Repository Release</span>
+                <span>Active</span>
+              </div>
+              <div class="card-body">
+                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6;">System Alpha</span>
+                <h3>Project Blazer V2</h3>
+              </div>
+              <div class="card-footer">
+                <span>99.8% Core Accuracy</span>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="proof-card" id="pCard2" style="z-index: 12; transform: rotate(2deg) translate(15px, 15px);">
+              <div class="card-head">
+                <span>Module File</span>
+                <span>Verified</span>
+              </div>
+              <div class="card-body">
+                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6;">Interface Hub</span>
+                <h3>Identity Builder</h3>
+              </div>
+              <div class="card-footer" style="color: #9e2a2b;">
+                <span>* Production Build Live</span>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="proof-card" id="pCard3" style="z-index: 11; transform: rotate(-8deg) translate(30px, 40px); opacity: 0.5;">
+              <div class="card-head">
+                <span>Terminal Output</span>
+                <span>Completed</span>
+              </div>
+              <div class="card-body">
+                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.6;">Execution Pipeline</span>
+                <h3>Mind Map Constellation</h3>
+              </div>
+              <div class="card-footer">
+                <span>Vite Dev Environment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- SCENE 4: COLLABORATE (Be In The Room)         -->
+    <!-- ============================================== -->
+    <div class="scene" id="scene4">
+      <div class="cover-layout">
+        <div class="accent-stamp" style="font-size: 36px; margin-bottom: 15px;">04 • The Conclusion</div>
+        <h1 class="serif-display" style="font-size: 130px; line-height: 0.95;">
+          Be In The <span class="serif-italic" style="color: #9e2a2b;">Room.</span>
+        </h1>
+        <p class="body-editorial" style="text-align: center; margin-top: 30px; font-size: 20px;">
+          Opportunities are captured by those who are present. Building in public, exchanging high-fidelity code, and driving progress with other builders.
+        </p>
+        
+        <div class="giant-badge-wrap">
+          <div class="cursive-note" style="top: -20px; left: -60px; transform: rotate(-15deg); font-size: 32px;">* Join the room</div>
+          <div class="round-stamp" id="s4Stamp">
+            <svg class="round-stamp-text" viewBox="0 0 100 100">
+              <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" />
+              <text fill="#9e2a2b">
+                <textPath href="#circlePath" startOffset="0%">• Hemanth Sai • Build • Collaborate • Ship • Verify</textPath>
+              </text>
+            </svg>
+            <div class="round-stamp-inner">Proof</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSITION ELEMENTS -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+    
+    <div class="sliding-panels-container">
+      <div class="slide-panel"></div>
+      <div class="slide-panel"></div>
+      <div class="slide-panel"></div>
+    </div>
+
+    <div class="wipe-curtain" id="wipeCurtain"></div>
+
+    <div class="slide-curtains-container">
+      <div class="curtain-left"></div>
+      <div class="curtain-right"></div>
+    </div>
+
+    <!-- Brand Footer -->
+    <div class="brand-footer">
+      <div>© 2026 Hemanth Sai Royal</div>
+      <div style="font-weight: 900; color: #9e2a2b;">STORY DURATION: 15 SECONDS</div>
+    </div>
+
+  </div>
+
+  <script>
+    // 1. Maintain fixed 1920x1080 resolution with centering and aspect ratio scaling
+    function resizeViewport() {
+      const viewport = document.getElementById('viewport');
+      const targetW = 1920;
+      const targetH = 1080;
+      const windowW = window.innerWidth;
+      const windowH = window.innerHeight;
+      
+      const scaleX = windowW / targetW;
+      const scaleY = windowH / targetH;
+      const scale = Math.min(scaleX, scaleY);
+      
+      viewport.style.transform = `translate(-50%, -50%) scale(${scale})`;
+    }
+    
+    window.addEventListener('resize', resizeViewport);
+    window.addEventListener('load', resizeViewport);
+    resizeViewport();
+
+    // 2. Setup GSAP Motion Graphic Timeline
+    const tl = gsap.timeline({
+      repeat: -1, // Loops indefinitely
+      onUpdate: function() {
+        // Update custom timeline progress bar
+        const progress = this.progress() * 100;
+        document.getElementById('progressBar').style.width = `${progress}%`;
+      }
+    });
+
+    // Elements
+    const s1 = document.getElementById('scene1');
+    const s2 = document.getElementById('scene2');
+    const s3 = document.getElementById('scene3');
+    const s4 = document.getElementById('scene4');
+
+    const flash = document.getElementById('flashOverlay');
+    const slidePanels = document.querySelectorAll('.slide-panel');
+    const wipeCurtain = document.getElementById('wipeCurtain');
+    const curtainLeft = document.querySelector('.curtain-left');
+    const curtainRight = document.querySelector('.curtain-right');
+
+    // Setup helper variables for counters
+    const counterObj1 = { val: 2018 };
+    const counterObj3 = { val: 0 };
+
+    // --- TIMELINE DEFINITION (Total 15 Seconds) ---
+
+    // SCENE 1: STUDENT (0s to 3.5s)
+    tl.addLabel("scene1_start", 0)
+      .set(s1, { display: 'block' }, 0)
+      .set(s2, { display: 'none' }, 0)
+      .set(s3, { display: 'none' }, 0)
+      .set(s4, { display: 'none' }, 0)
+      
+      // Animation visible within the first 1 second (Staggered typography & Ink compression)
+      .fromTo("#scene1 .serif-display", 
+        { opacity: 0, y: 50 }, 
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 
+        0.1
+      )
+      .fromTo("#scene1 .body-editorial", 
+        { opacity: 0, y: 30 }, 
+        { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" }, 
+        0.4
+      )
+      .fromTo("#s1InkBlock", 
+        { scale: 2.2, opacity: 0, rotate: -45 }, 
+        { scale: 1, opacity: 1, rotate: 0, duration: 1.2, ease: "elastic.out(1, 0.75)" }, 
+        0.2
+      )
+      // Cursive stamp note
+      .fromTo("#scene1 .cursive-note", 
+        { opacity: 0, scale: 0 }, 
+        { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" }, 
+        0.8
+      )
+      // Scene 1 counter animation (2018 -> 2022)
+      .to(counterObj1, {
+        val: 2022,
+        duration: 2.0,
+        ease: "power1.inOut",
+        onUpdate: function() {
+          document.getElementById('s1Counter').innerText = Math.floor(counterObj1.val);
+        }
+      }, 0.5)
+      // Slow pulse scale representing compression
+      .to("#s1InkBlock", {
+        scale: 0.85,
+        borderRadius: "45%",
+        duration: 1.5,
+        ease: "power2.inOut"
+      }, 1.5)
+
+    // TRANSITION 1: Flash Transition to Scene 2 (3.2s to 3.5s)
+    tl.to(flash, { opacity: 1, duration: 0.15, ease: "power2.in" }, 3.1)
+      .set(s1, { display: 'none' }, 3.25)
+      .set(s2, { display: 'block' }, 3.25)
+      .to(flash, { opacity: 0, duration: 0.25, ease: "power2.out" }, 3.25)
+
+    // SCENE 2: BUILDER (3.5s to 7.0s)
+    tl.addLabel("scene2_start", 3.25)
+      // Staggered columns panel sliding down
+      .fromTo(slidePanels, 
+        { translateY: "-100%" }, 
+        { translateY: "100%", duration: 0.65, stagger: 0.1, ease: "power2.inOut" }, 
+        3.1
+      )
+      // Reveal typography & layout inside Scene 2
+      .fromTo("#s2Col1 h2", 
+        { opacity: 0, x: -30 }, 
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" }, 
+        3.5
+      )
+      .fromTo("#s2Col1 p", 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.8 }, 
+        3.8
+      )
+      // Blueprint nodes drawing in
+      .fromTo(["#bpNode1", "#bpNode2", "#bpNode3"], 
+        { scale: 0, opacity: 0, y: 30 }, 
+        { scale: 1, opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "back.out(2)" }, 
+        3.6
+      )
+      .fromTo("#s2Col3 blockquote", 
+        { opacity: 0, x: 40 }, 
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" }, 
+        4.0
+      )
+      .fromTo("#s2Col3 p, #s2Col3 div", 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.8 }, 
+        4.3
+      )
+
+    // TRANSITION 2: Wipe Transition to Scene 3 (6.6s to 7.0s)
+    tl.fromTo(wipeCurtain, 
+      { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" }, 
+      { clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", duration: 0.55, ease: "power3.inOut" }, 
+      6.4
+    )
+    .set(s2, { display: 'none' }, 6.7)
+    .set(s3, { display: 'block' }, 6.7)
+    .to(wipeCurtain, 
+      { clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)", duration: 0.55, ease: "power3.inOut" }, 
+      6.7
+    )
+
+    // SCENE 3: PROOF (7.0s to 11.0s)
+    tl.addLabel("scene3_start", 6.7)
+      // Reveal typography
+      .fromTo("#scene3 .serif-display", 
+        { opacity: 0, y: 40 }, 
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 
+        7.0
+      )
+      .fromTo("#scene3 .body-editorial", 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.8 }, 
+        7.3
+      )
+      // Animated counter counting up to 142,850
+      .to(counterObj3, {
+        val: 142850,
+        duration: 2.2,
+        ease: "power2.out",
+        onUpdate: function() {
+          const formatted = Math.floor(counterObj3.val).toLocaleString('en-US', {
+            minimumIntegerDigits: 6,
+            useGrouping: true
+          });
+          document.getElementById('s3Counter').innerText = formatted;
+        }
+      }, 7.1)
+      // Moving cards deck (staggered stack reveal)
+      .fromTo("#pCard3", 
+        { y: 300, rotate: 30, opacity: 0 }, 
+        { y: 40, rotate: -8, opacity: 0.5, duration: 1.0, ease: "power3.out" }, 
+        7.2
+      )
+      .fromTo("#pCard2", 
+        { y: 300, rotate: -30, opacity: 0 }, 
+        { y: 15, rotate: 2, opacity: 1, duration: 1.0, ease: "power3.out" }, 
+        7.5
+      )
+      .fromTo("#pCard1", 
+        { y: 300, rotate: 45, opacity: 0 }, 
+        { y: -10, rotate: -4, opacity: 1, duration: 1.0, ease: "power3.out" }, 
+        7.8
+      )
+      // Subtle float parallax hover on the card deck
+      .to("#pCard1", { y: -22, duration: 1.5, yoyo: true, repeat: 1, ease: "power1.inOut" }, 8.8)
+      .to("#pCard2", { y: 25, duration: 1.5, yoyo: true, repeat: 1, ease: "power1.inOut" }, 8.8)
+
+    // TRANSITION 3: Sliding curtain panels (10.4s to 11.0s)
+    tl.to(curtainLeft, { translateX: "0%", duration: 0.5, ease: "power2.in" }, 10.4)
+      .to(curtainRight, { translateX: "0%", duration: 0.5, ease: "power2.in" }, 10.4)
+      .set(s3, { display: 'none' }, 10.9)
+      .set(s4, { display: 'block' }, 10.9)
+      .to(curtainLeft, { translateX: "-100%", duration: 0.5, ease: "power2.out" }, 10.9)
+      .to(curtainRight, { translateX: "100%", duration: 0.5, ease: "power2.out" }, 10.9)
+
+    // SCENE 4: COLLABORATE (11.0s to 15.0s)
+    tl.addLabel("scene4_start", 10.9)
+      // Reveal final text
+      .fromTo("#scene4 .accent-stamp", 
+        { opacity: 0, y: -20 }, 
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 
+        11.2
+      )
+      .fromTo("#scene4 .serif-display", 
+        { opacity: 0, scale: 0.8 }, 
+        { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" }, 
+        11.4
+      )
+      .fromTo("#scene4 .body-editorial", 
+        { opacity: 0 }, 
+        { opacity: 1, duration: 0.8 }, 
+        11.7
+      )
+      // Cursive hand note
+      .fromTo("#scene4 .cursive-note", 
+        { opacity: 0, rotate: 30, scale: 0 }, 
+        { opacity: 1, rotate: -15, scale: 1, duration: 0.8, ease: "power2.out" }, 
+        12.0
+      )
+      // Circular stamp slam down (scale & stamp rotation)
+      .fromTo("#s4Stamp", 
+        { scale: 4, rotate: -180, opacity: 0 }, 
+        { scale: 1, rotate: 0, opacity: 1, duration: 0.9, ease: "bounce.out" }, 
+        12.1
+      )
+      // Screen rumble shake on stamp impact
+      .to("#viewport", { x: "+=12", duration: 0.05, yoyo: true, repeat: 5 }, 12.4)
+      .to("#viewport", { x: "50%", left: "50%", duration: 0.05 }, 12.7) // Reset viewport position
+      .to({}, { duration: 1.8 }) // Hold final frame
+
+    // Auto-plays
+    tl.play(0);
+
+    // Interactive button controls
+    const playPauseBtn = document.getElementById('btnPlayPause');
+    const restartBtn = document.getElementById('btnRestart');
+
+    playPauseBtn.addEventListener('click', () => {
+      if (tl.paused()) {
+        tl.play();
+        playPauseBtn.innerText = "Pause";
+      } else {
+        tl.pause();
+        playPauseBtn.innerText = "Play";
+      }
+    });
+
+    restartBtn.addEventListener('click', () => {
+      tl.play(0);
+      playPauseBtn.innerText = "Pause";
+    });
+
+  </script>
+</body>
+</html>
