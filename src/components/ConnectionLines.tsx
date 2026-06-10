@@ -49,31 +49,7 @@ export function ConnectionLines({ workspaces, activeId }: ConnectionLinesProps) 
         </filter>
       </defs>
 
-      {/* Render all background/inactive lines first */}
-      {allLines.map(({ from, to, key }) => {
-        const isActive = from.id === activeId || to.id === activeId;
-        if (isActive) return null; // Render active lines on top
 
-        const fromPos = from.position;
-        const toPos = to.position;
-
-        // Draw curved paths using quadratic bezier curve Q (pull towards center slightly)
-        const midX = (fromPos.x + toPos.x) / 2;
-        const midY = (fromPos.y + toPos.y) / 2;
-        const controlX = midX + (50 - midX) * 0.15;
-        const controlY = midY + (50 - midY) * 0.15;
-
-        return (
-          <path
-            key={`inactive-${key}`}
-            d={`M ${fromPos.x} ${fromPos.y} Q ${controlX} ${controlY} ${toPos.x} ${toPos.y}`}
-            fill="none"
-            stroke="rgba(255, 255, 255, 0.05)"
-            strokeWidth="0.5"
-            strokeDasharray="1 3"
-          />
-        );
-      })}
 
       {/* Render active lines with motion and glow */}
       {allLines.map(({ from, to, key }) => {

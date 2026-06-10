@@ -37,7 +37,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('thought-workshop-scene.webp'),
       getAssetUrl('blazer-v2.webp.webp'),
     ],
-    position: { x: 50, y: 15 },
+    position: { x: 12, y: 14 },
     connections: ['execution-psychology', 'personal-proof-systems']
   },
   {
@@ -59,13 +59,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('karate-roots.webp.webp'),
       getAssetUrl('shotput.webp'),
     ],
-    position: { x: 82, y: 30 },
+    position: { x: 26, y: 34 },
     connections: ['personal-proof-systems', 'startup-validation']
   },
   {
     id: 'personal-proof-systems',
-    title: 'Personal Proof',
-    iconName: 'Target',
+    title: 'Personal Proof Systems',
+    iconName: 'ShieldCheck',
     description: 'Portfolio hub, build logs, framework library, GitHub proof, and demo videos.',
     belief: 'Unverifiable potential is indistinguishable from zero. Credibility is built through public, clickable artifacts.',
     exploring: [
@@ -81,13 +81,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('identity-cinematic-poster.webp'),
       getAssetUrl('gitam-sign.webp'),
     ],
-    position: { x: 88, y: 62 },
+    position: { x: 26, y: 74 },
     connections: ['product-communication', 'ai-leverage']
   },
   {
     id: 'product-communication',
-    title: 'Product Comm',
-    iconName: 'Share2',
+    title: 'Product Communication',
+    iconName: 'MessageSquareText',
     description: 'Positioning, launch copy, feature narratives, demos, and case studies.',
     belief: 'If a user cannot understand a feature in 3 seconds, the feature does not exist. Clarity is the ultimate product metric.',
     exploring: [
@@ -103,13 +103,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('voice.webp'),
       getAssetUrl('tepe-exhibition.webp'),
     ],
-    position: { x: 74, y: 82 },
+    position: { x: 26, y: 54 },
     connections: ['cinematic-storytelling', 'personal-proof-systems']
   },
   {
     id: 'cinematic-storytelling',
-    title: 'Cinematic Story',
-    iconName: 'Video',
+    title: 'Cinematic Storytelling',
+    iconName: 'Clapperboard',
     description: 'Visual metaphors, scene design, hero framing, attention beats, and brand worlds.',
     belief: 'Information without emotion is instantly forgotten. Storytelling is how we package logic to make it stick.',
     exploring: [
@@ -125,13 +125,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('blazer-v2.webp.webp'),
       getAssetUrl('thought-workspace-bg.webp'),
     ],
-    position: { x: 50, y: 88 },
+    position: { x: 12, y: 74 },
     connections: ['investing-mental-models', 'product-communication']
   },
   {
     id: 'investing-mental-models',
-    title: 'Investing Models',
-    iconName: 'LineChart',
+    title: 'Investing Mental Models',
+    iconName: 'TrendingUp',
     description: 'Compounding, incentives, risk, cycles, and moats.',
     belief: 'Every action is an capital allocation decision. Building compounding assets always beats capturing quick wins.',
     exploring: [
@@ -147,13 +147,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('ncc.webp'),
       getAssetUrl('gitam-sign.webp'),
     ],
-    position: { x: 26, y: 82 },
+    position: { x: 26, y: 14 },
     connections: ['ux-psychology', 'cinematic-storytelling']
   },
   {
     id: 'ux-psychology',
     title: 'UX Psychology',
-    iconName: 'Users',
+    iconName: 'Eye',
     description: 'Attention, friction, mental models, microcopy, and trust cues.',
     belief: 'Software is psychology made visible. Interfaces must conform to human biology and expectations, not database structures.',
     exploring: [
@@ -169,13 +169,13 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('thought-workshop-scene.webp'),
       getAssetUrl('hero-current.webp.webp'),
     ],
-    position: { x: 12, y: 62 },
+    position: { x: 12, y: 34 },
     connections: ['startup-validation', 'investing-mental-models']
   },
   {
     id: 'startup-validation',
     title: 'Startup Validation',
-    iconName: 'FileText',
+    iconName: 'ChartNoAxesCombined',
     description: 'Problem discovery, user interviews, landing tests, MVP scope, and PMF signals.',
     belief: 'The most expensive waste is building something perfectly that nobody wants. Demand validation must precede code.',
     exploring: [
@@ -191,7 +191,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('identity-builder.webp'),
       getAssetUrl('thought-workspace-bg.webp'),
     ],
-    position: { x: 18, y: 30 },
+    position: { x: 12, y: 54 },
     connections: ['ai-leverage', 'ux-psychology', 'execution-psychology']
   }
 ];
