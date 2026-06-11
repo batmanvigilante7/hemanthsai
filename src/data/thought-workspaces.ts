@@ -37,7 +37,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('thought-workshop-scene.webp'),
       getAssetUrl('blazer-v2.webp.webp'),
     ],
-    position: { x: 12, y: 14 },
+    position: { x: 10, y: 18 },
     connections: ['execution-psychology', 'personal-proof-systems']
   },
   {
@@ -59,7 +59,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('karate-roots.webp.webp'),
       getAssetUrl('shotput.webp'),
     ],
-    position: { x: 26, y: 34 },
+    position: { x: 10, y: 34 },
     connections: ['personal-proof-systems', 'startup-validation']
   },
   {
@@ -81,7 +81,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('identity-cinematic-poster.webp'),
       getAssetUrl('gitam-sign.webp'),
     ],
-    position: { x: 26, y: 74 },
+    position: { x: 10, y: 50 },
     connections: ['product-communication', 'ai-leverage']
   },
   {
@@ -103,7 +103,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('voice.webp'),
       getAssetUrl('tepe-exhibition.webp'),
     ],
-    position: { x: 26, y: 54 },
+    position: { x: 10, y: 66 },
     connections: ['cinematic-storytelling', 'personal-proof-systems']
   },
   {
@@ -125,7 +125,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('blazer-v2.webp.webp'),
       getAssetUrl('thought-workspace-bg.webp'),
     ],
-    position: { x: 12, y: 74 },
+    position: { x: 22, y: 18 },
     connections: ['investing-mental-models', 'product-communication']
   },
   {
@@ -147,7 +147,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('ncc.webp'),
       getAssetUrl('gitam-sign.webp'),
     ],
-    position: { x: 26, y: 14 },
+    position: { x: 22, y: 34 },
     connections: ['ux-psychology', 'cinematic-storytelling']
   },
   {
@@ -169,7 +169,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('thought-workshop-scene.webp'),
       getAssetUrl('hero-current.webp.webp'),
     ],
-    position: { x: 12, y: 34 },
+    position: { x: 22, y: 50 },
     connections: ['startup-validation', 'investing-mental-models']
   },
   {
@@ -191,7 +191,7 @@ export const thoughtWorkspaces: WorkspaceNode[] = [
       getAssetUrl('identity-builder.webp'),
       getAssetUrl('thought-workspace-bg.webp'),
     ],
-    position: { x: 12, y: 54 },
+    position: { x: 22, y: 66 },
     connections: ['ai-leverage', 'ux-psychology', 'execution-psychology']
   }
 ];

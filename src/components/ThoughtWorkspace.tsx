@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import * as Icons from "lucide-react";
 import { thoughtWorkspaces, getWorkspaceById } from "@/data/thought-workspaces";
 import { ThoughtWorkspaceNode, getWorkspaceIcon } from "./ThoughtWorkspaceNode";
 import { ThoughtDock } from "./ThoughtDock";
@@ -100,6 +99,25 @@ export function ThoughtWorkspace() {
               {/* Warm Ambient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#18110b]/20 via-black/40 to-black/80 z-0 pointer-events-none" />
 
+              {/* macOS-style Menu Bar */}
+              <div className="absolute left-0 right-0 top-0 z-40 flex h-8 items-center justify-between border-b border-white/10 bg-black/35 px-4 text-[10px] text-white/70 backdrop-blur-xl pointer-events-none">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-400/80 shadow-[0_0_10px_rgba(248,113,113,0.25)]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80 shadow-[0_0_10px_rgba(250,204,21,0.2)]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-green-400/80 shadow-[0_0_10px_rgba(74,222,128,0.2)]" />
+                  <span className="ml-3 font-semibold tracking-wide text-white/85">ThoughtOS</span>
+                </div>
+
+                <div className="hidden items-center gap-5 md:flex">
+                  <span>Mind</span>
+                  <span>Build</span>
+                  <span>Ship</span>
+                  <span>Proof</span>
+                </div>
+
+                <div className="font-mono text-white/45">09:41</div>
+              </div>
+
               {/* Gooey Ambient Atmosphere */}
               <div
                 className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-15"
@@ -119,8 +137,8 @@ export function ThoughtWorkspace() {
                 />
               </div>
 
-              {/* 2. Desktop Workspace App Icons (Desktop Only) */}
-              <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
+              {/* 3. Desktop Workspace App Icons (Desktop Only) */}
+              <div className="hidden lg:block absolute inset-x-0 bottom-16 top-10 pointer-events-none z-20">
                 {thoughtWorkspaces.map((node) => (
                   <ThoughtWorkspaceNode
                     key={node.id}
@@ -131,8 +149,8 @@ export function ThoughtWorkspace() {
                 ))}
               </div>
 
-              {/* 3. Active Finder Window Panel (Desktop Only) */}
-              <div className="hidden lg:block absolute top-[6%] right-[4%] w-[58%] h-[74%] z-30">
+              {/* 4. Active Finder Window Panel (Desktop Only) */}
+              <div className="hidden lg:block absolute top-[13%] right-[4%] w-[58%] h-[70%] z-30">
                 <AnimatePresence mode="wait">
                   {activeId && activeWorkspace && (
                     <motion.div

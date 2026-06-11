@@ -43,7 +43,7 @@ export function ThoughtWorkspaceNode({
         top: `${node.position.y}%`,
         transform: "translate(-50%, -50%)",
       }}
-      className="z-20 select-none hidden lg:block"
+      className="z-20 select-none hidden lg:block pointer-events-auto"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
