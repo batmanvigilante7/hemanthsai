@@ -64,7 +64,11 @@ export const MacbookScroll = ({
     [0, 0.3],
     [0.6, isMobile ? 1 : 1.5],
   );
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+  const translate = useTransform(
+    scrollYProgress,
+    sectionMode ? [0, 0.3] : [0, 1],
+    sectionMode ? [0, 180] : [0, 1500]
+  );
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -74,7 +78,7 @@ export const MacbookScroll = ({
       ref={ref}
       className={cn(
         "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
-        sectionMode ? "min-h-[72vh] md:py-6" : "min-h-[200vh] md:py-80"
+        sectionMode ? "min-h-[84vh] md:py-8" : "min-h-[200vh] md:py-80"
       )}
     >
       <motion.h2
