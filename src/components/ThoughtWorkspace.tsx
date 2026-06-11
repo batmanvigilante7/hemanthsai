@@ -161,7 +161,7 @@ export function ThoughtWorkspace() {
 
       <div className="relative mx-auto max-w-[1400px]">
         {/* Section Header */}
-        <div className="mb-4 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <div className="mb-0 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
               Thought Workspace
@@ -180,7 +180,7 @@ export function ThoughtWorkspace() {
         </div>
 
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="relative hidden lg:flex min-h-[20vh] items-start justify-center overflow-visible pt-0 -mt-2">
+        <div className="relative hidden lg:flex min-h-[12vh] items-start justify-center overflow-visible pt-0 -mt-8">
           <MacbookScroll
             title={
               <span className="text-white text-3xl font-extrabold tracking-tight">
