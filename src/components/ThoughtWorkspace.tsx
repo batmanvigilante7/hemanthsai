@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import * as Icons from "lucide-react";
 import { thoughtWorkspaces, getWorkspaceById } from "@/data/thought-workspaces";
 import { ThoughtWorkspaceNode, getWorkspaceIcon } from "./ThoughtWorkspaceNode";
-import { ConnectionLines } from "./ConnectionLines";
 import { ThoughtDock } from "./ThoughtDock";
 import { ThoughtPanel } from "./ThoughtPanel";
 import { cn } from "@/lib/utils";
@@ -120,14 +119,7 @@ export function ThoughtWorkspace() {
                 />
               </div>
 
-              {/* 2. Connection Lines (Desktop Only) */}
-              {activeId && (
-                <div className="hidden lg:block absolute inset-0 pointer-events-none z-10">
-                  <ConnectionLines workspaces={thoughtWorkspaces} activeId={activeId} />
-                </div>
-              )}
-
-              {/* 3. Desktop Workspace App Icons (Desktop Only) */}
+              {/* 2. Desktop Workspace App Icons (Desktop Only) */}
               <div className="hidden lg:block absolute inset-0 pointer-events-none z-20">
                 {thoughtWorkspaces.map((node) => (
                   <ThoughtWorkspaceNode
@@ -139,7 +131,7 @@ export function ThoughtWorkspace() {
                 ))}
               </div>
 
-              {/* 4. Active Finder Window Panel (Desktop Only) */}
+              {/* 3. Active Finder Window Panel (Desktop Only) */}
               <div className="hidden lg:block absolute top-[6%] right-[4%] w-[58%] h-[74%] z-30">
                 <AnimatePresence mode="wait">
                   {activeId && activeWorkspace && (
@@ -161,7 +153,7 @@ export function ThoughtWorkspace() {
                 </AnimatePresence>
               </div>
 
-              {/* 5. Mobile/Tablet Workspace App Grid (Hidden on Desktop) */}
+              {/* 4. Mobile/Tablet Workspace App Grid (Hidden on Desktop) */}
               <div className="lg:hidden grid grid-cols-4 gap-3 p-2 z-20 select-none max-w-lg mx-auto">
                 {thoughtWorkspaces.map((node) => {
                   const isActive = node.id === activeId;
@@ -193,7 +185,7 @@ export function ThoughtWorkspace() {
                 })}
               </div>
 
-              {/* 6. Switcher Dock (Desktop Only) */}
+              {/* 5. Switcher Dock (Desktop Only) */}
               <ThoughtDock
                 workspaces={thoughtWorkspaces}
                 activeId={activeId}
@@ -209,7 +201,7 @@ export function ThoughtWorkspace() {
           </div>
         </div>
 
-        {/* 7. Active Panel Mobile View (Hidden on Desktop) */}
+        {/* 6. Active Panel Mobile View (Hidden on Desktop) */}
         <div className="w-full mt-6 block lg:hidden">
           <AnimatePresence mode="wait">
             {activeId && activeWorkspace && (
