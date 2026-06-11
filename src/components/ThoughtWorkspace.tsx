@@ -65,13 +65,14 @@ export function ThoughtWorkspace() {
               Thought Workspace
             </p>
             <h2 className="text-4xl font-black uppercase tracking-tight md:text-6xl text-white">
-              The desks inside my mind.
+              The mental desktop where ideas become proof.
             </h2>
           </div>
           <div>
             <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
-              A macOS-inspired desktop environment showcasing the workflows, systems, and
-              obsessions I return to while building with AI, code, design, and storytelling.
+              A visual workspace of the recurring questions, creative loops, and thinking
+              patterns that shape how I approach ideas — from the first spark to something
+              real enough to share.
             </p>
           </div>
         </div>
