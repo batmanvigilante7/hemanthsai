@@ -67,7 +67,7 @@ export const MacbookScroll = ({
   const translate = useTransform(
     scrollYProgress,
     compact ? [0, 0.18] : [0, 1],
-    compact ? [40, 0] : [0, 1500]
+    compact ? [24, 0] : [0, 1500]
   );
   const rotate = useTransform(
     scrollYProgress,
@@ -89,8 +89,8 @@ export const MacbookScroll = ({
     <div
       ref={ref}
       className={cn(
-        "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
-        compact ? "min-h-[80vh] md:py-0" : "min-h-[200vh] md:py-80"
+        "flex shrink-0 scale-[0.35] transform flex-col items-center py-0 [perspective:800px] sm:scale-50 md:scale-100",
+        compact ? "min-h-[78vh] md:py-0 justify-center" : "min-h-[200vh] md:py-80 justify-start"
       )}
     >
       {title !== null && (

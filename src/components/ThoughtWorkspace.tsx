@@ -35,10 +35,10 @@ interface ThoughtOSDesktopProps {
   activeWorkspace: any;
 }
 
-// Reusable Desktop Canvas OS component scaled down by 0.5 to fit inside the MacbookScroll screen
+// Reusable Desktop Canvas OS component scaled down to fit inside the MacbookScroll screen
 export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: ThoughtOSDesktopProps) {
   return (
-    <div className="relative w-[200%] h-[200%] scale-[0.5] origin-top-left bg-[#050505] overflow-hidden flex flex-col justify-between p-8 select-none pointer-events-auto">
+    <div className="relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#050505] overflow-hidden flex flex-col justify-between p-8 select-none pointer-events-auto">
       {/* Wallpaper Background */}
       <img
         src={getAssetUrl("thought-workspace-bg.webp")}
@@ -180,8 +180,8 @@ export function ThoughtWorkspace() {
         </div>
 
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="hidden lg:block w-full">
-          <div className="relative -mt-8 flex min-h-[70vh] items-start justify-center overflow-visible">
+        <div className="hidden lg:flex w-full relative min-h-[78vh] items-center justify-center overflow-visible -mt-10">
+          <div className="relative mt-10 w-full flex justify-center">
             <MacbookScroll
               compact
               title={null}
