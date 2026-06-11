@@ -7,7 +7,6 @@ import { ThoughtWorkspaceNode, getWorkspaceIcon } from "./ThoughtWorkspaceNode";
 import { ThoughtDock } from "./ThoughtDock";
 import { ThoughtPanel } from "./ThoughtPanel";
 import { cn } from "@/lib/utils";
-import { MacbookScroll } from "./ui/macbook-scroll";
 
 const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
@@ -131,6 +130,46 @@ export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: Tho
   );
 }
 
+interface LaptopMockupProps {
+  children: React.ReactNode;
+}
+
+function LaptopMockup({ children }: LaptopMockupProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto w-full max-w-[900px] aspect-[16/10] flex flex-col items-center"
+    >
+      {/* Screen Lid (16/10 ratio) */}
+      <div className="relative w-full aspect-[16/10] bg-[#0c0c0d] rounded-t-[24px] p-[12px] border-t-2 border-x-2 border-neutral-800 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]">
+        {/* Screen bezel inner border */}
+        <div className="relative w-full h-full rounded-[12px] bg-black overflow-hidden border border-neutral-900">
+          {/* Camera Notch/Dot */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-4 bg-black rounded-b-xl z-50 flex items-center justify-center pointer-events-none">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-950 ring-[0.5px] ring-blue-500/20" />
+          </div>
+          
+          {/* Interactive Screen Content */}
+          <div className="absolute inset-[3px] rounded-[8px] overflow-hidden bg-[#050505] pointer-events-auto z-10">
+            {children}
+          </div>
+        </div>
+      </div>
+
+      {/* Screen Base (hinge & keyboard surface) */}
+      <div className="relative w-[105%] h-[24px] bg-gradient-to-b from-[#252526] to-[#1c1c1d] border-b-[3px] border-neutral-900 rounded-b-[8px] shadow-[0_25px_50px_rgba(0,0,0,0.95)] z-20 flex items-center justify-center">
+        {/* Notch to open lid */}
+        <div className="w-24 h-2 bg-neutral-950 rounded-b-md" />
+      </div>
+
+      {/* Bottom lip/shadow */}
+      <div className="w-[90%] h-[8px] bg-black/50 blur-md rounded-full -mt-[3px]" />
+    </motion.div>
+  );
+}
+
 export function ThoughtWorkspace() {
   const [activeId, setActiveId] = useState<string>("ai-leverage");
 
@@ -178,18 +217,15 @@ export function ThoughtWorkspace() {
           </div>
         </div>
 
-        {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="hidden lg:block w-full">
-          <MacbookScroll
-            title={null}
-            showGradient={false}
-          >
+        {/* Desktop View: Interactive ThoughtOS inside custom static LaptopMockup */}
+        <div className="hidden lg:block w-full py-4">
+          <LaptopMockup>
             <ThoughtOSDesktop
               activeId={activeId}
               setActiveId={setActiveId}
               activeWorkspace={activeWorkspace}
             />
-          </MacbookScroll>
+          </LaptopMockup>
         </div>
 
         {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
