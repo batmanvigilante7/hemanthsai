@@ -182,6 +182,7 @@ export function ThoughtWorkspace() {
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
         <div className="relative hidden lg:flex min-h-[12vh] items-start justify-center overflow-visible pt-0 -mt-8">
           <MacbookScroll
+            sectionMode
             title={
               <span className="text-white text-3xl font-extrabold tracking-tight">
                 Designed to build. <br /> Built to execute.

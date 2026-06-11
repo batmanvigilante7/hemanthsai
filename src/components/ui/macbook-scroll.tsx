@@ -31,12 +31,14 @@ export const MacbookScroll = ({
   title,
   badge,
   children,
+  sectionMode = false,
 }: {
   src?: string;
   showGradient?: boolean;
   title?: string | React.ReactNode;
   badge?: React.ReactNode;
   children?: React.ReactNode;
+  sectionMode?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -70,14 +72,20 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
-      className="flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-80"
+      className={cn(
+        "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
+        sectionMode ? "min-h-[72vh] md:py-6" : "min-h-[200vh] md:py-80"
+      )}
     >
       <motion.h2
         style={{
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white"
+        className={cn(
+          "text-center text-3xl font-bold text-neutral-800 dark:text-white",
+          sectionMode ? "mb-8" : "mb-20"
+        )}
       >
         {title || (
           <span>
