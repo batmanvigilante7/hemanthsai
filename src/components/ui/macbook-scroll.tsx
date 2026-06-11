@@ -93,7 +93,7 @@ export const MacbookScroll = ({
       >
         <motion.div
           initial={{ opacity: 0, y: 32, scale: 0.92 }}
-          whileInView={{ opacity: 1, y: 0, scale: 0.94 }}
+          whileInView={{ opacity: 1, y: 0, scale: 0.96 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex flex-col items-center"
@@ -106,7 +106,7 @@ export const MacbookScroll = ({
           </div>
 
           {/* Thin Base Hint */}
-          <div className="relative -mt-3 h-10 w-[43rem] rounded-b-3xl bg-[#242426] shadow-[0_28px_60px_rgba(0,0,0,0.55)]">
+          <div className="relative -mt-2 h-12 w-[38rem] rounded-b-[2rem] bg-gradient-to-b from-[#2b2b2d] to-[#111113] shadow-[0_30px_70px_rgba(0,0,0,0.65)]">
             <div className="absolute left-1/2 top-0 h-2 w-28 -translate-x-1/2 rounded-b-xl bg-black/50" />
           </div>
         </motion.div>
