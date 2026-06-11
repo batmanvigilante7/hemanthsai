@@ -31,12 +31,14 @@ export const MacbookScroll = ({
   title,
   badge,
   children,
+  compact = false,
 }: {
   src?: string;
   showGradient?: boolean;
   title?: string | React.ReactNode;
   badge?: React.ReactNode;
   children?: React.ReactNode;
+  compact?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -54,23 +56,42 @@ export const MacbookScroll = ({
 
   const scaleX = useTransform(
     scrollYProgress,
-    [0, 0.2],
-    [1.12, isMobile ? 1 : 1.35],
+    compact ? [0, 0.18] : [0, 0.3],
+    compact ? [1.12, isMobile ? 1 : 1.35] : [1.2, isMobile ? 1 : 1.5],
   );
   const scaleY = useTransform(
     scrollYProgress,
-    [0, 0.2],
-    [0.68, isMobile ? 1 : 1.35],
+    compact ? [0, 0.18] : [0, 0.3],
+    compact ? [0.68, isMobile ? 1 : 1.35] : [0.6, isMobile ? 1 : 1.5],
   );
-  const translate = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
-  const rotate = useTransform(scrollYProgress, [0.04, 0.08, 0.2], [-24, -18, 0]);
-  const textTransform = useTransform(scrollYProgress, [0, 0.15], [0, 60]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+  const translate = useTransform(
+    scrollYProgress,
+    compact ? [0, 0.18] : [0, 1],
+    compact ? [40, 0] : [0, 1500]
+  );
+  const rotate = useTransform(
+    scrollYProgress,
+    compact ? [0.04, 0.08, 0.18] : [0.1, 0.12, 0.3],
+    compact ? [-24, -18, 0] : [-28, -28, 0]
+  );
+  const textTransform = useTransform(
+    scrollYProgress,
+    compact ? [0, 0.15] : [0, 0.3],
+    compact ? [0, 60] : [0, 100]
+  );
+  const textOpacity = useTransform(
+    scrollYProgress,
+    compact ? [0, 0.12] : [0, 0.2],
+    [1, 0]
+  );
 
   return (
     <div
       ref={ref}
-      className="flex min-h-[90vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-0"
+      className={cn(
+        "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
+        compact ? "min-h-[80vh] md:py-0" : "min-h-[200vh] md:py-80"
+      )}
     >
       {title !== null && (
         <motion.h2
@@ -78,7 +99,10 @@ export const MacbookScroll = ({
             translateY: textTransform,
             opacity: textOpacity,
           }}
-          className="mb-10 text-center text-3xl font-bold text-neutral-800 dark:text-white"
+          className={cn(
+            "text-center text-3xl font-bold text-neutral-800 dark:text-white",
+            compact ? "mb-10" : "mb-20"
+          )}
         >
           {title === undefined ? (
             <span>
