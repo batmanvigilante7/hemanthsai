@@ -182,16 +182,14 @@ export function ThoughtWorkspace() {
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
         <div className="relative hidden lg:flex min-h-[62vh] items-start justify-center overflow-visible pt-6">
           <MacbookScroll
-            compact
-            title={null}
+            title={
+              <span className="text-white text-3xl font-extrabold tracking-tight">
+                Designed to build. <br /> Built to execute.
+              </span>
+            }
+            src={getAssetUrl("thought-workspace-scene.webp")}
             showGradient={false}
-          >
-            <ThoughtOSDesktop
-              activeId={activeId}
-              setActiveId={setActiveId}
-              activeWorkspace={activeWorkspace}
-            />
-          </MacbookScroll>
+          />
         </div>
 
         {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}

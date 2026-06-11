@@ -31,14 +31,12 @@ export const MacbookScroll = ({
   title,
   badge,
   children,
-  compact = false,
 }: {
   src?: string;
   showGradient?: boolean;
   title?: string | React.ReactNode;
   badge?: React.ReactNode;
   children?: React.ReactNode;
-  compact?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -56,92 +54,37 @@ export const MacbookScroll = ({
 
   const scaleX = useTransform(
     scrollYProgress,
-    compact ? [0, 0.18] : [0, 0.3],
-    compact ? [1.12, isMobile ? 1 : 1.35] : [1.2, isMobile ? 1 : 1.5],
+    [0, 0.3],
+    [1.2, isMobile ? 1 : 1.5],
   );
   const scaleY = useTransform(
     scrollYProgress,
-    compact ? [0, 0.18] : [0, 0.3],
-    compact ? [0.68, isMobile ? 1 : 1.35] : [0.6, isMobile ? 1 : 1.5],
+    [0, 0.3],
+    [0.6, isMobile ? 1 : 1.5],
   );
-  const translate = useTransform(
-    scrollYProgress,
-    compact ? [0, 0.18] : [0, 1],
-    compact ? [24, 0] : [0, 1500]
-  );
-  const rotate = useTransform(
-    scrollYProgress,
-    compact ? [0.04, 0.08, 0.18] : [0.1, 0.12, 0.3],
-    compact ? [-24, -18, 0] : [-28, -28, 0]
-  );
-  const textTransform = useTransform(
-    scrollYProgress,
-    compact ? [0, 0.15] : [0, 0.3],
-    compact ? [0, 60] : [0, 100]
-  );
-  const textOpacity = useTransform(
-    scrollYProgress,
-    compact ? [0, 0.12] : [0, 0.2],
-    [1, 0]
-  );
-
-  if (compact) {
-    return (
-      <div
-        ref={ref}
-        className="flex min-h-[52vh] w-full items-start justify-center overflow-visible py-0"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 32, scale: 0.92 }}
-          whileInView={{ opacity: 1, y: 0, scale: 0.96 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex flex-col items-center"
-        >
-          {/* Compact Screen (No separate lid back) */}
-          <div className="relative h-[24rem] w-[42rem] rounded-[1.75rem] bg-[#010101] p-2 shadow-[0_30px_90px_rgba(0,0,0,0.65)]">
-            <div className="absolute inset-2 rounded-[1.25rem] bg-[#050505] overflow-hidden z-10 flex flex-col text-left pointer-events-auto">
-              {children}
-            </div>
-          </div>
-
-          {/* Thin Base Hint */}
-          <div className="relative -mt-2 h-12 w-[38rem] rounded-b-[2rem] bg-gradient-to-b from-[#2b2b2d] to-[#111113] shadow-[0_30px_70px_rgba(0,0,0,0.65)]">
-            <div className="absolute left-1/2 top-0 h-2 w-28 -translate-x-1/2 rounded-b-xl bg-black/50" />
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
+  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
+  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <div
       ref={ref}
-      className={cn(
-        "flex shrink-0 scale-[0.35] transform flex-col items-center py-0 [perspective:800px] sm:scale-50 md:scale-100",
-        compact ? "min-h-[78vh] md:py-0 justify-center" : "min-h-[200vh] md:py-80 justify-start"
-      )}
+      className="flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-80"
     >
-      {title !== null && (
-        <motion.h2
-          style={{
-            translateY: textTransform,
-            opacity: textOpacity,
-          }}
-          className={cn(
-            "text-center text-3xl font-bold text-neutral-800 dark:text-white",
-            compact ? "mb-10" : "mb-20"
-          )}
-        >
-          {title === undefined ? (
-            <span>
-              This Macbook is built with Tailwindcss. <br /> No kidding.
-            </span>
-          ) : (
-            title
-          )}
-        </motion.h2>
-      )}
+      <motion.h2
+        style={{
+          translateY: textTransform,
+          opacity: textOpacity,
+        }}
+        className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white"
+      >
+        {title || (
+          <span>
+            This Macbook is built with Tailwindcss. <br /> No kidding.
+          </span>
+        )}
+      </motion.h2>
       {/* Lid */}
       <Lid
         src={src}
