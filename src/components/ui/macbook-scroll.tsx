@@ -89,13 +89,13 @@ export const MacbookScroll = ({
     return (
       <div
         ref={ref}
-        className="flex shrink-0 scale-[0.35] transform flex-col items-center py-0 [perspective:800px] sm:scale-50 md:scale-100 min-h-[76vh] md:py-0 justify-center"
+        className="flex min-h-[70vh] w-full items-start justify-center overflow-visible py-0 [perspective:800px]"
       >
         <motion.div
-          initial={{ opacity: 0, y: 40, scale: 0.94 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 40, scale: 0.88 }}
+          whileInView={{ opacity: 1, y: 0, scale: 0.9 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="relative flex flex-col items-center"
         >
           {/* Lid in fixed open state */}

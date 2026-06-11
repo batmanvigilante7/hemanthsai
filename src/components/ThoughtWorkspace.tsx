@@ -180,20 +180,18 @@ export function ThoughtWorkspace() {
         </div>
 
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="hidden lg:flex w-full relative min-h-[78vh] items-center justify-center overflow-visible -mt-10">
-          <div className="relative mt-10 w-full flex justify-center">
-            <MacbookScroll
-              compact
-              title={null}
-              showGradient={false}
-            >
-              <ThoughtOSDesktop
-                activeId={activeId}
-                setActiveId={setActiveId}
-                activeWorkspace={activeWorkspace}
-              />
-            </MacbookScroll>
-          </div>
+        <div className="relative hidden lg:flex min-h-[86vh] items-start justify-center pt-28 overflow-visible">
+          <MacbookScroll
+            compact
+            title={null}
+            showGradient={false}
+          >
+            <ThoughtOSDesktop
+              activeId={activeId}
+              setActiveId={setActiveId}
+              activeWorkspace={activeWorkspace}
+            />
+          </MacbookScroll>
         </div>
 
         {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
