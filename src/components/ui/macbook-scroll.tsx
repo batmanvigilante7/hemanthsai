@@ -54,37 +54,41 @@ export const MacbookScroll = ({
 
   const scaleX = useTransform(
     scrollYProgress,
-    [0, 0.3],
-    [1.2, isMobile ? 1 : 1.5],
+    [0, 0.2],
+    [1.12, isMobile ? 1 : 1.35],
   );
   const scaleY = useTransform(
     scrollYProgress,
-    [0, 0.3],
-    [0.6, isMobile ? 1 : 1.5],
+    [0, 0.2],
+    [0.68, isMobile ? 1 : 1.35],
   );
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
-  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
-  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const translate = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
+  const rotate = useTransform(scrollYProgress, [0.04, 0.08, 0.2], [-24, -18, 0]);
+  const textTransform = useTransform(scrollYProgress, [0, 0.15], [0, 60]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
   return (
     <div
       ref={ref}
-      className="flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-80"
+      className="flex min-h-[90vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-0"
     >
-      <motion.h2
-        style={{
-          translateY: textTransform,
-          opacity: textOpacity,
-        }}
-        className="mb-20 text-center text-3xl font-bold text-neutral-800 dark:text-white"
-      >
-        {title || (
-          <span>
-            This Macbook is built with Tailwindcss. <br /> No kidding.
-          </span>
-        )}
-      </motion.h2>
+      {title !== null && (
+        <motion.h2
+          style={{
+            translateY: textTransform,
+            opacity: textOpacity,
+          }}
+          className="mb-10 text-center text-3xl font-bold text-neutral-800 dark:text-white"
+        >
+          {title === undefined ? (
+            <span>
+              This Macbook is built with Tailwindcss. <br /> No kidding.
+            </span>
+          ) : (
+            title
+          )}
+        </motion.h2>
+      )}
       {/* Lid */}
       <Lid
         src={src}

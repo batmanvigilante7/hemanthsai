@@ -181,11 +181,7 @@ export function ThoughtWorkspace() {
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
         <div className="hidden lg:block w-full">
           <MacbookScroll
-            title={
-              <span className="text-white text-3xl font-extrabold tracking-tight">
-                Designed to build. Built to execute.
-              </span>
-            }
+            title={null}
             showGradient={false}
           >
             <ThoughtOSDesktop
