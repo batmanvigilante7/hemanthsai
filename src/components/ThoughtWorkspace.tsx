@@ -180,7 +180,7 @@ export function ThoughtWorkspace() {
         </div>
 
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="relative hidden lg:flex min-h-[86vh] items-start justify-center pt-28 overflow-visible">
+        <div className="relative hidden lg:flex min-h-[58vh] items-start justify-center overflow-visible pt-4">
           <MacbookScroll
             compact
             title={null}
