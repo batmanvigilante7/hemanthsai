@@ -35,17 +35,9 @@ interface ThoughtOSDesktopProps {
   activeWorkspace: any;
 }
 
-// Reusable Desktop Canvas OS component scaled down to fit inside the MacbookScroll screen
 export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: ThoughtOSDesktopProps) {
   return (
     <div className="relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#050505] overflow-hidden flex flex-col justify-between p-8 select-none pointer-events-auto">
-      {/* Wallpaper Background */}
-      <img
-        src={getAssetUrl("thought-workspace-scene.webp")}
-        alt="Cinematic thought workspace backdrop"
-        className="absolute inset-0 h-full w-full object-cover object-center opacity-[0.78] pointer-events-none select-none z-0"
-      />
-
       {/* Warm Ambient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/35 to-black/75 z-0 pointer-events-none" />
 
@@ -136,13 +128,27 @@ export function ThoughtWorkspace() {
   const [activeId, setActiveId] = useState<string>("ai-leverage");
 
   const activeWorkspace = getWorkspaceById(activeId);
+  const thoughtWorkspaceScene = getAssetUrl("thought-workspace-scene.webp");
 
   return (
     <section
       id="thought-workspace"
-      className="relative overflow-hidden bg-[#050505] px-6 pt-32 pb-24 text-white sm:pt-36 sm:pb-28 md:px-10"
+      className="relative min-h-screen overflow-hidden bg-black px-6 pt-32 pb-24 text-white sm:pt-36 sm:pb-28 md:px-10"
       aria-label="Thought Workspace Section"
     >
+      {/* Workspace background */}
+      <img
+        src={thoughtWorkspaceScene}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover opacity-35 blur-[1px] pointer-events-none select-none z-0"
+      />
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/55 z-0 pointer-events-none" />
+
+      {/* Warm glow around the MacBook */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,160,70,0.18),transparent_58%)] z-0 pointer-events-none" />
       {/* SVG Gooey Filter definitions */}
       <svg className="hidden">
         <defs>
@@ -159,7 +165,7 @@ export function ThoughtWorkspace() {
         </defs>
       </svg>
 
-      <div className="relative mx-auto max-w-[1400px]">
+      <div className="relative z-10 mx-auto max-w-[1400px]">
         {/* Section Header */}
         <div className="mb-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
@@ -183,7 +189,7 @@ export function ThoughtWorkspace() {
             sectionMode
             title={
               <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                From thought loops. <br /> To visible proof.
+                From thought loops. <br /> Turning curiosity into visible proof.
               </span>
             }
             showGradient={false}
@@ -207,12 +213,6 @@ export function ThoughtWorkspace() {
 
             {/* Desktop Screen Canvas */}
             <div className="relative flex-1 w-full h-full bg-[#050505] overflow-hidden flex flex-col justify-between p-4">
-              {/* Wallpaper Background */}
-              <img
-                src={getAssetUrl("thought-workspace-scene.webp")}
-                alt="Cinematic thought workspace backdrop"
-                className="absolute inset-0 h-full w-full object-cover object-center opacity-[0.72] pointer-events-none select-none z-0"
-              />
 
               {/* Warm Ambient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#18110b]/20 via-black/40 to-black/80 z-0 pointer-events-none" />
