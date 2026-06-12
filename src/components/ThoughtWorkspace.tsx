@@ -141,7 +141,7 @@ export function ThoughtWorkspace() {
         src={thoughtWorkspaceScene}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover opacity-100 brightness-110 contrast-105 pointer-events-none select-none z-0"
+        className="absolute inset-0 h-full w-full object-cover object-bottom opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
       />
 
       {/* Dark overlay for readability */}
