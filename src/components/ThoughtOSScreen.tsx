@@ -32,7 +32,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
 
   return (
     <div className={cn(
-      "relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#070708] overflow-hidden p-6 select-none pointer-events-auto flex flex-col justify-between font-sans",
+      "relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#070708] overflow-hidden select-none pointer-events-auto font-sans",
       className
     )}>
       {/* Warm Ambient Radial Backdrop */}
@@ -40,7 +40,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0d] via-[#070708] to-[#040405] z-0 pointer-events-none" />
 
       {/* Scaled Desktop Environment Container */}
-      <div className="w-full h-full relative origin-center scale-[0.88] flex flex-col justify-between z-10 pt-10">
+      <div className="w-full h-full relative origin-center scale-[0.88] flex flex-col justify-between z-10">
         
         {/* Top Menu Bar */}
         <div className="absolute left-0 right-0 top-0 z-40 flex h-8 items-center justify-between border-b border-white/5 bg-black/45 px-5 text-[11px] font-semibold text-white/70 backdrop-blur-md">
@@ -65,11 +65,11 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
           <div className="font-mono text-white/45">09:41</div>
         </div>
 
-        {/* Main Desktop Area */}
-        <div className="flex-1 w-full flex items-center justify-between gap-6 px-2 mt-4 mb-2">
+        {/* Main Desktop Content Area */}
+        <div className="relative z-10 flex-1 w-full flex items-center justify-between gap-6 px-8 pt-10 pb-20">
           
           {/* Main Finder Window */}
-          <div className="w-[68%] h-[82%] bg-[#0f0f12]/75 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl flex overflow-hidden">
+          <div className="w-[68%] h-full bg-[#0f0f12]/75 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl flex overflow-hidden">
             {/* Sidebar */}
             <div className="w-40 border-r border-white/5 bg-black/20 p-3 flex flex-col gap-1.5">
               <div className="text-[10px] uppercase font-bold text-white/30 tracking-wider mb-2 px-2">Workspace</div>
@@ -131,7 +131,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
           </div>
 
           {/* Right Side Widget */}
-          <div className="w-[28%] h-[82%] bg-[#0f0f12]/45 backdrop-blur-xl border border-white/10 rounded-xl p-4 flex flex-col justify-between shadow-lg">
+          <div className="w-[28%] h-full bg-[#0f0f12]/45 backdrop-blur-xl border border-white/10 rounded-xl p-4 flex flex-col justify-between shadow-lg">
             <div>
               <div className="text-[9px] uppercase font-bold text-white/40 tracking-wider mb-3">System Signal</div>
               
@@ -156,8 +156,8 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
 
         </div>
 
-        {/* Translucent Dock */}
-        <div className="w-fit mx-auto bg-black/45 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-2 flex items-center gap-3.5 shadow-2xl relative mb-1">
+        {/* Translucent Dock - Placed bottom center */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-fit bg-black/45 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-2 flex items-center gap-3.5 shadow-2xl z-20">
           {dockItems.map((item) => (
             <motion.div
               key={item.label}
