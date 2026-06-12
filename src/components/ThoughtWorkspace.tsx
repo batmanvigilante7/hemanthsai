@@ -140,7 +140,7 @@ export function ThoughtWorkspace() {
   return (
     <section
       id="thought-workspace"
-      className="relative overflow-hidden bg-[#050505] px-6 py-20 text-white sm:py-24 md:px-10"
+      className="relative overflow-hidden bg-[#050505] px-6 pt-32 pb-24 text-white sm:pt-36 sm:pb-28 md:px-10"
       aria-label="Thought Workspace Section"
     >
       {/* SVG Gooey Filter definitions */}
@@ -161,7 +161,7 @@ export function ThoughtWorkspace() {
 
       <div className="relative mx-auto max-w-[1400px]">
         {/* Section Header */}
-        <div className="mb-0 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+        <div className="mb-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
               Thought Workspace
@@ -178,7 +178,7 @@ export function ThoughtWorkspace() {
         </div>
 
         {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-        <div className="relative hidden lg:flex min-h-[12vh] items-start justify-center overflow-visible pt-0 -mt-8">
+        <div className="relative hidden lg:flex min-h-[95vh] items-start justify-center overflow-visible pt-16">
           <MacbookScroll
             sectionMode
             title={
