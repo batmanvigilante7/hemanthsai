@@ -172,9 +172,7 @@ export function ThoughtWorkspace() {
           </div>
           <div>
             <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
-              A visual workspace of the recurring questions, creative loops, and thinking
-              patterns that shape how I approach ideas — from the first spark to something
-              real enough to share.
+              A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
             </p>
           </div>
         </div>
@@ -184,8 +182,8 @@ export function ThoughtWorkspace() {
           <MacbookScroll
             sectionMode
             title={
-              <span className="text-white text-3xl font-extrabold tracking-tight">
-                Designed to build. <br /> Built to execute.
+              <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
+                From thought loops. <br /> To visible proof.
               </span>
             }
             src={getAssetUrl("thought-workspace-scene.webp")}
