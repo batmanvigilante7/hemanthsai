@@ -183,10 +183,10 @@ export function ThoughtWorkspace() {
             sectionMode
             title={
               <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                From thought loops. <br /> To visible proof.
+                From first spark. <br /> To visible proof.
               </span>
             }
-            src={getAssetUrl("thought-workspace-scene.webp")}
+            src={getAssetUrl("hemanth-proof-site.png")}
             showGradient={false}
           />
         </div>
