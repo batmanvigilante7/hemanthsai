@@ -42,7 +42,7 @@ export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: Tho
       <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/35 to-black/75 z-0 pointer-events-none" />
 
       {/* Scaled container for ThoughtOS UI */}
-      <div className="w-full h-full relative origin-center scale-[0.82] flex flex-col justify-between z-10">
+      <div className="w-full h-full relative origin-center scale-[0.75] flex flex-col justify-between z-10">
         {/* macOS-style Menu Bar */}
         <div className="absolute left-0 right-0 top-0 z-40 flex h-10 items-center justify-between border-b border-white/10 bg-black/35 px-6 text-xs text-white/70 backdrop-blur-xl pointer-events-none">
           <div className="flex items-center gap-3">
@@ -136,10 +136,10 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[170vh] lg:min-h-[220vh] overflow-hidden bg-black text-white"
+        className="relative min-h-[220vh] lg:min-h-[280vh] overflow-visible bg-black text-white"
         aria-label="Thought Workspace Section"
       >
-        <div className="sticky top-0 min-h-screen overflow-hidden px-6 md:px-10 flex flex-col justify-start">
+        <div className="sticky top-0 h-screen overflow-hidden px-6 md:px-10 flex flex-col justify-start">
           {/* Workspace background */}
           <img
             src={thoughtWorkspaceScene}
@@ -167,8 +167,8 @@ export function ThoughtWorkspace() {
             </defs>
           </svg>
 
-          {/* Foreground content */}
-          <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-36 md:pt-44">
+          {/* Foreground content inside fixed 100vh viewport */}
+          <div className="relative z-10 mx-auto w-full max-w-[1400px] flex h-screen flex-col items-center justify-start pt-[130px] lg:pt-[160px]">
             {/* Section Header */}
             <div className="mb-8 w-full grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
@@ -187,7 +187,7 @@ export function ThoughtWorkspace() {
             </div>
 
             {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-            <div className="relative hidden lg:flex w-full max-w-4xl scale-90 md:scale-95 mx-auto mt-10 md:mt-12 items-start justify-center overflow-visible">
+            <div className="relative hidden lg:flex w-[90vw] max-w-[940px] scale-[0.9] mt-12 items-start justify-center overflow-visible mx-auto z-10">
               <MacbookScroll
                 sectionMode
                 title={
@@ -276,6 +276,8 @@ export function ThoughtWorkspace() {
             </div>
           </div>
         </div>
+        {/* Dedicated spacer to ensure scroll runway before next section appears */}
+        <div className="h-[70vh] pointer-events-none" />
       </section>
       <div className="h-24 bg-black" />
     </>
