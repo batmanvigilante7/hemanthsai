@@ -78,7 +78,7 @@ export const MacbookScroll = ({
       ref={ref}
       className={cn(
         "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
-        sectionMode ? "min-h-[84vh] md:py-8" : "min-h-[200vh] md:py-80"
+        sectionMode ? "min-h-[86vh] md:py-10" : "min-h-[200vh] md:py-80"
       )}
     >
       <motion.h2
@@ -88,7 +88,7 @@ export const MacbookScroll = ({
         }}
         className={cn(
           "text-center text-3xl font-bold text-neutral-800 dark:text-white",
-          sectionMode ? "mb-8" : "mb-20"
+          sectionMode ? "mb-14" : "mb-20"
         )}
       >
         {title || (
