@@ -4,127 +4,12 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { thoughtWorkspaces, getWorkspaceById } from "@/data/thought-workspaces";
 import { ThoughtWorkspaceNode, getWorkspaceIcon } from "./ThoughtWorkspaceNode";
-import { ThoughtDock } from "./ThoughtDock";
 import { ThoughtPanel } from "./ThoughtPanel";
 import { cn } from "@/lib/utils";
 import { MacbookScroll } from "./ui/macbook-scroll";
+import ThoughtOSScreen from "./ThoughtOSScreen";
 
 const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
-
-const blobVariants = {
-  animate1: {
-    x: [0, 60, -30, 0],
-    y: [0, -40, 50, 0],
-    scale: [1, 1.15, 0.9, 1],
-  },
-  animate2: {
-    x: [0, -50, 40, 0],
-    y: [0, 50, -30, 0],
-    scale: [1, 0.9, 1.1, 1],
-  },
-  animate3: {
-    x: [0, 30, -40, 0],
-    y: [0, -30, 30, 0],
-    scale: [1, 1.05, 0.95, 1],
-  },
-};
-
-interface ThoughtOSDesktopProps {
-  activeId: string;
-  setActiveId: (id: string) => void;
-  activeWorkspace: any;
-}
-
-export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: ThoughtOSDesktopProps) {
-  return (
-    <div className="relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#050505] overflow-hidden p-8 select-none pointer-events-auto">
-      {/* Warm Ambient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/35 to-black/75 z-0 pointer-events-none" />
-
-      {/* Scaled container for ThoughtOS UI */}
-      <div className="w-full h-full relative origin-center scale-[0.75] flex flex-col justify-between z-10">
-        {/* macOS-style Menu Bar */}
-        <div className="absolute left-0 right-0 top-0 z-40 flex h-10 items-center justify-between border-b border-white/10 bg-black/35 px-6 text-xs text-white/70 backdrop-blur-xl pointer-events-none">
-          <div className="flex items-center gap-3">
-            <span className="h-3 w-3 rounded-full bg-red-400/80 shadow-[0_0_10px_rgba(248,113,113,0.25)]" />
-            <span className="h-3 w-3 rounded-full bg-yellow-400/80 shadow-[0_0_10px_rgba(250,204,21,0.2)]" />
-            <span className="h-3 w-3 rounded-full bg-green-400/80 shadow-[0_0_10px_rgba(74,222,128,0.2)]" />
-            <span className="ml-4 font-bold tracking-wider text-white/85">ThoughtOS</span>
-          </div>
-
-          <div className="hidden items-center gap-6 md:flex">
-            <span className="font-semibold">Mind</span>
-            <span className="font-semibold">Build</span>
-            <span className="font-semibold">Ship</span>
-            <span className="font-semibold">Proof</span>
-          </div>
-
-          <div className="font-mono text-white/45">09:41</div>
-        </div>
-
-        {/* Gooey Ambient Atmosphere */}
-        <div
-          className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-15"
-          style={{ filter: "url(#gooey-blend)" }}
-        >
-          <motion.div
-            variants={blobVariants}
-            animate="animate1"
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute left-[20%] top-[20%] h-80 w-80 rounded-full bg-amber-500/30 blur-md"
-          />
-          <motion.div
-            variants={blobVariants}
-            animate="animate2"
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-[25%] bottom-[25%] h-88 w-88 rounded-full bg-yellow-400/25 blur-md"
-          />
-        </div>
-
-        {/* Desktop Workspace App Icons */}
-        <div className="absolute inset-x-0 bottom-24 top-14 pointer-events-none z-20">
-          {thoughtWorkspaces.map((node) => (
-            <ThoughtWorkspaceNode
-              key={node.id}
-              node={node}
-              isActive={node.id === activeId}
-              onClick={() => setActiveId(node.id)}
-            />
-          ))}
-        </div>
-
-        {/* Active Finder Window Panel */}
-        <div className="absolute top-[13%] right-[4%] w-[58%] h-[70%] z-30">
-          <AnimatePresence mode="wait">
-            {activeId && activeWorkspace && (
-              <motion.div
-                key={activeId}
-                initial={{ opacity: 0, scale: 0.95, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full"
-              >
-                <ThoughtPanel
-                  node={activeWorkspace}
-                  onSelectWorkspace={setActiveId}
-                  onClose={() => setActiveId("")}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Switcher Dock */}
-        <ThoughtDock
-          workspaces={thoughtWorkspaces}
-          activeId={activeId}
-          onSelect={setActiveId}
-        />
-      </div>
-    </div>
-  );
-}
 
 export function ThoughtWorkspace() {
   const [activeId, setActiveId] = useState<string>("ai-leverage");
@@ -196,11 +81,7 @@ export function ThoughtWorkspace() {
               }
               showGradient={false}
             >
-              <ThoughtOSDesktop
-                activeId={activeId}
-                setActiveId={setActiveId}
-                activeWorkspace={activeWorkspace}
-              />
+              <ThoughtOSScreen />
             </MacbookScroll>
           </div>
 
