@@ -32,25 +32,25 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
 
   return (
     <div className={cn(
-      "relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#030504] overflow-hidden select-none pointer-events-auto font-sans",
+      "relative h-full w-full bg-[#030504] overflow-hidden select-none pointer-events-auto font-sans",
       className
     )}>
       {/* Warm Ambient Radial Backdrop */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.14),transparent_55%)] z-0 pointer-events-none" />
 
       {/* Top Menu Bar */}
-      <header className="absolute left-8 right-8 top-6 z-30 h-8 rounded-md border border-white/10 bg-black/50 backdrop-blur flex items-center justify-between px-5 text-[11px] font-semibold text-white/70">
-        <div className="flex items-center gap-3">
+      <header className="absolute left-5 right-5 top-4 z-30 h-7 rounded-md border border-white/10 bg-black/50 backdrop-blur flex items-center justify-between px-3 text-[10px] font-semibold text-white/70">
+        <div className="flex items-center gap-2">
           {/* macOS Control Dots */}
-          <div className="flex gap-1.5 mr-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
-            <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+          <div className="flex gap-1 mr-1">
+            <span className="h-2 w-2 rounded-full bg-white/10" />
+            <span className="h-2 w-2 rounded-full bg-white/10" />
+            <span className="h-2 w-2 rounded-full bg-white/10" />
           </div>
           <span className="font-bold tracking-wider text-amber-500/90">ThoughtOS</span>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <span className="text-white font-medium cursor-pointer">Finder</span>
           <span className="cursor-pointer hover:text-white transition-colors">Mind</span>
           <span className="cursor-pointer hover:text-white transition-colors">Build</span>
@@ -62,26 +62,26 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
       </header>
 
       {/* Main Command Center + System Signal Content Area */}
-      <main className="absolute left-8 right-8 top-16 bottom-24 z-20 flex items-center justify-center gap-6">
+      <main className="absolute left-5 right-5 top-14 bottom-20 z-20 flex items-center justify-center gap-4">
         
         {/* Main Finder Window */}
         <div className="w-[68%] h-full bg-[#0f0f12]/75 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl flex overflow-hidden">
           {/* Sidebar */}
-          <div className="w-40 border-r border-white/5 bg-black/20 p-3 flex flex-col gap-1.5">
-            <div className="text-[10px] uppercase font-bold text-white/30 tracking-wider mb-2 px-2">Workspace</div>
+          <div className="w-32 border-r border-white/5 bg-black/20 p-2 flex flex-col gap-1">
+            <div className="text-[9px] uppercase font-bold text-white/30 tracking-wider mb-1 px-1.5">Workspace</div>
             {sidebarItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => setActiveTab(item.name)}
                 className={cn(
-                  "w-full text-left px-2.5 py-1.5 rounded-md text-xs transition-all flex items-center gap-2 font-medium",
+                  "w-full text-left px-2 py-1 rounded-md text-[10px] transition-all flex items-center gap-1.5 font-medium",
                   activeTab === item.name
                     ? "bg-amber-500/10 text-amber-400"
                     : "text-white/60 hover:bg-white/5 hover:text-white"
                 )}
               >
                 <span className={cn(
-                  "h-1.5 w-1.5 rounded-full",
+                  "h-1 w-1 rounded-full",
                   activeTab === item.name ? "bg-amber-400" : "bg-transparent"
                 )} />
                 {item.name}
@@ -90,36 +90,36 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
           </div>
 
           {/* Window Content */}
-          <div className="flex-1 p-5 flex flex-col justify-between">
+          <div className="flex-1 p-4 flex flex-col justify-between">
             {/* Window Header */}
-            <div className="border-b border-white/5 pb-3">
-              <h3 className="text-[10px] font-bold text-amber-500/75 uppercase tracking-[0.2em]">Command Center</h3>
-              <p className="text-xs text-white/45">Personal workspace</p>
+            <div className="border-b border-white/5 pb-2">
+              <h3 className="text-[9px] font-bold text-amber-500/75 uppercase tracking-[0.2em]">Command Center</h3>
+              <p className="text-[10px] text-white/45">Personal workspace</p>
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col justify-center gap-4 py-2">
+            <div className="flex-1 flex flex-col justify-center gap-3 py-1">
               {/* Primary Card */}
-              <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/[0.02] border border-amber-500/20 rounded-lg p-3.5 shadow-sm">
-                <div className="text-[9px] uppercase font-bold text-amber-400/80 tracking-widest mb-1">Today's Focus</div>
-                <div className="text-sm font-semibold text-white/95 leading-snug">
+              <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/[0.02] border border-amber-500/20 rounded-lg p-2.5 shadow-sm">
+                <div className="text-[8px] uppercase font-bold text-amber-400/80 tracking-widest mb-0.5">Today's Focus</div>
+                <div className="text-xs font-semibold text-white/95 leading-snug">
                   Turn curiosity into visible proof
                 </div>
               </div>
 
               {/* Compact Status Grid */}
-              <div className="grid grid-cols-3 gap-2.5">
-                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2.5 flex flex-col justify-between">
-                  <span className="text-[9px] font-bold text-white/40 uppercase">Mind</span>
-                  <span className="text-xs font-semibold text-white/80 mt-1">Capture</span>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 flex flex-col justify-between">
+                  <span className="text-[8px] font-bold text-white/40 uppercase">Mind</span>
+                  <span className="text-[10px] font-semibold text-white/80 mt-0.5">Capture</span>
                 </div>
-                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2.5 flex flex-col justify-between">
-                  <span className="text-[9px] font-bold text-white/40 uppercase">Build</span>
-                  <span className="text-xs font-semibold text-white/80 mt-1">Prototype</span>
+                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 flex flex-col justify-between">
+                  <span className="text-[8px] font-bold text-white/40 uppercase">Build</span>
+                  <span className="text-[10px] font-semibold text-white/80 mt-0.5">Prototype</span>
                 </div>
-                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2.5 flex flex-col justify-between">
-                  <span className="text-[9px] font-bold text-white/40 uppercase">Ship</span>
-                  <span className="text-xs font-semibold text-white/80 mt-1">Publish</span>
+                <div className="bg-white/[0.02] border border-white/5 rounded-lg p-2 flex flex-col justify-between">
+                  <span className="text-[8px] font-bold text-white/40 uppercase">Ship</span>
+                  <span className="text-[10px] font-semibold text-white/80 mt-0.5">Publish</span>
                 </div>
               </div>
             </div>
@@ -127,45 +127,45 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
         </div>
 
         {/* Right Side Widget */}
-        <div className="w-[28%] h-full bg-[#0f0f12]/45 backdrop-blur-xl border border-white/10 rounded-xl p-4 flex flex-col justify-between shadow-lg">
+        <div className="w-[28%] h-full bg-[#0f0f12]/45 backdrop-blur-xl border border-white/10 rounded-xl p-3 flex flex-col justify-between shadow-lg">
           <div>
-            <div className="text-[9px] uppercase font-bold text-white/40 tracking-wider mb-3">System Signal</div>
+            <div className="text-[8px] uppercase font-bold text-white/40 tracking-wider mb-2">System Signal</div>
             
-            <div className="flex flex-col gap-2.5">
-              <div className="text-xs font-semibold text-white/80">
-                Curiosity <span className="text-amber-500/60 mx-1">→</span> System <span className="text-amber-500/60 mx-1">→</span> Output
+            <div className="flex flex-col gap-2">
+              <div className="text-[10px] font-semibold text-white/80 leading-snug">
+                Curiosity <span className="text-amber-500/60 mx-0.5">→</span> System <span className="text-amber-500/60 mx-0.5">→</span> Output
               </div>
               
-              <div className="w-full bg-white/[0.03] border border-white/5 rounded-md p-2 text-[10px] text-white/50 leading-relaxed font-mono">
+              <div className="w-full bg-white/[0.03] border border-white/5 rounded-md p-1.5 text-[9px] text-white/50 leading-relaxed font-mono">
                 $ thoughtOS --live
                 <br />
-                <span className="text-amber-400/80">Status: Running</span>
+                <span className="text-amber-400/80 font-medium">Status: Running</span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full py-1.5 px-3 w-fit">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-[9px] font-bold uppercase tracking-wider text-amber-300">Builder Mode</span>
+          <div className="flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full py-1 px-2.5 w-fit">
+            <span className="h-1 w-1 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-[8px] font-bold uppercase tracking-wider text-amber-300">Builder Mode</span>
           </div>
         </div>
 
       </main>
 
       {/* Dock: Absolutely pinned to bottom */}
-      <nav className="absolute bottom-6 left-1/2 -translate-x-1/2 w-fit bg-black/55 backdrop-blur border border-white/10 rounded-2xl px-4 py-2 flex items-center gap-3.5 shadow-2xl z-40">
+      <nav className="absolute bottom-4 left-1/2 -translate-x-1/2 w-fit bg-black/55 backdrop-blur border border-white/10 rounded-2xl px-3 py-1.5 flex items-center gap-2.5 shadow-2xl z-40">
         {dockItems.map((item) => (
           <motion.div
             key={item.label}
             whileHover={{
               scale: 1.22,
-              y: -6,
+              y: -4,
               borderColor: "rgba(245, 158, 11, 0.45)",
               backgroundColor: "rgba(245, 158, 11, 0.08)",
-              boxShadow: "0 8px 20px rgba(245, 158, 11, 0.2)"
+              boxShadow: "0 4px 10px rgba(245, 158, 11, 0.2)"
             }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            className="h-10 w-10 bg-white/[0.03] border border-white/10 rounded-xl flex items-center justify-center cursor-pointer text-base transition-colors duration-200 group"
+            className="h-8 w-8 bg-white/[0.03] border border-white/10 rounded-lg flex items-center justify-center cursor-pointer text-sm transition-colors duration-200 group"
           >
             <span className="group-hover:text-amber-400 transition-colors">{item.icon}</span>
             
