@@ -40,7 +40,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
       <div className="absolute inset-0 bg-gradient-to-b from-[#0b0b0d] via-[#070708] to-[#040405] z-0 pointer-events-none" />
 
       {/* Scaled Desktop Environment Container */}
-      <div className="w-full h-full relative origin-center scale-[0.75] flex flex-col justify-between z-10 pt-10">
+      <div className="w-full h-full relative origin-center scale-[0.88] flex flex-col justify-between z-10 pt-10">
         
         {/* Top Menu Bar */}
         <div className="absolute left-0 right-0 top-0 z-40 flex h-8 items-center justify-between border-b border-white/5 bg-black/45 px-5 text-[11px] font-semibold text-white/70 backdrop-blur-md">

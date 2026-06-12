@@ -183,7 +183,7 @@ export const Lid = ({
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
         {children ? (
-          <div className="absolute inset-2 rounded-lg bg-[#050505] overflow-auto z-10 flex flex-col text-left pointer-events-auto">
+          <div className="absolute inset-2 rounded-lg bg-[#050505] overflow-hidden z-10 flex flex-col text-left pointer-events-auto">
             {children}
           </div>
         ) : (
