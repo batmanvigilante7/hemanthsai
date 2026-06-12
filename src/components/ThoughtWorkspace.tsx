@@ -41,13 +41,13 @@ export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: Tho
     <div className="relative w-[150%] h-[150%] scale-[0.6667] origin-top-left bg-[#050505] overflow-hidden flex flex-col justify-between p-8 select-none pointer-events-auto">
       {/* Wallpaper Background */}
       <img
-        src={getAssetUrl("thought-workspace-bg.webp")}
+        src={getAssetUrl("thought-workspace-scene.webp")}
         alt="Cinematic thought workspace backdrop"
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.26] mix-blend-lighten pointer-events-none select-none z-0"
+        className="absolute inset-0 h-full w-full object-cover opacity-[0.42] mix-blend-lighten pointer-events-none select-none z-0"
       />
 
       {/* Warm Ambient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#18110b]/20 via-black/40 to-black/80 z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/85 z-0 pointer-events-none" />
 
       {/* macOS-style Menu Bar */}
       <div className="absolute left-0 right-0 top-0 z-40 flex h-10 items-center justify-between border-b border-white/10 bg-black/35 px-6 text-xs text-white/70 backdrop-blur-xl pointer-events-none">
@@ -183,12 +183,17 @@ export function ThoughtWorkspace() {
             sectionMode
             title={
               <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                From first spark. <br /> To visible proof.
+                From thought loops. <br /> To visible proof.
               </span>
             }
-            src={getAssetUrl("hemanth-proof-site.png")}
             showGradient={false}
-          />
+          >
+            <ThoughtOSDesktop
+              activeId={activeId}
+              setActiveId={setActiveId}
+              activeWorkspace={activeWorkspace}
+            />
+          </MacbookScroll>
         </div>
 
         {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
