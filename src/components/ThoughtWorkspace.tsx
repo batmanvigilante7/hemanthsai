@@ -52,7 +52,7 @@ export function ThoughtWorkspace() {
         </svg>
 
         {/* Foreground content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-28 md:pt-32">
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-40 md:pt-48">
           {/* Section Header */}
           <div className="mb-8 w-full grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <div>
@@ -71,7 +71,7 @@ export function ThoughtWorkspace() {
           </div>
 
           {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-          <div className="relative hidden lg:flex w-full max-w-5xl mx-auto mt-8 items-start justify-center overflow-visible z-10">
+          <div className="relative hidden lg:flex w-full max-w-4xl mx-auto mt-24 md:mt-32 scale-[0.92] origin-top items-start justify-center overflow-visible z-10">
             <MacbookScroll
               sectionMode
               title={
