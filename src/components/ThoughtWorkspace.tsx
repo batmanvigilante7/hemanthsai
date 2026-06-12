@@ -141,14 +141,11 @@ export function ThoughtWorkspace() {
         src={thoughtWorkspaceScene}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover opacity-35 blur-[1px] pointer-events-none select-none z-0"
+        className="absolute inset-0 h-full w-full object-cover opacity-100 brightness-110 contrast-105 pointer-events-none select-none z-0"
       />
 
       {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/55 z-0 pointer-events-none" />
-
-      {/* Warm glow around the MacBook */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,160,70,0.18),transparent_58%)] z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-black/10 z-0 pointer-events-none" />
       {/* SVG Gooey Filter definitions */}
       <svg className="hidden">
         <defs>
