@@ -43,11 +43,11 @@ export function ThoughtOSDesktop({ activeId, setActiveId, activeWorkspace }: Tho
       <img
         src={getAssetUrl("thought-workspace-scene.webp")}
         alt="Cinematic thought workspace backdrop"
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.42] mix-blend-lighten pointer-events-none select-none z-0"
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-[0.52] mix-blend-lighten pointer-events-none select-none z-0"
       />
 
       {/* Warm Ambient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/45 to-black/85 z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/55 to-black/90 z-0 pointer-events-none" />
 
       {/* macOS-style Menu Bar */}
       <div className="absolute left-0 right-0 top-0 z-40 flex h-10 items-center justify-between border-b border-white/10 bg-black/35 px-6 text-xs text-white/70 backdrop-blur-xl pointer-events-none">
