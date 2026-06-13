@@ -27,12 +27,14 @@ const thoughtOSItems = [
     accentGrad: "from-violet-500 to-blue-500",
     gradientClass: "from-violet-600/80 via-blue-600/80 to-blue-700/85",
     accentClass: "bg-violet-300 shadow-violet-500/50",
+    accentHex: "#a78bfa",
     modules: [
       { title: "Prompt Systems", description: "Designing structural prompt chains and context-dense inputs." },
       { title: "AI Coding", description: "Automating generation, validation, and self-correction cycles." },
       { title: "Research Loops", description: "Using agent networks to compile literature and extract key metrics." }
     ],
-    stack: ["ChatGPT", "Claude", "Gemini", "Ollama"]
+    stack: ["ChatGPT", "Claude", "Gemini", "Ollama"],
+    files: ["Prompt Systems", "AI Coding Loops", "Research Workflows", "Critique Engine"]
   },
   {
     id: "building-apps",
@@ -42,12 +44,14 @@ const thoughtOSItems = [
     accentGrad: "from-sky-400 to-cyan-500",
     gradientClass: "from-sky-500/80 via-cyan-500/80 to-blue-600/85",
     accentClass: "bg-cyan-300 shadow-cyan-400/50",
+    accentHex: "#22d3ee",
     modules: [
       { title: "Drafting & Scoping", description: "Creating high-fidelity interactive wireframes and scoping initial utility loops." },
       { title: "Frontend UI", description: "Structuring component-driven type-safe frontend UI." },
       { title: "Tooling Loops", description: "Optimizing dev servers, bundling, and hot-reloading configurations." }
     ],
-    stack: ["React", "TS", "Tailwind", "GitHub"]
+    stack: ["React", "TS", "Tailwind", "GitHub"],
+    files: ["Portfolio Website", "Draft App", "SIH Concepts", "Interface Experiments"]
   },
   {
     id: "user-experience",
@@ -57,12 +61,14 @@ const thoughtOSItems = [
     accentGrad: "from-pink-500 to-rose-500",
     gradientClass: "from-pink-500/80 via-rose-500/80 to-red-500/85",
     accentClass: "bg-rose-300 shadow-rose-400/50",
+    accentHex: "#f43f5e",
     modules: [
       { title: "Clarity & Friction", description: "Simplifying user actions to remove cognitive load and make flows self-explanatory." },
       { title: "Trust Dynamics", description: "Implementing skeletal previews and clear, optimistic state transitions." },
       { title: "Motion Systems", description: "Choreographing reactive animations that guide the user's attention." }
     ],
-    stack: ["Figma", "Framer", "HIG", "Refero"]
+    stack: ["Figma", "Framer", "HIG", "Refero"],
+    files: ["Clarity Notes", "Trust Patterns", "Motion Rules", "Information Architecture"]
   },
   {
     id: "product-ideas",
@@ -72,12 +78,14 @@ const thoughtOSItems = [
     accentGrad: "from-amber-400 to-orange-500",
     gradientClass: "from-amber-500/80 via-orange-500/80 to-red-600/85",
     accentClass: "bg-amber-300 shadow-amber-400/50",
+    accentHex: "#f59e0b",
     modules: [
       { title: "Problem Framing", description: "Pinpointing high-value user bottlenecks before writing database schemas." },
       { title: "MVP Scope Cuts", description: "Aggressively separating must-haves from nice-to-haves to ship faster." },
       { title: "Validation Tests", description: "Measuring actual demand using landing page waitlists and interviews." }
     ],
-    stack: ["PMF", "MVP", "JTBD", "Feedback"]
+    stack: ["PMF", "MVP", "JTBD", "Feedback"],
+    files: ["Problem Frames", "MVP Scopes", "Validation Tests", "Launch Notes"]
   },
   {
     id: "storytelling",
@@ -87,12 +95,14 @@ const thoughtOSItems = [
     accentGrad: "from-fuchsia-500 to-purple-600",
     gradientClass: "from-fuchsia-500/80 via-purple-600/80 to-indigo-700/85",
     accentClass: "bg-fuchsia-300 shadow-fuchsia-400/50",
+    accentHex: "#d946ef",
     modules: [
       { title: "Narrative Hooks", description: "Writing copy that focuses on user transformation and crisis first." },
       { title: "Visual Metaphors", description: "Using simple physical analogies to explain complex codebase structures." },
       { title: "Content Sprints", description: "Maintaining public build logs and release walkthrough videos." }
     ],
-    stack: ["Writing", "Cinema", "Metaphor", "Voice"]
+    stack: ["Writing", "Cinema", "Metaphor", "Voice"],
+    files: ["Narrative Hooks", "Visual Metaphors", "Content Systems", "Writing Experiments"]
   },
   {
     id: "investing-ideas",
@@ -102,12 +112,14 @@ const thoughtOSItems = [
     accentGrad: "from-emerald-500 to-lime-500",
     gradientClass: "from-emerald-500/80 via-teal-500/80 to-lime-600/85",
     accentClass: "bg-emerald-300 shadow-emerald-400/50",
+    accentHex: "#10b981",
     modules: [
       { title: "Compounding Assets", description: "Writing reusable code libraries that save future developer months." },
       { title: "Incentive Audits", description: "Analyzing user motivation to align product loops with behaviors." },
       { title: "Margin of Safety", description: "Evaluating time budgets and scoping fallbacks to prevent project failure." }
     ],
-    stack: ["Value", "Risk", "Moat", "Time"]
+    stack: ["Value", "Risk", "Moat", "Time"],
+    files: ["Value Notes", "Risk Models", "Incentive Maps", "Compounding Lessons"]
   },
   {
     id: "getting-things-done",
@@ -117,12 +129,14 @@ const thoughtOSItems = [
     accentGrad: "from-blue-500 to-indigo-600",
     gradientClass: "from-blue-600/80 via-indigo-600/80 to-indigo-800/85",
     accentClass: "bg-blue-300 shadow-blue-400/50",
+    accentHex: "#3b82f6",
     modules: [
       { title: "Checklist Scaffolds", description: "Breaking down tasks into clear steps to bypass decision paralysis." },
       { title: "21-Day Sprints", description: "Forcing work scopes into short, high-intensity shipping loops." },
       { title: "Routines & Energy", description: "Minimizing startup energy thresholds to keep daily developer momentum." }
     ],
-    stack: ["Tasks", "Systems", "Focus", "Review"]
+    stack: ["Tasks", "Systems", "Focus", "Review"],
+    files: ["Daily Checklist", "Sprint Board", "Feedback Loops", "Review System"]
   },
   {
     id: "visible-progress",
@@ -132,12 +146,14 @@ const thoughtOSItems = [
     accentGrad: "from-yellow-400 to-amber-500",
     gradientClass: "from-yellow-500/80 via-amber-500/80 to-orange-500/85",
     accentClass: "bg-yellow-300 shadow-yellow-400/50",
+    accentHex: "#facc15",
     modules: [
       { title: "Build Logging", description: "Writing down weekly problems, pivots, lessons, and project milestones." },
       { title: "Clickable Demos", description: "Hosting instantly testable sandboxes to prove that the code actually compiles." },
       { title: "Evidence Trails", description: "Publishing open-source code repositories and screen walk-through videos." }
     ],
-    stack: ["GitHub", "Demos", "Case Studies", "Progress"]
+    stack: ["GitHub", "Demos", "Case Studies", "Progress"],
+    files: ["Proof Logs", "Build Notes", "Case Studies", "Outcome Archive"]
   }
 ];
 
@@ -191,6 +207,32 @@ const getGradientSVG = (label: string, fromColor: string, toColor: string) => {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
 
+const getDocSVG = (colorHex: string, label: string) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="130" viewBox="0 0 100 130">
+    <defs>
+      <linearGradient id="g-${label.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2a2c35" />
+        <stop offset="100%" stop-color="#14151b" />
+      </linearGradient>
+      <linearGradient id="edge-${label.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="rgba(255,255,255,0.25)" />
+        <stop offset="100%" stop-color="rgba(0,0,0,0.3)" />
+      </linearGradient>
+    </defs>
+    {/* Document Base */}
+    <rect x="2" y="2" width="96" height="126" rx="6" fill="url(#g-${label.replace(/[^a-zA-Z0-9]/g, '')})" stroke="url(#edge-${label.replace(/[^a-zA-Z0-9]/g, '')})" stroke-width="1.5" />
+    {/* Top-right Folded Corner */}
+    <path d="M 75,2 L 98,25 L 83,25 C 78,25 75,22 75,17 Z" fill="#1b1c23" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
+    {/* Symbolic text lines */}
+    <rect x="15" y="45" width="70" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
+    <rect x="15" y="60" width="50" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
+    <rect x="15" y="75" width="58" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
+    {/* Glowing Accent Color Strip at bottom */}
+    <rect x="15" y="105" width="22" height="4" rx="2" fill="${colorHex}" />
+  </svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
+
 const AppIcon = ({
   dockText,
   gradientClass,
@@ -221,7 +263,7 @@ const AppIcon = ({
       {/* Display text */}
       <span className={cn(
         "relative z-10 font-black tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]",
-        isDesktop ? "text-[9px]" : "text-[8px]"
+        isDesktop ? "text-[6px]" : "text-[8px]"
       )}>
         {dockText}
       </span>
@@ -239,17 +281,22 @@ interface FolderProps {
   description: string;
   gradientClass: string;
   accentClass: string;
+  accentHex: string;
+  files: string[];
   isSelected: boolean;
   onSelect: () => void;
   onOpen: () => void;
 }
 
 const DesktopFolder = ({
+  id,
   title,
   dockText,
   description,
   gradientClass,
   accentClass,
+  accentHex,
+  files,
   isSelected,
   onSelect,
   onOpen,
@@ -257,12 +304,19 @@ const DesktopFolder = ({
   const [isHovered, setIsHovered] = useState(false);
   const displayTitle = title === "Getting Things Done" ? "Getting Done" : title;
 
+  // Generate three symbolic document SVGs
+  const docImages = [
+    getDocSVG(accentHex, `${id}-doc-1`),
+    getDocSVG(accentHex, `${id}-doc-2`),
+    getDocSVG(accentHex, `${id}-doc-3`),
+  ];
+
   return (
     <motion.div
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.94 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className="relative flex flex-col items-center justify-center w-[74px] h-[72px] cursor-pointer group select-none"
+      whileHover={{ y: -1.5 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ duration: 0.18, ease: "easeOut" }}
+      className="relative flex items-center justify-between w-[116px] h-[38px] px-2 bg-black/30 backdrop-blur-md border border-white/5 rounded-lg cursor-pointer group select-none transition-all duration-200"
       onClick={(e) => {
         e.stopPropagation();
         onSelect();
@@ -274,52 +328,81 @@ const DesktopFolder = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Translucent Selection Rectangle Behind Icon + Label */}
+      {/* Translucent Highlight / Selected Background */}
       <div
         className={cn(
-          "absolute -inset-x-2 -inset-y-1.5 rounded-lg transition-all duration-200 pointer-events-none",
+          "absolute inset-0 rounded-lg transition-all duration-200 pointer-events-none",
           isSelected
-            ? "bg-amber-500/10 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15),inset_0_1px_0_rgba(255,255,255,0.05)]"
+            ? "bg-amber-500/10 border border-amber-500/35 shadow-[0_0_8px_rgba(245,158,11,0.18)]"
             : isHovered
             ? "bg-white/5 border border-white/10"
             : "border border-transparent"
         )}
       />
 
-      {/* Dimensional Glass App Tile */}
-      <div className="relative w-11 h-11 flex items-center justify-center">
-        {/* Glow behind the active selection */}
-        {isSelected && (
-          <div className="absolute inset-0 rounded-xl bg-amber-500/20 blur-md scale-120 pointer-events-none" />
-        )}
-        
-        {/* The App Icon */}
-        <AppIcon 
-          dockText={dockText}
-          gradientClass={gradientClass}
-          accentClass={accentClass}
-          size="desktop"
+      {/* Left section: App Icon & Info */}
+      <div className="flex items-center gap-1.5 z-10">
+        {/* App Icon */}
+        <div className="relative w-6 h-6 flex items-center justify-center shrink-0">
+          <AppIcon 
+            dockText={dockText}
+            gradientClass={gradientClass}
+            accentClass={accentClass}
+            size="desktop"
+          />
+        </div>
+
+        {/* Text Details */}
+        <div className="flex flex-col text-left justify-center min-w-0">
+          <span className="text-[8.5px] font-bold text-white/90 tracking-tight leading-tight truncate w-[48px] drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
+            {displayTitle}
+          </span>
+          <span className="text-[6.5px] text-white/45 font-medium leading-none mt-0.5 tracking-tight">
+            {files.length} systems
+          </span>
+        </div>
+      </div>
+
+      {/* Right section: ImagesBadge preview stack */}
+      <div className="relative z-10 flex items-center shrink-0 pr-0.5">
+        <ImagesBadge
+          text=""
+          images={docImages}
+          folderSize={{ width: 14, height: 11 }}
+          teaserImageSize={{ width: 9, height: 6 }}
+          hoverImageSize={{ width: 10, height: 7 }}
+          hoverTranslateY={-4}
+          hoverSpread={3}
+          hoverRotation={6}
+          folderColorClass={gradientClass}
+          className="pointer-events-none"
         />
       </div>
 
-      {/* Label */}
-      <span className="mt-2 text-[9px] font-bold text-white/90 text-center tracking-tight leading-none w-full truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] select-none">
-        {displayTitle}
-      </span>
-
-      {/* Hover Description Tooltip */}
+      {/* Hover Peek popover */}
       <AnimatePresence>
         {isHovered && (
           <motion.div
-            initial={{ opacity: 0, y: 4, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.95 }}
-            transition={{ duration: 0.12 }}
-            className="absolute z-50 top-14 left-1/2 -translate-x-1/2 w-40 p-2 bg-[#121215]/95 backdrop-blur-md border border-white/10 rounded-md shadow-xl text-center pointer-events-none"
+            initial={{ opacity: 0, scale: 0.95, y: 4 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 4 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute z-50 bottom-[44px] left-1/2 -translate-x-1/2 w-[116px] bg-[#0c0d12]/92 backdrop-blur-md border border-amber-500/20 rounded-lg p-2 shadow-[0_10px_25px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.05)] text-left pointer-events-none"
           >
-            <p className="text-[8px] text-white/90 leading-normal font-sans">
-              {description}
-            </p>
+            {/* Header / Title */}
+            <div className="text-[6.5px] font-bold text-amber-400 uppercase tracking-widest border-b border-white/5 pb-1 mb-1">
+              Peek Inside
+            </div>
+            
+            {/* Files List */}
+            <ul className="space-y-1">
+              {files.map((file, idx) => (
+                <li key={idx} className="flex items-center gap-1 text-[7.5px] text-white/80 font-medium truncate leading-tight">
+                  <span className="text-amber-500/60 font-sans text-[6px]">📄</span>
+                  <span className="truncate">{file}</span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>
@@ -445,7 +528,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
       <main className="relative flex-1 z-20 pt-6 pb-16 flex items-center justify-center min-h-0">
         {/* Desktop folders grid: blurred/translucent when a window is open */}
         <div className={cn(
-          "grid grid-cols-4 grid-rows-2 gap-x-10 gap-y-6 max-w-2xl mx-auto justify-items-center transition-all duration-350 ease-out",
+          "grid grid-cols-4 grid-rows-2 gap-x-2.5 gap-y-4 max-w-2xl mx-auto justify-items-center transition-all duration-350 ease-out",
           isWindowOpen ? "opacity-15 blur-[2px] pointer-events-none scale-[0.96]" : "opacity-100 blur-0 pointer-events-auto scale-100"
         )}>
           {thoughtOSItems.map((folder) => {
@@ -459,6 +542,8 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 description={folder.description}
                 gradientClass={folder.gradientClass}
                 accentClass={folder.accentClass}
+                accentHex={folder.accentHex}
+                files={folder.files}
                 isSelected={isSelected}
                 onSelect={() => setSelectedFolderId(folder.id)}
                 onOpen={() => {
