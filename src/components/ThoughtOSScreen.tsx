@@ -16,6 +16,8 @@ import {
 
 interface ThoughtOSScreenProps {
   className?: string;
+  onHoverFolder?: (folder: any | null) => void;
+  onSelectFolder?: (folder: any | null) => void;
 }
 
 const thoughtOSItems = [
@@ -24,6 +26,7 @@ const thoughtOSItems = [
     title: "AI Workflows",
     dock: "AI",
     description: "I use AI to think, code, critique, organize, and move faster without outsourcing my judgment.",
+    purpose: "AI-assisted thinking, coding, debugging, and critique.",
     accentGrad: "from-violet-500 to-blue-500",
     gradientClass: "from-violet-600/80 via-blue-600/80 to-blue-700/85",
     accentClass: "bg-violet-300 shadow-violet-500/50",
@@ -41,6 +44,7 @@ const thoughtOSItems = [
     title: "Building Apps",
     dock: "Apps",
     description: "I turn rough ideas into interfaces, prototypes, and working products people can try.",
+    purpose: "Turning ideas into usable interfaces and products.",
     accentGrad: "from-sky-400 to-cyan-500",
     gradientClass: "from-sky-500/80 via-cyan-500/80 to-blue-600/85",
     accentClass: "bg-cyan-300 shadow-cyan-400/50",
@@ -58,6 +62,7 @@ const thoughtOSItems = [
     title: "User Experience",
     dock: "UX",
     description: "I care about making products feel clear, useful, smooth, and easy to trust.",
+    purpose: "Making products clear, smooth, useful, and trustworthy.",
     accentGrad: "from-pink-500 to-rose-500",
     gradientClass: "from-pink-500/80 via-rose-500/80 to-red-500/85",
     accentClass: "bg-rose-300 shadow-rose-400/50",
@@ -75,6 +80,7 @@ const thoughtOSItems = [
     title: "Product Ideas",
     dock: "Ideas",
     description: "I study problems, shape solutions, and test whether an idea is actually worth building.",
+    purpose: "Testing whether ideas deserve to be built.",
     accentGrad: "from-amber-400 to-orange-500",
     gradientClass: "from-amber-500/80 via-orange-500/80 to-red-600/85",
     accentClass: "bg-amber-300 shadow-amber-400/50",
@@ -92,6 +98,7 @@ const thoughtOSItems = [
     title: "Storytelling",
     dock: "Story",
     description: "I use words, visuals, and metaphors to make ideas easier to understand, remember, and share.",
+    purpose: "Making ideas easier to understand, remember, and share.",
     accentGrad: "from-fuchsia-500 to-purple-600",
     gradientClass: "from-fuchsia-500/80 via-purple-600/80 to-indigo-700/85",
     accentClass: "bg-fuchsia-300 shadow-fuchsia-400/50",
@@ -109,6 +116,7 @@ const thoughtOSItems = [
     title: "Investing Ideas",
     dock: "Invest",
     description: "I study value, risk, incentives, patience, and compounding to think better long-term.",
+    purpose: "Thinking better about value, risk, incentives, and patience.",
     accentGrad: "from-emerald-500 to-lime-500",
     gradientClass: "from-emerald-500/80 via-teal-500/80 to-lime-600/85",
     accentClass: "bg-emerald-300 shadow-emerald-400/50",
@@ -126,6 +134,7 @@ const thoughtOSItems = [
     title: "Getting Things Done",
     dock: "Done",
     description: "I use routines, checklists, sprints, and feedback loops to convert plans into progress.",
+    purpose: "Converting intention into visible progress.",
     accentGrad: "from-blue-500 to-indigo-600",
     gradientClass: "from-blue-600/80 via-indigo-600/80 to-indigo-800/85",
     accentClass: "bg-blue-300 shadow-blue-400/50",
@@ -143,6 +152,7 @@ const thoughtOSItems = [
     title: "Visible Progress",
     dock: "Proof",
     description: "I document projects, lessons, experiments, and outcomes so growth becomes visible proof.",
+    purpose: "Turning growth into visible proof.",
     accentGrad: "from-yellow-400 to-amber-500",
     gradientClass: "from-yellow-500/80 via-amber-500/80 to-orange-500/85",
     accentClass: "bg-yellow-300 shadow-yellow-400/50",
@@ -286,13 +296,13 @@ interface FolderProps {
   isSelected: boolean;
   onSelect: () => void;
   onOpen: () => void;
+  onHover: (id: string | null) => void;
 }
 
 const DesktopFolder = ({
   id,
   title,
   dockText,
-  description,
   gradientClass,
   accentClass,
   accentHex,
@@ -300,8 +310,8 @@ const DesktopFolder = ({
   isSelected,
   onSelect,
   onOpen,
+  onHover,
 }: FolderProps) => {
-  const [isHovered, setIsHovered] = useState(false);
   const displayTitle = title === "Getting Things Done" ? "Getting Done" : title;
 
   // Generate three symbolic document SVGs
@@ -325,8 +335,12 @@ const DesktopFolder = ({
         e.stopPropagation();
         onOpen();
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => {
+        onHover(id);
+      }}
+      onMouseLeave={() => {
+        onHover(null);
+      }}
     >
       {/* Translucent Highlight / Selected Background */}
       <div
@@ -334,14 +348,12 @@ const DesktopFolder = ({
           "absolute inset-0 rounded-lg transition-all duration-200 pointer-events-none",
           isSelected
             ? "bg-amber-500/10 border border-amber-500/35 shadow-[0_0_8px_rgba(245,158,11,0.18)]"
-            : isHovered
-            ? "bg-white/5 border border-white/10"
-            : "border border-transparent"
+            : "group-hover:bg-white/5 group-hover:border-white/10 border border-transparent"
         )}
       />
 
       {/* Left section: App Icon & Info */}
-      <div className="flex items-center gap-1.5 z-10">
+      <div className="flex items-center gap-1.5 z-10 animate-fade-in">
         {/* App Icon */}
         <div className="relative w-6 h-6 flex items-center justify-center shrink-0">
           <AppIcon 
@@ -378,39 +390,15 @@ const DesktopFolder = ({
           className="pointer-events-none"
         />
       </div>
-
-      {/* Hover Peek popover */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 4 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 4 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute z-50 bottom-[44px] left-1/2 -translate-x-1/2 w-[116px] bg-[#0c0d12]/92 backdrop-blur-md border border-amber-500/20 rounded-lg p-2 shadow-[0_10px_25px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.05)] text-left pointer-events-none"
-          >
-            {/* Header / Title */}
-            <div className="text-[6.5px] font-bold text-amber-400 uppercase tracking-widest border-b border-white/5 pb-1 mb-1">
-              Peek Inside
-            </div>
-            
-            {/* Files List */}
-            <ul className="space-y-1">
-              {files.map((file, idx) => (
-                <li key={idx} className="flex items-center gap-1 text-[7.5px] text-white/80 font-medium truncate leading-tight">
-                  <span className="text-amber-500/60 font-sans text-[6px]">📄</span>
-                  <span className="truncate">{file}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };
 
-export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
+export default function ThoughtOSScreen({ 
+  className,
+  onHoverFolder,
+  onSelectFolder,
+}: ThoughtOSScreenProps) {
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   const [activeFolderId, setActiveFolderId] = useState<string | null>(null);
   const [isWindowOpen, setIsWindowOpen] = useState(false);
@@ -440,11 +428,31 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedFolderId]);
 
+  // Handle local state and bubble select event
+  const selectFolder = (id: string | null) => {
+    setSelectedFolderId(id);
+    if (id) {
+      const item = thoughtOSItems.find((f) => f.id === id);
+      if (item && onSelectFolder) {
+        onSelectFolder({
+          title: item.title,
+          files: item.files,
+          purpose: item.purpose,
+          gradientClass: item.gradientClass,
+          accentHex: item.accentHex,
+          dock: item.dock,
+        });
+      }
+    } else {
+      if (onSelectFolder) onSelectFolder(null);
+    }
+  };
+
   // Entrance animation: open "AI Workflows" by default after a brief delay
   useEffect(() => {
     const timer = setTimeout(() => {
       setActiveFolderId("ai-workflows");
-      setSelectedFolderId("ai-workflows");
+      selectFolder("ai-workflows");
       setIsWindowOpen(true);
     }, 1000);
     return () => clearTimeout(timer);
@@ -452,23 +460,47 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
 
   const activeFolder = thoughtOSItems.find((f) => f.id === activeFolderId);
 
+  const handleHoverFolder = (id: string | null) => {
+    if (id) {
+      const item = thoughtOSItems.find((f) => f.id === id);
+      if (item && onHoverFolder) {
+        onHoverFolder({
+          title: item.title,
+          files: item.files,
+          purpose: item.purpose,
+          gradientClass: item.gradientClass,
+          accentHex: item.accentHex,
+          dock: item.dock,
+        });
+      }
+    } else {
+      if (onHoverFolder) onHoverFolder(null);
+    }
+  };
+
   // Dock items
   const dockItems = thoughtOSItems.map((item) => ({
     title: item.title,
     isActive: activeFolderId === item.id,
     icon: (
-      <AppIcon 
-        dockText={item.dock}
-        gradientClass={item.gradientClass}
-        accentClass={item.accentClass}
-        size="dock"
-      />
+      <div 
+        className="w-full h-full"
+        onMouseEnter={() => handleHoverFolder(item.id)}
+        onMouseLeave={() => handleHoverFolder(null)}
+      >
+        <AppIcon 
+          dockText={item.dock}
+          gradientClass={item.gradientClass}
+          accentClass={item.accentClass}
+          size="dock"
+        />
+      </div>
     ),
     href: `#folder-${item.id}`,
     onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       setActiveFolderId(item.id);
-      setSelectedFolderId(item.id);
+      selectFolder(item.id);
       setIsWindowOpen(true);
     }
   }));
@@ -479,7 +511,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
         "relative h-full w-full overflow-hidden select-none pointer-events-auto font-sans flex flex-col justify-between p-3.5 transition-all duration-300",
         className
       )}
-      onClick={() => setSelectedFolderId(null)}
+      onClick={() => selectFolder(null)}
       style={{
         backgroundColor: "#111215",
         backgroundImage: `
@@ -545,12 +577,13 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 accentHex={folder.accentHex}
                 files={folder.files}
                 isSelected={isSelected}
-                onSelect={() => setSelectedFolderId(folder.id)}
+                onSelect={() => selectFolder(folder.id)}
                 onOpen={() => {
                   setActiveFolderId(folder.id);
-                  setSelectedFolderId(folder.id);
+                  selectFolder(folder.id);
                   setIsWindowOpen(true);
                 }}
+                onHover={handleHoverFolder}
               />
             );
           })}
@@ -683,7 +716,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                   value={item.title}
                   onSelect={() => {
                     setActiveFolderId(item.id);
-                    setSelectedFolderId(item.id);
+                    selectFolder(item.id);
                     setIsWindowOpen(true);
                     setSearchOpen(false);
                   }}
