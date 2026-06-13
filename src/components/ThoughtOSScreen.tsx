@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { ImagesBadge } from "@/components/ui/images-badge";
+import ImagesBadgeDemoTwo from "@/components/images-badge-demo-2";
 import {
   CommandDialog,
   CommandInput,
@@ -313,6 +314,7 @@ const DesktopFolder = ({
   onHover,
 }: FolderProps) => {
   const displayTitle = title === "Getting Things Done" ? "Getting Done" : title;
+  const [isBadgeHovered, setIsBadgeHovered] = useState(false);
 
   // Generate three symbolic document SVGs
   const docImages = [
@@ -334,12 +336,6 @@ const DesktopFolder = ({
       onDoubleClick={(e) => {
         e.stopPropagation();
         onOpen();
-      }}
-      onMouseEnter={() => {
-        onHover(id);
-      }}
-      onMouseLeave={() => {
-        onHover(null);
       }}
     >
       {/* Translucent Highlight / Selected Background */}
@@ -376,19 +372,67 @@ const DesktopFolder = ({
       </div>
 
       {/* Right section: ImagesBadge preview stack */}
-      <div className="relative z-10 flex items-center shrink-0 pr-0.5">
-        <ImagesBadge
+      <div
+        className="relative z-30 flex items-center shrink-0 pr-0.5"
+        onMouseEnter={(e) => {
+          e.stopPropagation();
+          setIsBadgeHovered(true);
+          onHover(id);
+        }}
+        onMouseLeave={(e) => {
+          e.stopPropagation();
+          setIsBadgeHovered(false);
+          onHover(null);
+        }}
+      >
+        <ImagesBadgeDemoTwo
           text=""
           images={docImages}
+          containerClassName="w-fit"
           folderSize={{ width: 14, height: 11 }}
           teaserImageSize={{ width: 9, height: 6 }}
           hoverImageSize={{ width: 10, height: 7 }}
           hoverTranslateY={-4}
           hoverSpread={3}
           hoverRotation={6}
-          folderColorClass={gradientClass}
-          className="pointer-events-none"
+          folderColorClass="bg-gradient-to-b from-neutral-500 via-neutral-600 to-neutral-800"
+          className="drop-shadow-[0_0_8px_rgba(245,158,11,0.18)]"
         />
+
+        <AnimatePresence>
+          {isBadgeHovered && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 6 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute right-[-6px] top-[calc(100%+9px)] z-50 w-[176px] rounded-xl border border-white/15 bg-black/75 p-3 text-left shadow-[0_18px_42px_rgba(0,0,0,0.75),0_0_22px_rgba(245,158,11,0.12),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="absolute -top-1.5 right-4 h-3 w-3 rotate-45 border-l border-t border-white/15 bg-black/75 backdrop-blur-2xl" />
+              <div className="mb-2 flex items-center gap-2 border-b border-white/10 pb-2">
+                <span
+                  className="h-1.5 w-1.5 rounded-full shadow-[0_0_10px_rgba(245,158,11,0.75)]"
+                  style={{ backgroundColor: accentHex }}
+                />
+                <span className="truncate text-[10px] font-black tracking-tight text-white/90">
+                  {title}
+                </span>
+              </div>
+              <ul className="space-y-1.5">
+                {files.map((file) => (
+                  <li
+                    key={file}
+                    className="flex items-center gap-2 rounded-md border border-white/[0.04] bg-white/[0.035] px-2 py-1.5 text-[9px] font-semibold leading-none text-white/72"
+                  >
+                    <span className="h-1 w-1 rounded-full bg-amber-400/80 shadow-[0_0_7px_rgba(245,158,11,0.55)]" />
+                    <span className="truncate">{file}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
@@ -447,16 +491,6 @@ export default function ThoughtOSScreen({
       if (onSelectFolder) onSelectFolder(null);
     }
   };
-
-  // Entrance animation: open "AI Workflows" by default after a brief delay
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setActiveFolderId("ai-workflows");
-      selectFolder("ai-workflows");
-      setIsWindowOpen(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const activeFolder = thoughtOSItems.find((f) => f.id === activeFolderId);
 

@@ -8,46 +8,11 @@ import { ThoughtPanel } from "./ThoughtPanel";
 import { cn } from "@/lib/utils";
 import { MacbookScroll } from "./ui/macbook-scroll";
 import ThoughtOSScreen from "./ThoughtOSScreen";
-import { ImagesBadge } from "./ui/images-badge";
-
-interface TopicData {
-  title: string;
-  files: string[];
-  purpose: string;
-  gradientClass: string;
-  accentHex: string;
-  dock: string;
-}
 
 const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${fileName}`;
 
-const getDocSVG = (colorHex: string, label: string) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="130" viewBox="0 0 100 130">
-    <defs>
-      <linearGradient id="g-${label.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#2a2c35" />
-        <stop offset="100%" stop-color="#14151b" />
-      </linearGradient>
-      <linearGradient id="edge-${label.replace(/[^a-zA-Z0-9]/g, '')}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="rgba(255,255,255,0.25)" />
-        <stop offset="100%" stop-color="rgba(0,0,0,0.3)" />
-      </linearGradient>
-    </defs>
-    <rect x="2" y="2" width="96" height="126" rx="6" fill="url(#g-${label.replace(/[^a-zA-Z0-9]/g, '')})" stroke="url(#edge-${label.replace(/[^a-zA-Z0-9]/g, '')})" stroke-width="1.5" />
-    <path d="M 75,2 L 98,25 L 83,25 C 78,25 75,22 75,17 Z" fill="#1b1c23" stroke="rgba(255,255,255,0.12)" stroke-width="1" />
-    <rect x="15" y="45" width="70" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
-    <rect x="15" y="60" width="50" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
-    <rect x="15" y="75" width="58" height="6" rx="2" fill="rgba(255,255,255,0.12)" />
-    <rect x="15" y="105" width="22" height="4" rx="2" fill="${colorHex}" />
-  </svg>`;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-};
-
 export function ThoughtWorkspace() {
   const [activeId, setActiveId] = useState<string>("ai-leverage");
-  const [hoveredTopic, setHoveredTopic] = useState<TopicData | null>(null);
-  const [activeTopic, setActiveTopic] = useState<TopicData | null>(null);
-  const [badgeHovered, setBadgeHovered] = useState<boolean>(false);
 
   const activeWorkspace = getWorkspaceById(activeId);
   const thoughtWorkspaceScene = getAssetUrl("thought-workspace-scene.webp");
@@ -107,46 +72,6 @@ export function ThoughtWorkspace() {
 
           {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
           <div className="relative hidden lg:flex w-full max-w-4xl mx-auto mt-24 md:mt-32 scale-[0.92] origin-top items-start justify-center overflow-visible z-10">
-            {/* Left External Panel */}
-            <AnimatePresence>
-              {(hoveredTopic || activeTopic) && (
-                <motion.div
-                  initial={{ opacity: 0, x: -15, y: "-50%" }}
-                  animate={{ opacity: 1, x: 0, y: "-50%" }}
-                  exit={{ opacity: 0, x: -15, y: "-50%" }}
-                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute right-full mr-6 top-[58%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-52 bg-black/75 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left border-l-amber-500/30"
-                >
-                  {/* Subtle projection beam glow pointing to MacBook */}
-                  <div className="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-[1px] bg-gradient-to-r from-amber-500/50 to-amber-500/0 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
-
-                  <div 
-                    className="h-[2.5px] w-8 rounded-full mb-3 shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300"
-                    style={{ backgroundColor: (hoveredTopic || activeTopic)?.accentHex }}
-                  />
-                  <div className="text-[9px] font-black uppercase tracking-[0.2em] text-amber-500/80 mb-1">
-                    Files
-                  </div>
-                  <div className="text-[12px] font-black text-white mb-3 tracking-tight">
-                    {(hoveredTopic || activeTopic)?.title}
-                  </div>
-                  <ul className="space-y-2.5">
-                    {(hoveredTopic || activeTopic)?.files.map((file, idx) => (
-                      <li 
-                        key={idx} 
-                        className={cn(
-                          "flex items-start gap-2 text-[10px] font-semibold leading-tight transition-all duration-300",
-                          badgeHovered ? "text-amber-400 scale-[1.04] translate-x-1.5" : "text-white/70"
-                        )}
-                      >
-                        <span className="text-amber-500 mt-0.5 text-[8px]">📄</span>
-                        <span>{file}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
-            </AnimatePresence>
 
             <MacbookScroll
               sectionMode
@@ -157,69 +82,9 @@ export function ThoughtWorkspace() {
               }
               showGradient={false}
             >
-              <ThoughtOSScreen 
-                onHoverFolder={setHoveredTopic}
-                onSelectFolder={setActiveTopic}
-              />
+              <ThoughtOSScreen />
             </MacbookScroll>
 
-            {/* Right External Panel */}
-            <AnimatePresence>
-              {(hoveredTopic || activeTopic) && (
-                <motion.div
-                  initial={{ opacity: 0, x: 15, y: "-50%" }}
-                  animate={{ opacity: 1, x: 0, y: "-50%" }}
-                  exit={{ opacity: 0, x: 15, y: "-50%" }}
-                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute left-full ml-6 top-[58%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-56 bg-black/75 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left border-r-amber-500/30"
-                >
-                  {/* Subtle projection beam glow pointing to MacBook */}
-                  <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-[1px] bg-gradient-to-l from-amber-500/50 to-amber-500/0 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
-
-                  <div 
-                    className="h-[2.5px] w-8 rounded-full mb-3 shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300"
-                    style={{ backgroundColor: (hoveredTopic || activeTopic)?.accentHex }}
-                  />
-                  <div className="text-[9px] font-black uppercase tracking-[0.2em] text-amber-500/80 mb-1">
-                    Folder Signal
-                  </div>
-                  <div className="text-[12px] font-black text-white mb-1 tracking-tight">
-                    {(hoveredTopic || activeTopic)?.title}
-                  </div>
-                  <div className="text-[8px] text-amber-500/80 font-mono font-bold mb-3 tracking-wide uppercase">
-                    {(hoveredTopic || activeTopic)?.files.length} systems registered
-                  </div>
-                  
-                  <p className="text-[10px] text-white/55 leading-relaxed font-semibold mb-4 italic pl-2 border-l border-white/15">
-                    "{(hoveredTopic || activeTopic)?.purpose}"
-                  </p>
-
-                  <div className="border-t border-white/5 pt-3.5 mt-auto flex items-center justify-between">
-                    <span className="text-[8.5px] uppercase tracking-wider text-white/40 font-black">Signal Stack</span>
-                    <div 
-                      onMouseEnter={() => setBadgeHovered(true)} 
-                      onMouseLeave={() => setBadgeHovered(false)}
-                      className="scale-90 origin-right transition-transform"
-                    >
-                      <ImagesBadge
-                        text=""
-                        images={[
-                          getDocSVG((hoveredTopic || activeTopic)!.accentHex, `${(hoveredTopic || activeTopic)!.title}-doc-1`),
-                          getDocSVG((hoveredTopic || activeTopic)!.accentHex, `${(hoveredTopic || activeTopic)!.title}-doc-2`),
-                          getDocSVG((hoveredTopic || activeTopic)!.accentHex, `${(hoveredTopic || activeTopic)!.title}-doc-3`),
-                        ]}
-                        folderSize={{ width: 18, height: 14 }}
-                        teaserImageSize={{ width: 12, height: 9 }}
-                        hoverImageSize={{ width: 44, height: 32 }}
-                        hoverTranslateY={-32}
-                        hoverSpread={16}
-                        folderColorClass={(hoveredTopic || activeTopic)!.gradientClass}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
 
           {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
