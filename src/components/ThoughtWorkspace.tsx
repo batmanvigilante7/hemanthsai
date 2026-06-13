@@ -111,12 +111,15 @@ export function ThoughtWorkspace() {
             <AnimatePresence>
               {(hoveredTopic || activeTopic) && (
                 <motion.div
-                  initial={{ opacity: 0, x: -40, y: "-50%" }}
+                  initial={{ opacity: 0, x: -15, y: "-50%" }}
                   animate={{ opacity: 1, x: 0, y: "-50%" }}
-                  exit={{ opacity: 0, x: -40, y: "-50%" }}
-                  transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute right-full mr-12 top-[60%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-52 bg-black/65 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left"
+                  exit={{ opacity: 0, x: -15, y: "-50%" }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute right-full mr-6 top-[58%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-52 bg-black/75 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left border-l-amber-500/30"
                 >
+                  {/* Subtle projection beam glow pointing to MacBook */}
+                  <div className="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-[1px] bg-gradient-to-r from-amber-500/50 to-amber-500/0 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+
                   <div 
                     className="h-[2.5px] w-8 rounded-full mb-3 shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300"
                     style={{ backgroundColor: (hoveredTopic || activeTopic)?.accentHex }}
@@ -164,12 +167,15 @@ export function ThoughtWorkspace() {
             <AnimatePresence>
               {(hoveredTopic || activeTopic) && (
                 <motion.div
-                  initial={{ opacity: 0, x: 40, y: "-50%" }}
+                  initial={{ opacity: 0, x: 15, y: "-50%" }}
                   animate={{ opacity: 1, x: 0, y: "-50%" }}
-                  exit={{ opacity: 0, x: 40, y: "-50%" }}
-                  transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute left-full ml-12 top-[60%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-56 bg-black/65 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left"
+                  exit={{ opacity: 0, x: 15, y: "-50%" }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute left-full ml-6 top-[58%] -translate-y-1/2 z-30 hidden xl:flex flex-col w-56 bg-black/75 backdrop-blur-2xl border border-white/10 rounded-xl p-4.5 shadow-[0_25px_50px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.05)] text-left border-r-amber-500/30"
                 >
+                  {/* Subtle projection beam glow pointing to MacBook */}
+                  <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-[1px] bg-gradient-to-l from-amber-500/50 to-amber-500/0 shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
+
                   <div 
                     className="h-[2.5px] w-8 rounded-full mb-3 shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-all duration-300"
                     style={{ backgroundColor: (hoveredTopic || activeTopic)?.accentHex }}
