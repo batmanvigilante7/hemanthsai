@@ -1,23 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface ImagesBadgeProps {
   text: string;
   images: string[];
   className?: string;
-  onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLDivElement>;
   /** Optional link URL */
   href?: string;
   /** Link target attribute (e.g., "_blank" for new tab) */
   target?: string;
+  /** Folder dimensions { width, height } in pixels */
   folderSize?: { width: number; height: number };
+  /** Image dimensions when teased (peeking) { width, height } in pixels */
   teaserImageSize?: { width: number; height: number };
+  /** Image dimensions when hovered { width, height } in pixels */
   hoverImageSize?: { width: number; height: number };
+  /** How far images translate up on hover in pixels */
   hoverTranslateY?: number;
+  /** How far images spread horizontally on hover in pixels */
   hoverSpread?: number;
+  /** Rotation angle for fanned images on hover in degrees */
   hoverRotation?: number;
 }
 
@@ -25,7 +30,6 @@ export function ImagesBadge({
   text,
   images,
   className,
-  onClick,
   href,
   target,
   folderSize = { width: 32, height: 24 },
@@ -57,7 +61,6 @@ export function ImagesBadge({
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
     >
       {/* Folder Container */}
       <motion.div
