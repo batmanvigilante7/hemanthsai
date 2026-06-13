@@ -23,7 +23,13 @@ export const FloatingDock = ({
   desktopClassName,
   mobileClassName,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }[];
+  items: { 
+    title: string; 
+    icon: React.ReactNode; 
+    href: string; 
+    onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+    isActive?: boolean;
+  }[];
   desktopClassName?: string;
   mobileClassName?: string;
 }) => {
@@ -39,7 +45,13 @@ const FloatingDockMobile = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }[];
+  items: { 
+    title: string; 
+    icon: React.ReactNode; 
+    href: string; 
+    onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+    isActive?: boolean;
+  }[];
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
@@ -76,9 +88,15 @@ const FloatingDockMobile = ({
                     }
                   }}
                   key={item.title}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-900"
+                  className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-xl bg-[#1a1b1f]/90 border border-white/10 shadow-lg relative",
+                    item.isActive && "border-amber-500/40 shadow-[0_0_8px_rgba(245,158,11,0.2)]"
+                  )}
                 >
-                  <div className="h-4 w-4">{item.icon}</div>
+                  <div className="h-6 w-6 flex items-center justify-center">{item.icon}</div>
+                  {item.isActive && (
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-400" />
+                  )}
                 </a>
               </motion.div>
             ))}
@@ -87,9 +105,9 @@ const FloatingDockMobile = ({
       </AnimatePresence>
       <button
         onClick={() => setOpen(!open)}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 dark:bg-neutral-800"
+        className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1a1b1f]/90 border border-white/10 shadow-lg"
       >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-400" />
       </button>
     </div>
   );
@@ -99,7 +117,13 @@ const FloatingDockDesktop = ({
   items,
   className,
 }: {
-  items: { title: string; icon: React.ReactNode; href: string; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }[];
+  items: { 
+    title: string; 
+    icon: React.ReactNode; 
+    href: string; 
+    onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+    isActive?: boolean;
+  }[];
   className?: string;
 }) => {
   let mouseX = useMotionValue(Infinity);
@@ -108,7 +132,7 @@ const FloatingDockDesktop = ({
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
       className={cn(
-        "mx-auto hidden h-16 items-end gap-4 rounded-2xl bg-gray-50 px-4 pb-3 md:flex dark:bg-neutral-900",
+        "mx-auto hidden h-16 items-end gap-3 rounded-2xl bg-neutral-900/40 backdrop-blur-2xl border border-white/15 px-4 pb-2.5 md:flex shadow-xl",
         className,
       )}
     >
@@ -125,12 +149,14 @@ function IconContainer({
   icon,
   href,
   onClick,
+  isActive,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
   href: string;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  isActive?: boolean;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
@@ -140,36 +166,13 @@ function IconContainer({
     return val - bounds.x - bounds.width / 2;
   });
 
-  let widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-  let heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
+  // Make the desktop icons scale from 42px up to 76px on hover for a beautiful premium magnetic scale
+  let sizeTransform = useTransform(distance, [-140, 0, 140], [42, 72, 42]);
 
-  let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
-  let heightTransformIcon = useTransform(
-    distance,
-    [-150, 0, 150],
-    [20, 40, 20],
-  );
-
-  let width = useSpring(widthTransform, {
+  let sizeSpring = useSpring(sizeTransform, {
     mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let height = useSpring(heightTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-
-  let widthIcon = useSpring(widthTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let heightIcon = useSpring(heightTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
+    stiffness: 160,
+    damping: 14,
   });
 
   const [hovered, setHovered] = useState(false);
@@ -182,32 +185,38 @@ function IconContainer({
           onClick(e);
         }
       }}
+      className="relative block"
     >
       <motion.div
         ref={ref}
-        style={{ width, height }}
+        style={{ width: sizeSpring, height: sizeSpring }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="relative flex aspect-square items-center justify-center rounded-full bg-gray-200 dark:bg-neutral-800"
+        className="relative flex items-center justify-center rounded-xl bg-transparent transition-all duration-200"
       >
         <AnimatePresence>
           {hovered && (
             <motion.div
-              initial={{ opacity: 0, y: 10, x: "-50%" }}
+              initial={{ opacity: 0, y: 8, x: "-50%" }}
               animate={{ opacity: 1, y: 0, x: "-50%" }}
               exit={{ opacity: 0, y: 2, x: "-50%" }}
-              className="absolute -top-8 left-1/2 w-fit rounded-md border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs whitespace-pre text-neutral-700 dark:border-neutral-900 dark:bg-neutral-800 dark:text-white"
+              transition={{ duration: 0.1 }}
+              className="absolute -top-9 left-1/2 w-fit rounded-md border border-white/10 bg-black/85 backdrop-blur-md px-2 py-0.5 text-[9px] font-bold whitespace-pre text-white shadow-lg pointer-events-none"
             >
               {title}
             </motion.div>
           )}
         </AnimatePresence>
-        <motion.div
-          style={{ width: widthIcon, height: heightIcon }}
-          className="flex items-center justify-center"
-        >
+        
+        {/* Render the icon component directly to fill the container size and handle reflections/gloss */}
+        <div className="w-full h-full flex items-center justify-center relative">
           {icon}
-        </motion.div>
+        </div>
+
+        {/* Active Indicator Dot under the icon */}
+        {isActive && (
+          <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b]" />
+        )}
       </motion.div>
     </a>
   );

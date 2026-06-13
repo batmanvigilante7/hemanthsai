@@ -25,6 +25,8 @@ const thoughtOSItems = [
     dock: "AI",
     description: "I use AI to think, code, critique, organize, and move faster without outsourcing my judgment.",
     accentGrad: "from-violet-500 to-blue-500",
+    gradientClass: "from-violet-600/80 via-blue-600/80 to-blue-700/85",
+    accentClass: "bg-violet-300 shadow-violet-500/50",
     modules: [
       { title: "Prompt Systems", description: "Designing structural prompt chains and context-dense inputs." },
       { title: "AI Coding", description: "Automating generation, validation, and self-correction cycles." },
@@ -38,6 +40,8 @@ const thoughtOSItems = [
     dock: "Apps",
     description: "I turn rough ideas into interfaces, prototypes, and working products people can try.",
     accentGrad: "from-sky-400 to-cyan-500",
+    gradientClass: "from-sky-500/80 via-cyan-500/80 to-blue-600/85",
+    accentClass: "bg-cyan-300 shadow-cyan-400/50",
     modules: [
       { title: "Drafting & Scoping", description: "Creating high-fidelity interactive wireframes and scoping initial utility loops." },
       { title: "Frontend UI", description: "Structuring component-driven type-safe frontend UI." },
@@ -51,6 +55,8 @@ const thoughtOSItems = [
     dock: "UX",
     description: "I care about making products feel clear, useful, smooth, and easy to trust.",
     accentGrad: "from-pink-500 to-rose-500",
+    gradientClass: "from-pink-500/80 via-rose-500/80 to-red-500/85",
+    accentClass: "bg-rose-300 shadow-rose-400/50",
     modules: [
       { title: "Clarity & Friction", description: "Simplifying user actions to remove cognitive load and make flows self-explanatory." },
       { title: "Trust Dynamics", description: "Implementing skeletal previews and clear, optimistic state transitions." },
@@ -64,6 +70,8 @@ const thoughtOSItems = [
     dock: "Ideas",
     description: "I study problems, shape solutions, and test whether an idea is actually worth building.",
     accentGrad: "from-amber-400 to-orange-500",
+    gradientClass: "from-amber-500/80 via-orange-500/80 to-red-600/85",
+    accentClass: "bg-amber-300 shadow-amber-400/50",
     modules: [
       { title: "Problem Framing", description: "Pinpointing high-value user bottlenecks before writing database schemas." },
       { title: "MVP Scope Cuts", description: "Aggressively separating must-haves from nice-to-haves to ship faster." },
@@ -77,6 +85,8 @@ const thoughtOSItems = [
     dock: "Story",
     description: "I use words, visuals, and metaphors to make ideas easier to understand, remember, and share.",
     accentGrad: "from-fuchsia-500 to-purple-600",
+    gradientClass: "from-fuchsia-500/80 via-purple-600/80 to-indigo-700/85",
+    accentClass: "bg-fuchsia-300 shadow-fuchsia-400/50",
     modules: [
       { title: "Narrative Hooks", description: "Writing copy that focuses on user transformation and crisis first." },
       { title: "Visual Metaphors", description: "Using simple physical analogies to explain complex codebase structures." },
@@ -90,6 +100,8 @@ const thoughtOSItems = [
     dock: "Invest",
     description: "I study value, risk, incentives, patience, and compounding to think better long-term.",
     accentGrad: "from-emerald-500 to-lime-500",
+    gradientClass: "from-emerald-500/80 via-teal-500/80 to-lime-600/85",
+    accentClass: "bg-emerald-300 shadow-emerald-400/50",
     modules: [
       { title: "Compounding Assets", description: "Writing reusable code libraries that save future developer months." },
       { title: "Incentive Audits", description: "Analyzing user motivation to align product loops with behaviors." },
@@ -103,6 +115,8 @@ const thoughtOSItems = [
     dock: "Done",
     description: "I use routines, checklists, sprints, and feedback loops to convert plans into progress.",
     accentGrad: "from-blue-500 to-indigo-600",
+    gradientClass: "from-blue-600/80 via-indigo-600/80 to-indigo-800/85",
+    accentClass: "bg-blue-300 shadow-blue-400/50",
     modules: [
       { title: "Checklist Scaffolds", description: "Breaking down tasks into clear steps to bypass decision paralysis." },
       { title: "21-Day Sprints", description: "Forcing work scopes into short, high-intensity shipping loops." },
@@ -116,6 +130,8 @@ const thoughtOSItems = [
     dock: "Proof",
     description: "I document projects, lessons, experiments, and outcomes so growth becomes visible proof.",
     accentGrad: "from-yellow-400 to-amber-500",
+    gradientClass: "from-yellow-500/80 via-amber-500/80 to-orange-500/85",
+    accentClass: "bg-yellow-300 shadow-yellow-400/50",
     modules: [
       { title: "Build Logging", description: "Writing down weekly problems, pivots, lessons, and project milestones." },
       { title: "Clickable Demos", description: "Hosting instantly testable sandboxes to prove that the code actually compiles." },
@@ -175,20 +191,43 @@ const getGradientSVG = (label: string, fromColor: string, toColor: string) => {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
 
-const FolderIcon = ({ accentGrad }: { accentGrad: string }) => {
+const AppIcon = ({
+  dockText,
+  gradientClass,
+  accentClass,
+  size = "desktop",
+}: {
+  dockText: string;
+  gradientClass: string;
+  accentClass: string;
+  size?: "desktop" | "dock";
+}) => {
+  const isDesktop = size === "desktop";
   return (
-    <div className="relative w-11 h-9 flex items-center justify-center">
-      {/* Folder Back (Warm Graphite) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#3a3a3d] to-[#1e1e24] border border-white/10 rounded-[4px] shadow-md" />
-      {/* Folder Tab */}
-      <div className="absolute -top-[3px] left-1.5 w-4.5 h-1.5 bg-[#3a3a3d] border-t border-x border-white/10 rounded-t-[2px]" />
-      {/* Accent gradient line */}
-      <div className={cn("absolute top-2.5 left-2 right-2 h-0.5 rounded-full bg-gradient-to-r", accentGrad)} />
-      {/* Folder Front (Amber Glass) */}
-      <div className="absolute bottom-0 inset-x-0 h-6.5 rounded-b-[4px] bg-amber-500/10 border-t border-amber-500/35 backdrop-blur-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] flex items-center justify-center">
-        {/* Document peak */}
-        <div className="w-6 h-3 bg-white/5 rounded-[1px] border border-white/10 -translate-y-[2px] transform -rotate-1" />
-      </div>
+    <div className="relative flex items-center justify-center overflow-hidden select-none rounded-xl w-full h-full">
+      {/* Base Gradient Surface */}
+      <div className={cn("absolute inset-0 bg-gradient-to-br border border-white/20 backdrop-blur-md", gradientClass)} />
+      
+      {/* Gloss reflection overlay */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/15 pointer-events-none" />
+      <div className="absolute -top-[60%] -left-[60%] w-[220%] h-[220%] bg-gradient-to-b from-white/10 to-transparent rotate-30 pointer-events-none" />
+      
+      {/* Inner highlight shadow */}
+      <div className="absolute inset-[0.5px] rounded-[inherit] border border-white/25 pointer-events-none shadow-[inset_0_1.5px_1.5px_rgba(255,255,255,0.45)]" />
+      
+      {/* Colored accent strip */}
+      <div className={cn("absolute bottom-1.5 h-[2px] w-5 rounded-full shadow-[0_0_4px_rgba(255,255,255,0.55)]", accentClass)} />
+      
+      {/* Display text */}
+      <span className={cn(
+        "relative z-10 font-black tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]",
+        isDesktop ? "text-[9px]" : "text-[8px]"
+      )}>
+        {dockText}
+      </span>
+      
+      {/* Bottom gradient shadow */}
+      <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-black/25 to-transparent pointer-events-none" />
     </div>
   );
 };
@@ -196,9 +235,10 @@ const FolderIcon = ({ accentGrad }: { accentGrad: string }) => {
 interface FolderProps {
   id: string;
   title: string;
-  dock: string;
+  dockText: string;
   description: string;
-  accentGrad: string;
+  gradientClass: string;
+  accentClass: string;
   isSelected: boolean;
   onSelect: () => void;
   onOpen: () => void;
@@ -206,17 +246,23 @@ interface FolderProps {
 
 const DesktopFolder = ({
   title,
+  dockText,
   description,
-  accentGrad,
+  gradientClass,
+  accentClass,
   isSelected,
   onSelect,
   onOpen,
 }: FolderProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const displayTitle = title === "Getting Things Done" ? "Getting Done" : title;
 
   return (
-    <div
-      className="relative flex flex-col items-center justify-center w-24 h-20 cursor-pointer group select-none"
+    <motion.div
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.94 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="relative flex flex-col items-center justify-center w-[74px] h-[72px] cursor-pointer group select-none"
       onClick={(e) => {
         e.stopPropagation();
         onSelect();
@@ -228,24 +274,37 @@ const DesktopFolder = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Glow / Selection Highlight */}
+      {/* Translucent Selection Rectangle Behind Icon + Label */}
       <div
         className={cn(
-          "absolute -inset-1.5 rounded-lg transition-all duration-150 pointer-events-none",
+          "absolute -inset-x-2 -inset-y-1.5 rounded-lg transition-all duration-200 pointer-events-none",
           isSelected
-            ? "bg-amber-500/15 border border-amber-500/35 shadow-[0_0_8px_rgba(245,158,11,0.2)]"
+            ? "bg-amber-500/10 border border-amber-500/30 shadow-[0_0_8px_rgba(245,158,11,0.15),inset_0_1px_0_rgba(255,255,255,0.05)]"
             : isHovered
-            ? "bg-white/5 border border-white/5"
+            ? "bg-white/5 border border-white/10"
             : "border border-transparent"
         )}
       />
 
-      {/* Folder body */}
-      <FolderIcon accentGrad={accentGrad} />
+      {/* Dimensional Glass App Tile */}
+      <div className="relative w-11 h-11 flex items-center justify-center">
+        {/* Glow behind the active selection */}
+        {isSelected && (
+          <div className="absolute inset-0 rounded-xl bg-amber-500/20 blur-md scale-120 pointer-events-none" />
+        )}
+        
+        {/* The App Icon */}
+        <AppIcon 
+          dockText={dockText}
+          gradientClass={gradientClass}
+          accentClass={accentClass}
+          size="desktop"
+        />
+      </div>
 
-      {/* Title */}
-      <span className="mt-1 text-[10px] font-medium text-white/80 text-center tracking-tight leading-snug w-[85%] truncate drop-shadow-md">
-        {title}
+      {/* Label */}
+      <span className="mt-2 text-[9px] font-bold text-white/90 text-center tracking-tight leading-none w-full truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] select-none">
+        {displayTitle}
       </span>
 
       {/* Hover Description Tooltip */}
@@ -256,15 +315,15 @@ const DesktopFolder = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.95 }}
             transition={{ duration: 0.12 }}
-            className="absolute z-50 top-16 left-1/2 -translate-x-1/2 w-44 p-2 bg-[#121215]/95 backdrop-blur-md border border-white/10 rounded-md shadow-xl text-center pointer-events-none"
+            className="absolute z-50 top-14 left-1/2 -translate-x-1/2 w-40 p-2 bg-[#121215]/95 backdrop-blur-md border border-white/10 rounded-md shadow-xl text-center pointer-events-none"
           >
-            <p className="text-[9px] text-white/90 leading-normal font-sans">
+            <p className="text-[8px] text-white/90 leading-normal font-sans">
               {description}
             </p>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
@@ -313,13 +372,14 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
   // Dock items
   const dockItems = thoughtOSItems.map((item) => ({
     title: item.title,
+    isActive: activeFolderId === item.id,
     icon: (
-      <div className={cn(
-        "w-8 h-8 rounded-lg bg-gradient-to-br backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg text-white font-bold text-[9px] tracking-tight leading-none select-none",
-        item.accentGrad
-      )}>
-        {item.dock}
-      </div>
+      <AppIcon 
+        dockText={item.dock}
+        gradientClass={item.gradientClass}
+        accentClass={item.accentClass}
+        size="dock"
+      />
     ),
     href: `#folder-${item.id}`,
     onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -333,44 +393,60 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
   return (
     <div
       className={cn(
-        "relative h-full w-full bg-[#030504] overflow-hidden select-none pointer-events-auto font-sans flex flex-col justify-between p-3.5",
+        "relative h-full w-full overflow-hidden select-none pointer-events-auto font-sans flex flex-col justify-between p-3.5 transition-all duration-300",
         className
       )}
       onClick={() => setSelectedFolderId(null)}
+      style={{
+        backgroundColor: "#111215",
+        backgroundImage: `
+          linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 50%),
+          radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.16), transparent 65%),
+          radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.18), transparent 55%),
+          radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.1), transparent 50%),
+          url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E")
+        `
+      }}
     >
-      {/* Warm Ambient Radial Backdrop */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.14),transparent_55%)] z-0 pointer-events-none" />
+      {/* Edge Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)] z-0 pointer-events-none" />
+
+      {/* Large amber lighting glow behind folders */}
+      <div className="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-amber-500/10 rounded-full blur-[64px] z-0 pointer-events-none" />
 
       {/* Top Menu Bar */}
-      <header className="relative z-30 h-7 border border-white/5 rounded-md bg-black/45 backdrop-blur flex items-center justify-between px-3 text-[10px] font-semibold text-white/70 shadow-sm shrink-0">
-        <div className="flex items-center gap-2">
+      <header className="relative z-30 h-7 border border-white/10 rounded-md bg-black/55 backdrop-blur-md flex items-center justify-between px-3 text-[9px] font-medium text-white/80 shadow-md shrink-0 select-none">
+        <div className="flex items-center gap-2.5">
           {/* macOS Control Dots */}
-          <div className="flex gap-1 mr-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-rose-500/70" />
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-500/70" />
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/70" />
+          <div className="flex gap-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-rose-500/60 border border-rose-500/20" />
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-500/60 border border-amber-500/20" />
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/60 border border-emerald-500/20" />
           </div>
-          <span className="font-bold tracking-wider text-amber-500/90 ml-1">ThoughtOS</span>
+          <span className="font-bold tracking-wide text-amber-400/90 ml-1 select-none">ThoughtOS</span>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Clickable search pill */}
+        <div className="flex items-center">
           <button
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-1 px-1.5 py-0.5 rounded border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-[9px]"
+            className="flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/12 hover:border-white/20 active:scale-95 text-white/70 hover:text-white transition-all cursor-pointer text-[8px] tracking-wide"
           >
-            <span>⌘ Search</span>
+            <span className="text-[8px] opacity-75">🔍</span>
+            <span>Search</span>
+            <span className="text-[7px] text-white/45 bg-white/10 px-1 rounded">⌘K</span>
           </button>
         </div>
 
-        <div className="font-mono text-white/45">09:41</div>
+        <div className="font-sans font-medium text-white/50 tracking-tight text-[8.5px]">09:41 AM</div>
       </header>
 
       {/* Main Desktop Area */}
       <main className="relative flex-1 z-20 pt-6 pb-16 flex items-center justify-center min-h-0">
         {/* Desktop folders grid: blurred/translucent when a window is open */}
         <div className={cn(
-          "grid grid-cols-4 grid-rows-2 gap-x-8 gap-y-4 max-w-xl mx-auto justify-items-center transition-all duration-300",
-          isWindowOpen ? "opacity-25 blur-[1px] pointer-events-none scale-98" : "opacity-100 blur-0 pointer-events-auto scale-100"
+          "grid grid-cols-4 grid-rows-2 gap-x-10 gap-y-6 max-w-2xl mx-auto justify-items-center transition-all duration-350 ease-out",
+          isWindowOpen ? "opacity-15 blur-[2px] pointer-events-none scale-[0.96]" : "opacity-100 blur-0 pointer-events-auto scale-100"
         )}>
           {thoughtOSItems.map((folder) => {
             const isSelected = selectedFolderId === folder.id;
@@ -379,9 +455,10 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 key={folder.id}
                 id={folder.id}
                 title={folder.title}
-                dock={folder.dock}
+                dockText={folder.dock}
                 description={folder.description}
-                accentGrad={folder.accentGrad}
+                gradientClass={folder.gradientClass}
+                accentClass={folder.accentClass}
                 isSelected={isSelected}
                 onSelect={() => setSelectedFolderId(folder.id)}
                 onOpen={() => {
@@ -402,7 +479,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 12 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute top-[32px] bottom-[54px] inset-x-3.5 z-30 flex flex-col bg-[#0b0c10]/95 border border-white/10 rounded-xl shadow-[0_15px_35px_rgba(0,0,0,0.65)] backdrop-blur-xl overflow-hidden"
+              className="absolute top-[32px] bottom-[54px] inset-x-3.5 z-30 flex flex-col bg-[#0b0c10]/95 border border-white/10 rounded-xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] backdrop-blur-xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Window Header */}
@@ -501,8 +578,11 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
       </main>
 
       {/* Dock: Absolutely pinned to bottom */}
-      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-fit z-40 transform scale-[0.8] origin-bottom select-none">
-        <FloatingDock items={dockItems} desktopClassName="bg-black/55 backdrop-blur-md border border-white/10 p-2 h-14" />
+      <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-fit z-40 transform scale-[0.85] origin-bottom select-none">
+        <FloatingDock 
+          items={dockItems} 
+          desktopClassName="bg-black/40 backdrop-blur-2xl border border-white/15 p-2 h-14 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]" 
+        />
       </div>
 
       {/* Command dialog palette search */}
