@@ -873,3 +873,7 @@ export default function PortfolioApp() {
     </main>
   );
 }
+      <div className="cinematic-grain" />
+    </main>
+  );
+}
