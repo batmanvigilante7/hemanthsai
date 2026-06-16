@@ -81,15 +81,11 @@ export function ThoughtWorkspace() {
                 <MacbookScroll
                   sectionMode
                   stable={true}
-                  title={
-                    <span className="text-white text-xl md:text-2xl font-extrabold tracking-tight leading-tight">
-                      From thought loops. <br /> Turning curiosity into visible proof.
-                    </span>
-                  }
+                  title={null}
+                  badge={null}
                   showGradient={false}
-                >
-                  <ThoughtOSScreen />
-                </MacbookScroll>
+                  screenContent={<ThoughtOSScreen />}
+                />
               </div>
             </div>
           </div>

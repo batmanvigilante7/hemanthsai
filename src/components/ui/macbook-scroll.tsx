@@ -33,6 +33,7 @@ export const MacbookScroll = ({
   children,
   sectionMode = false,
   stable = false,
+  screenContent,
 }: {
   src?: string;
   showGradient?: boolean;
@@ -41,6 +42,7 @@ export const MacbookScroll = ({
   children?: React.ReactNode;
   sectionMode?: boolean;
   stable?: boolean;
+  screenContent?: React.ReactNode;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -184,9 +186,9 @@ export const Lid = ({
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2 shadow-[0_20px_80px_rgba(0,0,0,0.7)] border border-white/10"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        {children ? (
+        {screenContent || children ? (
           <div className="absolute inset-2 rounded-lg bg-[#050505] overflow-hidden z-10 flex flex-col text-left pointer-events-auto">
-            {children}
+            {screenContent || children}
           </div>
         ) : (
           src && (
