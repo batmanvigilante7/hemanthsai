@@ -25,12 +25,14 @@ export function ThoughtWorkspace() {
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
-        <img
-          src={thoughtWorkspaceScene}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-[center_40%] opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
-        />
+        <div className="absolute inset-0 overflow-hidden bg-black z-0 pointer-events-none select-none">
+          <img
+            src={thoughtWorkspaceScene}
+            alt=""
+            aria-hidden="true"
+            className="absolute left-1/2 top-1/2 w-[100vw] h-auto max-w-none -translate-x-1/2 -translate-y-1/2 scale-[0.92] opacity-100 brightness-105 contrast-105"
+          />
+        </div>
 
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-black/10 z-0 pointer-events-none" />
@@ -52,7 +54,7 @@ export function ThoughtWorkspace() {
         </svg>
 
         {/* Foreground content wrapper */}
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-40 md:pt-48">
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-32 md:pt-36">
           
           {/* Header Area (Scrolls away normally) */}
           <div className="w-full pb-10">
