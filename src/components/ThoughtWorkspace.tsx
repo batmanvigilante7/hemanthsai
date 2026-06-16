@@ -41,10 +41,8 @@ export function ThoughtWorkspace() {
             src={thoughtWorkspaceScene}
             alt=""
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover object-bottom opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
+            className="absolute inset-0 z-0 h-full w-full object-cover object-bottom opacity-100 brightness-100 contrast-105 pointer-events-none select-none"
           />
-
-          {/* Dark overlay for readability */}
           <div className="absolute inset-0 z-0 bg-black/25 pointer-events-none" />
 
           {/* SVG Gooey Filter definitions */}
@@ -63,34 +61,42 @@ export function ThoughtWorkspace() {
             </defs>
           </svg>
 
-          <div className="relative mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pt-[120px] md:px-10 z-10">
-            {/* Desktop Intro Header block (Siblings with MacBook, Fades on Scroll) */}
-            <motion.div 
+          <div className="relative mx-auto h-full w-full max-w-[1400px] px-8 pt-[110px] z-10">
+            {/* Big intro layer - high, not beside laptop */}
+            <motion.div
               style={{
                 translateY: textTransform,
                 opacity: textOpacity,
               }}
-              className="hidden lg:grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end"
+              className="pointer-events-none absolute left-8 top-[6.5rem] max-w-[720px] hidden lg:block"
             >
-              <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
-                  Thought Workspace
-                </p>
-
-                <h2 className="max-w-4xl text-4xl font-black uppercase tracking-tight text-white md:text-6xl">
-                  The mental desktop where ideas become proof.
-                </h2>
-              </div>
-
-              <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
-                A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
+                Thought Workspace
               </p>
+              <h2 className="text-[clamp(3.2rem,8vw,7rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">
+                The Mental Desktop Where Ideas Become Proof.
+              </h2>
             </motion.div>
 
-            {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-            <div className="relative mx-auto mt-8 hidden w-full max-w-5xl justify-center overflow-visible lg:flex z-20">
+            {/* Small paragraph can stay high/right, not beside laptop */}
+            <motion.p
+              style={{
+                translateY: textTransform,
+                opacity: textOpacity,
+              }}
+              className="pointer-events-none absolute right-8 top-[8rem] max-w-[520px] text-base leading-7 text-white/55 hidden lg:block"
+            >
+              A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
+            </motion.p>
+
+            {/* MacBook placement target */}
+            <div className="absolute left-1/2 top-[38%] w-full max-w-[760px] -translate-x-1/2 overflow-visible hidden lg:flex justify-center z-20">
               <MacbookScroll
-                title={null}
+                title={
+                  <span>
+                    From thought loops. <br /> Turning curiosity into visible proof.
+                  </span>
+                }
                 showGradient={false}
                 screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
                 sectionMode

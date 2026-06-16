@@ -118,8 +118,8 @@ export const MacbookScroll = ({
             opacity: textOpacity,
           }}
           className={cn(
-            "text-center text-3xl font-bold text-neutral-800 dark:text-white",
-            sectionMode ? "mb-14" : "mb-20"
+            "text-center text-xl md:text-2xl font-bold text-white",
+            sectionMode ? "mb-10" : "mb-20"
           )}
         >
           {title === undefined ? (
