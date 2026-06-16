@@ -34,6 +34,11 @@ export const MacbookScroll = ({
   sectionMode = false,
   stable = false,
   screenContent,
+  scaleXMax = 1.5,
+  scaleYMax = 1.5,
+  translateMax = 1500,
+  showTitle = true,
+  containerStyle,
 }: {
   src?: string;
   showGradient?: boolean;
@@ -43,6 +48,11 @@ export const MacbookScroll = ({
   sectionMode?: boolean;
   stable?: boolean;
   screenContent?: React.ReactNode;
+  scaleXMax?: number;
+  scaleYMax?: number;
+  translateMax?: number;
+  showTitle?: boolean;
+  containerStyle?: React.CSSProperties;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -61,17 +71,17 @@ export const MacbookScroll = ({
   const scaleX = stable ? 1.0 : useTransform(
     scrollYProgress,
     [0, 0.3],
-    [1.2, isMobile ? 1 : 1.5],
+    [1.2, isMobile ? 1 : scaleXMax],
   );
   const scaleY = stable ? 1.0 : useTransform(
     scrollYProgress,
     [0, 0.3],
-    [0.6, isMobile ? 1 : 1.5],
+    [0.6, isMobile ? 1 : scaleYMax],
   );
   const translate = stable ? 0 : useTransform(
     scrollYProgress,
     sectionMode ? [0, 0.3] : [0, 1],
-    sectionMode ? [0, 180] : [0, 1500]
+    sectionMode ? [0, 180] : [0, translateMax]
   );
   const rotate = stable ? 0 : useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
@@ -80,27 +90,30 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
+      style={containerStyle}
       className={cn(
         "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
         sectionMode ? "min-h-[86vh] md:py-10" : "min-h-[200vh] md:py-80"
       )}
     >
-      <motion.h2
-        style={{
-          translateY: textTransform,
-          opacity: textOpacity,
-        }}
-        className={cn(
-          "text-center text-3xl font-bold text-neutral-800 dark:text-white",
-          sectionMode ? "mb-14" : "mb-20"
-        )}
-      >
-        {title || (
-          <span>
-            This Macbook is built with Tailwindcss. <br /> No kidding.
-          </span>
-        )}
-      </motion.h2>
+      {showTitle && (title || title === undefined) && (
+        <motion.h2
+          style={{
+            translateY: textTransform,
+            opacity: textOpacity,
+          }}
+          className={cn(
+            "text-center text-3xl font-bold text-neutral-800 dark:text-white",
+            sectionMode ? "mb-14" : "mb-20"
+          )}
+        >
+          {title || (
+            <span>
+              This Macbook is built with Tailwindcss. <br /> No kidding.
+            </span>
+          )}
+        </motion.h2>
+      )}
       {/* Lid */}
       <Lid
         src={src}

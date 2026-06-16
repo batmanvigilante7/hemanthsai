@@ -25,17 +25,15 @@ export function ThoughtWorkspace() {
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
-        <div className="absolute inset-0 overflow-hidden bg-black z-0 pointer-events-none select-none">
-          <img
-            src={thoughtWorkspaceScene}
-            alt=""
-            aria-hidden="true"
-            className="absolute left-1/2 top-1/2 w-[100vw] h-auto max-w-none -translate-x-1/2 -translate-y-1/2 scale-[0.92] opacity-100 brightness-105 contrast-105"
-          />
-        </div>
+        <img
+          src={thoughtWorkspaceScene}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-[center_48%] opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
+        />
 
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/10 z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/25 z-10 pointer-events-none" />
 
         {/* SVG Gooey Filter definitions */}
         <svg className="hidden">
@@ -53,10 +51,36 @@ export function ThoughtWorkspace() {
           </defs>
         </svg>
 
-        {/* Foreground content wrapper */}
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-32 md:pt-36">
+        {/* Title Block (Desktop Only, Siblings with MacBook) */}
+        <div className="hidden lg:flex absolute top-[14%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
+            Thought Workspace
+          </p>
+          <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl text-white leading-tight">
+            Hemanth Sai <br /> Proof Hub
+          </h1>
+          <p className="mt-4 max-w-md mx-auto text-xs md:text-sm leading-relaxed text-white/55">
+            The mental desktop where ideas become proof.
+          </p>
+        </div>
+
+        {/* Desktop View: Interactive ThoughtOS inside MacbookScroll (Absolute Centered) */}
+        <div className="hidden lg:block absolute top-[30%] left-1/2 -translate-x-1/2 z-20 w-[70vw] max-w-[850px]">
+          <MacbookScroll
+            showTitle={false}
+            scaleXMax={1.35}
+            scaleYMax={1.35}
+            translateMax={120}
+            containerStyle={{ paddingTop: 0, paddingBottom: 0, minHeight: "120vh" }}
+            screenContent={<ThoughtOSScreen />}
+            showGradient={false}
+          />
+        </div>
+
+        {/* Foreground content wrapper (Mainly holds Mobile Layout and scrolls naturally) */}
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-32 md:pt-36 lg:hidden">
           
-          {/* Header Area (Scrolls away normally) */}
+          {/* Header Area (Mobile Only) */}
           <div className="w-full pb-10">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
@@ -75,21 +99,8 @@ export function ThoughtWorkspace() {
             </div>
           </div>
 
-          {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-          <div className="relative hidden lg:flex w-full max-w-4xl mx-auto mt-24 md:mt-32 scale-[0.92] origin-top items-start justify-center overflow-visible z-10">
-            <MacbookScroll
-              title={
-                <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                  Hemanth Sai <br /> Proof Hub
-                </span>
-              }
-              screenContent={<ThoughtOSScreen />}
-              showGradient={false}
-            />
-          </div>
-
           {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
-          <div className="lg:hidden w-full max-w-[1400px] px-6 md:px-10 flex flex-col items-center pb-20">
+          <div className="w-full max-w-[1400px] px-6 md:px-10 flex flex-col items-center pb-20">
             {/* Custom screen frame for mobile */}
             <div className="relative w-full bg-[#161615] rounded-2xl border-[6px] border-neutral-900 overflow-hidden shadow-inner flex flex-col aspect-[4/3] min-h-[360px] sm:min-h-[460px]">
               {/* Webcam Notch */}
