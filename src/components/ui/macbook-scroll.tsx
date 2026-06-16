@@ -36,6 +36,12 @@ export const MacbookScroll = ({
   scaleXMax = 1.5,
   scaleYMax = 1.5,
   translateMax = 1500,
+  scaleXMin = 1.2,
+  scaleYMin = 0.6,
+  scaleXRange = [0, 0.3],
+  scaleYRange = [0, 0.3],
+  rotateRange = [0.1, 0.12, 0.3],
+  translateRange = [0, 1],
   showTitle = true,
   containerStyle,
   scrollYProgress: customScrollYProgress,
@@ -51,6 +57,12 @@ export const MacbookScroll = ({
   scaleXMax?: number;
   scaleYMax?: number;
   translateMax?: number;
+  scaleXMin?: number;
+  scaleYMin?: number;
+  scaleXRange?: number[];
+  scaleYRange?: number[];
+  rotateRange?: number[];
+  translateRange?: number[];
   showTitle?: boolean;
   containerStyle?: React.CSSProperties;
   scrollYProgress?: MotionValue<number>;
@@ -73,20 +85,20 @@ export const MacbookScroll = ({
 
   const scaleX = stable ? 1.0 : useTransform(
     scrollYProgress,
-    [0, 0.3],
-    [1.2, isMobile ? 1 : scaleXMax],
+    scaleXRange,
+    [scaleXMin, isMobile ? 1 : scaleXMax],
   );
   const scaleY = stable ? 1.0 : useTransform(
     scrollYProgress,
-    [0, 0.3],
-    [0.6, isMobile ? 1 : scaleYMax],
+    scaleYRange,
+    [scaleYMin, isMobile ? 1 : scaleYMax],
   );
   const translate = stable ? 0 : useTransform(
     scrollYProgress,
-    sectionMode ? [0, 0.3] : [0, 1],
+    sectionMode ? [0, 0.3] : translateRange,
     sectionMode ? [0, 180] : [0, translateMax]
   );
-  const rotate = stable ? 0 : useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
+  const rotate = stable ? 0 : useTransform(scrollYProgress, rotateRange, [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 

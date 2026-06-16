@@ -20,8 +20,8 @@ export function ThoughtWorkspace() {
     offset: ["start start", "end end"],
   });
 
-  const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const textTransform = useTransform(scrollYProgress, [0, 0.25], [0, -60]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 1, 0]);
 
   const activeWorkspace = getWorkspaceById(activeId);
   const thoughtWorkspaceScene = getAssetUrl("thought-workspace-scene.webp");
@@ -34,8 +34,8 @@ export function ThoughtWorkspace() {
         className="relative min-h-[300vh] bg-black text-white px-6 md:px-10"
         aria-label="Thought Workspace Section"
       >
-        {/* Sticky Viewport Container */}
-        <div className="sticky top-0 h-screen w-full overflow-visible flex flex-col justify-center items-center">
+        {/* Sticky Viewport Container (Centering laptop with navbar top-offset clearance) */}
+        <div className="sticky top-0 h-screen w-full overflow-visible flex flex-col justify-center items-center pt-[120px]">
           {/* Workspace background */}
           <img
             src={thoughtWorkspaceScene}
@@ -69,7 +69,7 @@ export function ThoughtWorkspace() {
               translateY: textTransform,
               opacity: textOpacity,
             }}
-            className="hidden lg:flex absolute top-[10%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none"
+            className="hidden lg:flex absolute top-[12%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none"
           >
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
               Thought Workspace
@@ -86,9 +86,15 @@ export function ThoughtWorkspace() {
           <div className="hidden lg:block z-20 w-full max-w-4xl mx-auto">
             <MacbookScroll
               showTitle={false}
-              scaleXMax={1.5}
-              scaleYMax={1.5}
-              translateMax={1500}
+              scaleXMin={0.82}
+              scaleYMin={0.41}
+              scaleXMax={1.35}
+              scaleYMax={1.35}
+              scaleXRange={[0.15, 0.45]}
+              scaleYRange={[0.15, 0.45]}
+              rotateRange={[0.18, 0.22, 0.45]}
+              translateRange={[0.15, 0.45]}
+              translateMax={80}
               screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
               showGradient={false}
               scrollYProgress={scrollYProgress}
