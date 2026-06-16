@@ -32,6 +32,7 @@ export const MacbookScroll = ({
   badge,
   children,
   sectionMode = false,
+  stable = false,
 }: {
   src?: string;
   showGradient?: boolean;
@@ -39,6 +40,7 @@ export const MacbookScroll = ({
   badge?: React.ReactNode;
   children?: React.ReactNode;
   sectionMode?: boolean;
+  stable?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -54,22 +56,22 @@ export const MacbookScroll = ({
     }
   }, []);
 
-  const scaleX = useTransform(
+  const scaleX = stable ? 1.0 : useTransform(
     scrollYProgress,
     [0, 0.3],
     [1.2, isMobile ? 1 : 1.5],
   );
-  const scaleY = useTransform(
+  const scaleY = stable ? 1.0 : useTransform(
     scrollYProgress,
     [0, 0.3],
     [0.6, isMobile ? 1 : 1.5],
   );
-  const translate = useTransform(
+  const translate = stable ? 0 : useTransform(
     scrollYProgress,
     sectionMode ? [0, 0.3] : [0, 1],
     sectionMode ? [0, 180] : [0, 1500]
   );
-  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
+  const rotate = stable ? 0 : useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 

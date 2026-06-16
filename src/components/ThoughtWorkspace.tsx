@@ -80,6 +80,7 @@ export function ThoughtWorkspace() {
               <div className="relative w-[85vw] max-w-[940px] flex items-center justify-center scale-[0.80] origin-center">
                 <MacbookScroll
                   sectionMode
+                  stable={true}
                   title={
                     <span className="text-white text-xl md:text-2xl font-extrabold tracking-tight leading-tight">
                       From thought loops. <br /> Turning curiosity into visible proof.

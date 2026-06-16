@@ -84,10 +84,12 @@ const getDocSVG = (colorHex: string, label: string) => {
 };
 
 const artifactCards = [
-  { id: 1, type: "React Codebase", detail: "src/main.tsx", progress: 92, endY: 38 },
+  { id: 1, type: "Codebase", detail: "Repository", progress: 92, endY: 38 },
   { id: 2, type: "Design System", detail: "Figma Spec", progress: 100, endY: 50 },
-  { id: 3, type: "Product Doc", detail: "Roadmap.md", progress: 75, endY: 62 },
+  { id: 3, type: "Documentation", detail: "Architecture", progress: 75, endY: 62 },
+  { id: 4, type: "Production Build", detail: "Static Assets", progress: 88, endY: 74 },
 ];
+
 
 export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
   const containerRef = useRef<HTMLElement | null>(null);
@@ -122,8 +124,8 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
   );
 
   // Right artifact stack fading/sliding in
-  const artifactOpacity = useTransform(scrollYProgress, [0.65, 1], [0, 1]);
-  const artifactY = useTransform(scrollYProgress, [0.65, 1], [15, 0]);
+  const artifactOpacity = useTransform(scrollYProgress, [0.4, 0.85], [0.15, 1]);
+  const artifactY = useTransform(scrollYProgress, [0.4, 0.85], [10, 0]);
 
   // Map sources and distribute vertically
   const sources = thoughtOSItems.map((item, index) => {
@@ -180,9 +182,9 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
         preserveAspectRatio="none"
       >
         <defs>
-          <linearGradient id="amberGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#f59e0b" stopOpacity="1" />
+          <linearGradient id="softWhiteGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.60)" />
+            <stop offset="100%" stopColor="rgba(245, 158, 11, 0.48)" />
           </linearGradient>
           <filter id="subtle-glow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="0.6" result="blur" />
@@ -216,7 +218,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 <motion.path
                   d={pathD}
                   fill="none"
-                  stroke="url(#amberGradient)"
+                  stroke="url(#softWhiteGradient)"
                   strokeWidth="0.75"
                   filter="url(#subtle-glow)"
                   style={{
@@ -250,7 +252,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 <motion.path
                   d={pathD}
                   fill="none"
-                  stroke="url(#amberGradient)"
+                  stroke="url(#softWhiteGradient)"
                   strokeWidth="0.75"
                   filter="url(#subtle-glow)"
                   style={{
@@ -347,7 +349,7 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 className="absolute inset-0 rounded-full border border-amber-500/30 transition-all duration-300 pointer-events-none"
               />
 
-              <span className="text-[7.5px] font-black tracking-widest text-amber-400 select-none">
+              <span className="text-[6.5px] font-black tracking-widest text-amber-400 select-none whitespace-nowrap">
                 THOUGHT_OS
               </span>
             </motion.div>
@@ -384,11 +386,17 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
             </div>
 
             {/* Abstract Card Stack */}
-            <div className="flex flex-col gap-2 w-full">
-              {artifactCards.map((card) => (
+            <div className="flex flex-col w-full">
+              {artifactCards.map((card, idx) => (
                 <div
                   key={card.id}
-                  className="p-2 rounded-lg border border-white/5 bg-white/[0.02] backdrop-blur-md shadow-md flex flex-col justify-between h-[38px] w-full hover:border-amber-500/20 transition-all duration-300 relative group pointer-events-auto"
+                  style={{
+                    zIndex: 20 + idx,
+                  }}
+                  className={cn(
+                    "p-2 rounded-lg border border-white/5 bg-white/[0.02] backdrop-blur-md shadow-md flex flex-col justify-between h-[38px] w-full hover:border-amber-500/20 transition-all duration-300 relative group pointer-events-auto",
+                    idx > 0 && "-mt-1.5"
+                  )}
                 >
                   {/* Subtle highlight border */}
                   <div className="absolute inset-0 rounded-lg border border-transparent group-hover:border-amber-500/10 transition-colors duration-300 pointer-events-none" />
