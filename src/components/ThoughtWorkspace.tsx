@@ -21,7 +21,7 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[240vh] overflow-visible bg-black text-white"
+        className="relative min-h-[200vh] overflow-visible bg-black text-white"
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
@@ -74,10 +74,10 @@ export function ThoughtWorkspace() {
           </div>
 
           {/* Desktop View: Sticky Showcase viewport container */}
-          <div className="hidden lg:block w-full h-[160vh] relative z-10">
-            <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-38 pb-6 overflow-hidden">
+          <div className="hidden lg:block w-full h-[200vh] relative z-10">
+            <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-24 pb-6 overflow-hidden">
               {/* Perfectly scaled and centered wrapper for MacBook */}
-              <div className="relative w-[85vw] max-w-[940px] flex items-center justify-center scale-[0.80] origin-center">
+              <div className="relative w-[85vw] max-w-[940px] flex items-center justify-center scale-[0.92] origin-center z-20 shadow-[0_40px_120px_rgba(0,0,0,0.65)] border border-white/10 rounded-2xl bg-black/40 backdrop-blur-sm">
                 <MacbookScroll
                   sectionMode
                   stable={true}
