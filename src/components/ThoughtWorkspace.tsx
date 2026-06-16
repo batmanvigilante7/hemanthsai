@@ -21,7 +21,7 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[120vh] overflow-visible bg-black text-white px-6 md:px-10"
+        className="relative min-h-[140vh] overflow-visible bg-black text-white px-6 md:px-10"
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
@@ -29,7 +29,7 @@ export function ThoughtWorkspace() {
           src={thoughtWorkspaceScene}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-bottom opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
+          className="absolute inset-0 h-full w-full object-cover object-top opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
         />
 
         {/* Dark overlay for readability */}
