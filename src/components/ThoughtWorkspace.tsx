@@ -68,12 +68,12 @@ export function ThoughtWorkspace() {
                 translateY: textTransform,
                 opacity: textOpacity,
               }}
-              className="pointer-events-none absolute left-8 top-[6.5rem] max-w-[720px] hidden lg:block"
+              className="pointer-events-none absolute left-8 top-[5.2rem] max-w-[760px] hidden lg:block"
             >
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
                 Thought Workspace
               </p>
-              <h2 className="text-[clamp(3.2rem,8vw,7rem)] font-black uppercase leading-[0.84] tracking-[-0.075em] text-white">
+              <h2 className="text-[clamp(3.4rem,6.5vw,5.8rem)] font-black uppercase leading-[0.86] tracking-[-0.075em] text-white">
                 The Mental Desktop Where Ideas Become Proof.
               </h2>
             </motion.div>
@@ -84,13 +84,13 @@ export function ThoughtWorkspace() {
                 translateY: textTransform,
                 opacity: textOpacity,
               }}
-              className="pointer-events-none absolute right-8 top-[8rem] max-w-[520px] text-base leading-7 text-white/55 hidden lg:block"
+              className="pointer-events-none absolute right-8 top-[11.8rem] max-w-[560px] text-base leading-7 text-white/60 hidden lg:block"
             >
               A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
             </motion.p>
 
             {/* MacBook placement target */}
-            <div className="absolute left-1/2 top-[38%] w-full max-w-[760px] -translate-x-1/2 overflow-visible hidden lg:flex justify-center z-20">
+            <div className="absolute left-1/2 top-[47%] w-full max-w-[700px] -translate-x-1/2 overflow-visible hidden lg:flex justify-center z-20">
               <MacbookScroll
                 title={
                   <span>
@@ -101,6 +101,11 @@ export function ThoughtWorkspace() {
                 screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
                 sectionMode
                 scrollYProgress={scrollYProgress}
+                scaleXMax={1.32}
+                scaleYMax={1.32}
+                translateMax={120}
+                scaleXMin={1.05}
+                scaleYMin={0.52}
               />
             </div>
           </div>

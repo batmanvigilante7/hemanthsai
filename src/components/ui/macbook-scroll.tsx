@@ -108,7 +108,7 @@ export const MacbookScroll = ({
       style={containerStyle}
       className={cn(
         "flex shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100",
-        sectionMode ? "min-h-[86vh] md:py-10" : "min-h-[200vh] md:py-80"
+        sectionMode ? "min-h-0 md:py-0" : "min-h-[200vh] md:py-80"
       )}
     >
       {title !== null && (
@@ -119,7 +119,7 @@ export const MacbookScroll = ({
           }}
           className={cn(
             "text-center text-xl md:text-2xl font-bold text-white",
-            sectionMode ? "mb-10" : "mb-20"
+            sectionMode ? "mb-6" : "mb-20"
           )}
         >
           {title === undefined ? (
