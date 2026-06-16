@@ -21,7 +21,7 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[200vh] overflow-visible bg-black text-white"
+        className="relative min-h-[120vh] overflow-visible bg-black text-white px-6 md:px-10"
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
@@ -52,10 +52,10 @@ export function ThoughtWorkspace() {
         </svg>
 
         {/* Foreground content wrapper */}
-        <div className="relative z-10 mx-auto w-full flex flex-col items-center justify-start">
+        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-40 md:pt-48">
           
           {/* Header Area (Scrolls away normally) */}
-          <div className="w-full max-w-[1400px] px-6 md:px-10 pt-40 md:pt-48 pb-10">
+          <div className="w-full pb-10">
             <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
               <div>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
@@ -73,21 +73,17 @@ export function ThoughtWorkspace() {
             </div>
           </div>
 
-          {/* Desktop View: Sticky Showcase viewport container */}
-          <div className="hidden lg:block w-full h-[200vh] relative z-10">
-            <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-24 pb-6 overflow-hidden">
-              {/* Perfectly scaled and centered wrapper for MacBook */}
-              <div className="relative w-[85vw] max-w-[940px] flex items-center justify-center scale-[0.92] origin-center z-20">
-                <MacbookScroll
-                  sectionMode
-                  stable={true}
-                  title={null}
-                  badge={null}
-                  showGradient={false}
-                  screenContent={<ThoughtOSScreen />}
-                />
-              </div>
-            </div>
+          {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
+          <div className="relative hidden lg:flex w-full max-w-4xl mx-auto mt-24 md:mt-32 scale-[0.92] origin-top items-start justify-center overflow-visible z-10">
+            <MacbookScroll
+              title={
+                <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
+                  Hemanth Sai <br /> Proof Hub
+                </span>
+              }
+              src="/thoughtos-preview.webp"
+              showGradient={false}
+            />
           </div>
 
           {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
