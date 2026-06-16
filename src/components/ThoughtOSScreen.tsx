@@ -127,6 +127,26 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
   const artifactOpacity = useTransform(scrollYProgress, [0.4, 0.85], [0.15, 1]);
   const artifactY = useTransform(scrollYProgress, [0.4, 0.85], [10, 0]);
 
+  // Pulse rings scale and opacity based on scroll progress (peaking when incoming meets center at 0.45-0.55)
+  const ring1Scale = useTransform(scrollYProgress, [0, 0.45, 0.58, 0.68, 1], [0.9, 1.0, 1.8, 2.6, 2.6]);
+  const ring1Opacity = useTransform(scrollYProgress, [0, 0.45, 0.48, 0.58, 0.64, 1], [0, 0, 0.8, 0.5, 0, 0]);
+
+  const ring2Scale = useTransform(scrollYProgress, [0, 0.49, 0.62, 0.72, 1], [0.9, 1.0, 1.8, 2.6, 2.6]);
+  const ring2Opacity = useTransform(scrollYProgress, [0, 0.49, 0.52, 0.62, 0.68, 1], [0, 0, 0.7, 0.4, 0, 0]);
+
+  // Center node scroll-dependent scale pulse
+  const centerPulseScale = useTransform(
+    scrollYProgress,
+    [0, 0.42, 0.45, 0.49, 0.53, 0.57, 0.61, 0.65, 0.70, 1],
+    [1, 1, 1.15, 0.96, 1.18, 0.96, 1.12, 0.98, 1.05, 1]
+  );
+
+  // Dynamic status text opacities representing the phase progression
+  const ideasOpacity = useTransform(scrollYProgress, [0, 0.28, 0.35], [1, 1, 0]);
+  const processingOpacity = useTransform(scrollYProgress, [0.30, 0.35, 0.45, 0.50], [0, 1, 1, 0]);
+  const convergenceOpacity = useTransform(scrollYProgress, [0.47, 0.51, 0.63, 0.67], [0, 1, 1, 0]);
+  const proofOpacity = useTransform(scrollYProgress, [0.64, 0.68, 1.0], [0, 1, 1]);
+
   // Map sources and distribute vertically
   const sources = thoughtOSItems.map((item, index) => {
     const startY = 12;
@@ -316,20 +336,13 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
             }}
             className="flex flex-col items-center justify-center text-center z-30"
           >
-            {/* Glowing Brain Circle (made smaller and cleaner) */}
+            {/* Glowing Brain Circle */}
             <motion.div
               style={{
+                scale: centerPulseScale,
                 boxShadow: "0 0 20px rgba(245, 158, 11, 0.3), inset 0 0 10px rgba(245, 158, 11, 0.15)",
               }}
-              animate={{
-                scale: [1, 1.02, 1],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="w-15 h-15 rounded-full border border-amber-500/40 bg-black/90 flex flex-col items-center justify-center relative"
+              className="w-16 h-16 rounded-full border border-amber-500/40 bg-black/90 flex flex-col items-center justify-center relative z-20"
             >
               {/* Glow highlight */}
               <motion.div
@@ -349,15 +362,60 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
                 className="absolute inset-0 rounded-full border border-amber-500/30 transition-all duration-300 pointer-events-none"
               />
 
-              <span className="text-[6.5px] font-black tracking-widest text-amber-400 select-none whitespace-nowrap">
+              <span className="text-[6.5px] font-black tracking-widest text-amber-400 select-none whitespace-nowrap z-10">
                 THOUGHT_OS
               </span>
+
+              {/* Pulse Ring 1 */}
+              <motion.div
+                style={{
+                  scale: ring1Scale,
+                  opacity: ring1Opacity,
+                  borderColor: "rgba(245, 158, 11, 0.6)",
+                  boxShadow: "0 0 10px rgba(245, 158, 11, 0.3), inset 0 0 5px rgba(245, 158, 11, 0.1)",
+                }}
+                className="absolute inset-0 rounded-full border pointer-events-none z-0"
+              />
+
+              {/* Pulse Ring 2 */}
+              <motion.div
+                style={{
+                  scale: ring2Scale,
+                  opacity: ring2Opacity,
+                  borderColor: "rgba(245, 158, 11, 0.4)",
+                  boxShadow: "0 0 8px rgba(245, 158, 11, 0.2), inset 0 0 4px rgba(245, 158, 11, 0.05)",
+                }}
+                className="absolute inset-0 rounded-full border pointer-events-none z-0"
+              />
             </motion.div>
 
-            {/* Subtitle */}
-            <span className="text-[5.5px] font-bold tracking-tight text-white/50 mt-1.5 max-w-[95px] leading-tight select-none whitespace-nowrap">
-              Curiosity &rarr; Systems &rarr; Proof
-            </span>
+            {/* Dynamic cross-fading status text */}
+            <div className="relative mt-2 h-4 w-32 flex items-center justify-center select-none overflow-visible">
+              <motion.span
+                style={{ opacity: ideasOpacity }}
+                className="absolute text-[5.5px] font-bold uppercase tracking-widest text-white/50 leading-none whitespace-nowrap"
+              >
+                Ideas
+              </motion.span>
+              <motion.span
+                style={{ opacity: processingOpacity }}
+                className="absolute text-[5.5px] font-bold uppercase tracking-widest text-amber-500/80 leading-none whitespace-nowrap"
+              >
+                Processing...
+              </motion.span>
+              <motion.span
+                style={{ opacity: convergenceOpacity }}
+                className="absolute text-[5.5px] font-bold uppercase tracking-widest text-amber-400 leading-none whitespace-nowrap"
+              >
+                Convergence
+              </motion.span>
+              <motion.span
+                style={{ opacity: proofOpacity }}
+                className="absolute text-[5.5px] font-bold uppercase tracking-widest text-emerald-400 leading-none whitespace-nowrap animate-pulse"
+              >
+                Proof Generated
+              </motion.span>
+            </div>
           </div>
         </div>
 

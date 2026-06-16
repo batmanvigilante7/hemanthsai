@@ -81,7 +81,7 @@ export function ThoughtWorkspace() {
                   Hemanth Sai <br /> Proof Hub
                 </span>
               }
-              src="/thoughtos-preview.webp"
+              screenContent={<ThoughtOSScreen />}
               showGradient={false}
             />
           </div>
