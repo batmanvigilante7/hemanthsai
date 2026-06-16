@@ -21,7 +21,7 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[120vh] overflow-visible bg-black text-white px-6 md:px-10"
+        className="relative min-h-[240vh] overflow-visible bg-black text-white"
         aria-label="Thought Workspace Section"
       >
         {/* Workspace background */}
@@ -51,44 +51,50 @@ export function ThoughtWorkspace() {
           </defs>
         </svg>
 
-        {/* Foreground content */}
-        <div className="relative z-10 mx-auto w-full max-w-[1400px] flex min-h-screen flex-col items-center justify-start pt-40 md:pt-48">
-          {/* Section Header */}
-          <div className="mb-8 w-full grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-            <div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
-                Thought Workspace
-              </p>
-              <h2 className="text-4xl font-black uppercase tracking-tight md:text-6xl text-white">
-                The mental desktop where ideas become proof.
-              </h2>
-            </div>
-            <div>
-              <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
-                A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
-              </p>
+        {/* Foreground content wrapper */}
+        <div className="relative z-10 mx-auto w-full flex flex-col items-center justify-start">
+          
+          {/* Header Area (Scrolls away normally) */}
+          <div className="w-full max-w-[1400px] px-6 md:px-10 pt-40 md:pt-48 pb-10">
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
+              <div>
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
+                  Thought Workspace
+                </p>
+                <h2 className="text-4xl font-black uppercase tracking-tight md:text-6xl text-white">
+                  The mental desktop where ideas become proof.
+                </h2>
+              </div>
+              <div>
+                <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
+                  A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
-          <div className="relative hidden lg:flex w-full max-w-4xl mx-auto mt-24 md:mt-32 scale-[0.92] origin-top items-start justify-center overflow-visible z-10">
-
-            <MacbookScroll
-              sectionMode
-              title={
-                <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight leading-tight">
-                  From thought loops. <br /> Turning curiosity into visible proof.
-                </span>
-              }
-              showGradient={false}
-            >
-              <ThoughtOSScreen />
-            </MacbookScroll>
-
+          {/* Desktop View: Sticky Showcase viewport container */}
+          <div className="hidden lg:block w-full h-[160vh] relative z-10">
+            <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center pt-38 pb-6 overflow-hidden">
+              {/* Perfectly scaled and centered wrapper for MacBook */}
+              <div className="relative w-[85vw] max-w-[940px] flex items-center justify-center scale-[0.80] origin-center">
+                <MacbookScroll
+                  sectionMode
+                  title={
+                    <span className="text-white text-xl md:text-2xl font-extrabold tracking-tight leading-tight">
+                      From thought loops. <br /> Turning curiosity into visible proof.
+                    </span>
+                  }
+                  showGradient={false}
+                >
+                  <ThoughtOSScreen />
+                </MacbookScroll>
+              </div>
+            </div>
           </div>
 
           {/* Mobile/Tablet Fallback View: Static Bezel Mockup with App Grid */}
-          <div className="lg:hidden w-full flex flex-col items-center">
+          <div className="lg:hidden w-full max-w-[1400px] px-6 md:px-10 flex flex-col items-center pb-20">
             {/* Custom screen frame for mobile */}
             <div className="relative w-full bg-[#161615] rounded-2xl border-[6px] border-neutral-900 overflow-hidden shadow-inner flex flex-col aspect-[4/3] min-h-[360px] sm:min-h-[460px]">
               {/* Webcam Notch */}
@@ -156,6 +162,7 @@ export function ThoughtWorkspace() {
               </AnimatePresence>
             </div>
           </div>
+
         </div>
       </section>
       <div className="h-[60vh] bg-black" />
