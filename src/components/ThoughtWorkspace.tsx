@@ -29,7 +29,7 @@ export function ThoughtWorkspace() {
           src={thoughtWorkspaceScene}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-top opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
+          className="absolute left-1/2 top-0 w-full h-auto max-w-none -translate-x-1/2 opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
         />
 
         {/* Dark overlay for readability */}
