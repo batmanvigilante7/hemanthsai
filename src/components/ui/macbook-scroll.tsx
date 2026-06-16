@@ -1,7 +1,6 @@
-"use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
 import { MotionValue, motion, useScroll, useTransform } from "motion/react";
 import { cn } from "@/lib/utils";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   IconBrightnessDown,
   IconBrightnessUp,
@@ -39,6 +38,7 @@ export const MacbookScroll = ({
   translateMax = 1500,
   showTitle = true,
   containerStyle,
+  scrollYProgress: customScrollYProgress,
 }: {
   src?: string;
   showGradient?: boolean;
@@ -53,12 +53,15 @@ export const MacbookScroll = ({
   translateMax?: number;
   showTitle?: boolean;
   containerStyle?: React.CSSProperties;
+  scrollYProgress?: MotionValue<number>;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: defaultScrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
+
+  const scrollYProgress = customScrollYProgress || defaultScrollYProgress;
 
   const [isMobile, setIsMobile] = useState(false);
 

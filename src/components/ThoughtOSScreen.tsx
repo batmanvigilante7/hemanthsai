@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import ImagesBadgeDemoTwo from "./images-badge-demo-2";
 import { GoogleGeminiEffect } from "./ui/google-gemini-effect";
 
 interface ThoughtOSScreenProps {
   className?: string;
+  scrollYProgress?: MotionValue<number>;
 }
 
 const thoughtOSItems = [
@@ -91,7 +92,7 @@ const artifactCards = [
 ];
 
 
-export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
+export default function ThoughtOSScreen({ className, scrollYProgress: customScrollYProgress }: ThoughtOSScreenProps) {
   const containerRef = useRef<HTMLElement | null>(null);
   const [_, setRender] = useState({});
 
@@ -100,10 +101,12 @@ export default function ThoughtOSScreen({ className }: ThoughtOSScreenProps) {
     setRender({});
   }, []);
 
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: defaultScrollYProgress } = useScroll({
     target: containerRef.current ? containerRef : undefined,
     offset: ["start center", "end center"],
   });
+
+  const scrollYProgress = customScrollYProgress || defaultScrollYProgress;
 
   // Aceternity Google Gemini Effect path length transforms
   const pathLengthFirst = useTransform(scrollYProgress, [0, 0.35], [0, 1]);

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { thoughtWorkspaces, getWorkspaceById } from "@/data/thought-workspaces";
 import { ThoughtWorkspaceNode, getWorkspaceIcon } from "./ThoughtWorkspaceNode";
 import { ThoughtPanel } from "./ThoughtPanel";
@@ -13,6 +13,12 @@ const getAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/${f
 
 export function ThoughtWorkspace() {
   const [activeId, setActiveId] = useState<string>("ai-leverage");
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
 
   const activeWorkspace = getWorkspaceById(activeId);
   const thoughtWorkspaceScene = getAssetUrl("thought-workspace-scene.webp");
@@ -21,60 +27,65 @@ export function ThoughtWorkspace() {
     <>
       <section
         id="thought-workspace"
-        className="relative min-h-[140vh] overflow-visible bg-black text-white px-6 md:px-10"
+        ref={sectionRef}
+        className="relative min-h-[220vh] bg-black text-white px-6 md:px-10"
         aria-label="Thought Workspace Section"
       >
-        {/* Workspace background */}
-        <img
-          src={thoughtWorkspaceScene}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-[center_48%] opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
-        />
-
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/25 z-10 pointer-events-none" />
-
-        {/* SVG Gooey Filter definitions */}
-        <svg className="hidden">
-          <defs>
-            <filter id="gooey-blend">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur" />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -15"
-                result="goo"
-              />
-              <feBlend in="SourceGraphic" in2="goo" />
-            </filter>
-          </defs>
-        </svg>
-
-        {/* Title Block (Desktop Only, Siblings with MacBook) */}
-        <div className="hidden lg:flex absolute top-[14%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
-            Thought Workspace
-          </p>
-          <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl text-white leading-tight">
-            Hemanth Sai <br /> Proof Hub
-          </h1>
-          <p className="mt-4 max-w-md mx-auto text-xs md:text-sm leading-relaxed text-white/55">
-            The mental desktop where ideas become proof.
-          </p>
-        </div>
-
-        {/* Desktop View: Interactive ThoughtOS inside MacbookScroll (Absolute Centered) */}
-        <div className="hidden lg:block absolute top-[30%] left-1/2 -translate-x-1/2 z-20 w-[70vw] max-w-[850px]">
-          <MacbookScroll
-            showTitle={false}
-            scaleXMax={1.35}
-            scaleYMax={1.35}
-            translateMax={120}
-            containerStyle={{ paddingTop: 0, paddingBottom: 0, minHeight: "120vh" }}
-            screenContent={<ThoughtOSScreen />}
-            showGradient={false}
+        {/* Sticky Viewport Container */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {/* Workspace background */}
+          <img
+            src={thoughtWorkspaceScene}
+            alt="Thought workspace scene"
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover object-[center_50%] opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
           />
+
+          {/* Dark overlay for readability */}
+          <div className="absolute inset-0 bg-black/25 z-10 pointer-events-none" />
+
+          {/* SVG Gooey Filter definitions */}
+          <svg className="hidden">
+            <defs>
+              <filter id="gooey-blend">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur" />
+                <feColorMatrix
+                  in="blur"
+                  mode="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -15"
+                  result="goo"
+                />
+                <feBlend in="SourceGraphic" in2="goo" />
+              </filter>
+            </defs>
+          </svg>
+
+          {/* Title Block (Desktop Only, Siblings with MacBook) */}
+          <div className="hidden lg:flex absolute top-[23%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
+              Thought Workspace
+            </p>
+            <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl text-white leading-tight">
+              Hemanth Sai <br /> Proof Hub
+            </h1>
+            <p className="mt-4 max-w-md mx-auto text-xs md:text-sm leading-relaxed text-white/55">
+              The mental desktop where ideas become proof.
+            </p>
+          </div>
+
+          {/* Desktop View: Interactive ThoughtOS inside MacbookScroll (Absolute Centered) */}
+          <div className="hidden lg:block absolute top-[56%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[68vw] max-w-[880px] scale-[0.78] md:scale-[0.85] lg:scale-[0.9]">
+            <MacbookScroll
+              showTitle={false}
+              scaleXMax={1.12}
+              scaleYMax={1.12}
+              translateMax={0}
+              containerStyle={{ paddingTop: 0, paddingBottom: 0, minHeight: 0 }}
+              screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
+              showGradient={false}
+              scrollYProgress={scrollYProgress}
+            />
+          </div>
         </div>
 
         {/* Foreground content wrapper (Mainly holds Mobile Layout and scrolls naturally) */}
