@@ -109,7 +109,7 @@ export const MacbookScroll = ({
         children={children}
       />
       {/* Base area */}
-      <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
+      <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729] shadow-[0_30px_100px_rgba(0,0,0,0.85)] border border-white/5">
         {/* above keyboard bar */}
         <div className="relative h-10 w-full">
           <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
@@ -181,7 +181,7 @@ export const Lid = ({
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
-        className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2"
+        className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2 shadow-[0_20px_80px_rgba(0,0,0,0.7)] border border-white/10"
       >
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
         {children ? (
