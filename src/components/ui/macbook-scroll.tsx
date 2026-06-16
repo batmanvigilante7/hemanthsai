@@ -109,6 +109,7 @@ export const MacbookScroll = ({
         rotate={rotate}
         translate={translate}
         children={children}
+        screenContent={screenContent}
       />
       {/* Base area */}
       <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729] shadow-[0_30px_100px_rgba(0,0,0,0.85)] border border-white/5">
@@ -145,13 +146,15 @@ export const Lid = ({
   translate,
   src,
   children,
+  screenContent,
 }: {
-  scaleX: MotionValue<number>;
-  scaleY: MotionValue<number>;
-  rotate: MotionValue<number>;
-  translate: MotionValue<number>;
+  scaleX: MotionValue<number> | number;
+  scaleY: MotionValue<number> | number;
+  rotate: MotionValue<number> | number;
+  translate: MotionValue<number> | number;
   src?: string;
   children?: React.ReactNode;
+  screenContent?: React.ReactNode;
 }) => {
   return (
     <div className="relative [perspective:800px]">
