@@ -31,21 +31,21 @@ export function ThoughtWorkspace() {
       <section
         id="thought-workspace"
         ref={sectionRef}
-        className="relative min-h-[300vh] bg-black text-white px-6 md:px-10"
+        className="relative min-h-[260vh] overflow-visible bg-black text-white px-6 md:px-10"
         aria-label="Thought Workspace Section"
       >
-        {/* Sticky Viewport Container (Centering laptop with navbar top-offset clearance) */}
-        <div className="sticky top-0 h-screen w-full overflow-visible flex flex-col justify-center items-center pt-[120px]">
+        {/* Sticky Viewport Container */}
+        <div className="sticky top-0 z-10 h-screen overflow-visible w-full flex flex-col justify-start">
           {/* Workspace background */}
           <img
             src={thoughtWorkspaceScene}
-            alt="Thought workspace scene"
+            alt=""
             aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-cover object-[center_50%] opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
+            className="absolute inset-0 h-full w-full object-cover object-bottom opacity-100 brightness-105 contrast-105 pointer-events-none select-none z-0"
           />
 
           {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/25 z-10 pointer-events-none" />
+          <div className="absolute inset-0 z-0 bg-black/25 pointer-events-none" />
 
           {/* SVG Gooey Filter definitions */}
           <svg className="hidden">
@@ -63,42 +63,40 @@ export function ThoughtWorkspace() {
             </defs>
           </svg>
 
-          {/* Title Block (Desktop Only, Siblings with MacBook, Fades on Scroll) */}
-          <motion.div 
-            style={{
-              translateY: textTransform,
-              opacity: textOpacity,
-            }}
-            className="hidden lg:flex absolute top-[12%] left-1/2 -translate-x-1/2 z-30 flex-col items-center text-center w-full max-w-2xl px-4 select-none pointer-events-none"
-          >
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
-              Thought Workspace
-            </p>
-            <h1 className="text-4xl font-black uppercase tracking-tight md:text-5xl text-white leading-tight">
-              Hemanth Sai <br /> Proof Hub
-            </h1>
-            <p className="mt-4 max-w-md mx-auto text-xs md:text-sm leading-relaxed text-white/55">
-              The mental desktop where ideas become proof.
-            </p>
-          </motion.div>
+          <div className="relative mx-auto flex h-full w-full max-w-[1400px] flex-col px-6 pt-[120px] md:px-10 z-10">
+            {/* Desktop Intro Header block (Siblings with MacBook, Fades on Scroll) */}
+            <motion.div 
+              style={{
+                translateY: textTransform,
+                opacity: textOpacity,
+              }}
+              className="hidden lg:grid w-full gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-end"
+            >
+              <div>
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-amber-400">
+                  Thought Workspace
+                </p>
 
-          {/* Desktop View: Interactive ThoughtOS inside MacbookScroll (Centering Layout) */}
-          <div className="hidden lg:block z-20 w-full max-w-4xl mx-auto">
-            <MacbookScroll
-              showTitle={false}
-              scaleXMin={0.82}
-              scaleYMin={0.41}
-              scaleXMax={1.35}
-              scaleYMax={1.35}
-              scaleXRange={[0.15, 0.45]}
-              scaleYRange={[0.15, 0.45]}
-              rotateRange={[0.18, 0.22, 0.45]}
-              translateRange={[0.15, 0.45]}
-              translateMax={80}
-              screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
-              showGradient={false}
-              scrollYProgress={scrollYProgress}
-            />
+                <h2 className="max-w-4xl text-4xl font-black uppercase tracking-tight text-white md:text-6xl">
+                  The mental desktop where ideas become proof.
+                </h2>
+              </div>
+
+              <p className="max-w-xl text-base leading-7 text-white/55 md:text-lg">
+                A visual workspace of the recurring questions, creative loops, and thinking patterns that shape how I move from first spark to something real enough to share.
+              </p>
+            </motion.div>
+
+            {/* Desktop View: Interactive ThoughtOS inside MacbookScroll */}
+            <div className="relative mx-auto mt-8 hidden w-full max-w-5xl justify-center overflow-visible lg:flex z-20">
+              <MacbookScroll
+                title={null}
+                showGradient={false}
+                screenContent={<ThoughtOSScreen scrollYProgress={scrollYProgress} />}
+                sectionMode
+                scrollYProgress={scrollYProgress}
+              />
+            </div>
           </div>
         </div>
 

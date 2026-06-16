@@ -179,7 +179,7 @@ export default function ThoughtOSScreen({ className, scrollYProgress: customScro
       }}
     >
       {/* Edge Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.6)_100%)] z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.75)_100%)] z-0 pointer-events-none" />
 
       {/* 1. Google Gemini Effect Layer (Wow / Scroll Energy) */}
       <motion.div className="pointer-events-none absolute inset-0 z-10 overflow-hidden [&_button]:hidden [&_p]:hidden">

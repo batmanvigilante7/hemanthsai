@@ -111,7 +111,7 @@ export const MacbookScroll = ({
         sectionMode ? "min-h-[86vh] md:py-10" : "min-h-[200vh] md:py-80"
       )}
     >
-      {showTitle && (title || title === undefined) && (
+      {title !== null && (
         <motion.h2
           style={{
             translateY: textTransform,
@@ -122,10 +122,12 @@ export const MacbookScroll = ({
             sectionMode ? "mb-14" : "mb-20"
           )}
         >
-          {title || (
+          {title === undefined ? (
             <span>
               This Macbook is built with Tailwindcss. <br /> No kidding.
             </span>
+          ) : (
+            title
           )}
         </motion.h2>
       )}
