@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Moukthika ✦</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #050507; overflow: hidden; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #scene { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .grain { pointer-events: none; position: fixed; inset: 0; z-index: 10; opacity: .11; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E"); mix-blend-mode: screen; }
+    .hud { position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; pointer-events: none; }
+    .terminal { width: min(680px, 88vw); padding: 22px 24px; border: 1px solid rgba(255,255,255,.14); border-radius: 16px; background: rgba(10,10,13,.56); box-shadow: 0 24px 90px rgba(0,0,0,.42); backdrop-filter: blur(12px); opacity: 0; transform: translateY(12px); transition: opacity .8s ease, transform .8s ease; }
+    .terminal.show { opacity: 1; transform: translateY(0); }
+    .bar { display: flex; gap: 7px; margin-bottom: 18px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff7395; box-shadow: 18px 0 #ffce73, 36px 0 #74e6b6; }
+    .code { font: 500 clamp(13px, 1.7vw, 18px)/1.8 "SFMono-Regular", Consolas, monospace; color: #eaeaf0; white-space: pre-wrap; }
+    .accent { color: #ff87ab; }
+    .cursor { display:inline-block; width:.55em; height:1.15em; transform: translateY(.18em); background:#ff9fba; animation: blink .85s step-end infinite; }
+    .message { position: fixed; z-index: 6; left: max(28px, 7vw); top: 50%; width: min(470px, 74vw); transform: translateY(-43%); opacity: 0; transition: opacity 1.25s ease; pointer-events: none; }
+    .message.show { opacity: 1; }
+    .eyebrow { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,214,225,.66); margin-bottom: 16px; }
+    h1 { margin: 0 0 20px; font: 400 clamp(32px, 5vw, 66px)/.98 Georgia, "Times New Roman", serif; letter-spacing: -.04em; color: #fff7fa; }
+    p { margin: 0; max-width: 38ch; font-size: clamp(15px, 1.6vw, 19px); line-height: 1.72; color: rgba(255,245,248,.80); }
+    .signature { margin-top: 23px; color: #ffb3c8; font: italic 20px/1.2 Georgia, serif; }
+    .hint { position: fixed; z-index: 7; bottom: 24px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.42); letter-spacing: .14em; font-size: 10px; text-transform: uppercase; opacity: 0; transition: opacity .7s; }
+    .hint.show { opacity: 1; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (max-width: 720px) { .message { top: 67%; transform: translateY(-50%); } }
+  </style>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div class="grain"></div>
+  <div class="hud"><div class="terminal" id="terminal"><div class="bar"><span class="dot"></span></div><div class="code" id="code"></div></div></div>
+  <article class="message" id="message">
+    <div class="eyebrow">A small thing, made for you</div>
+    <h1>Happy Birthday,<br>Moukthika. ♡</h1>
+    <p>Out of all the people I met this year, you became one of the rare ones — the kind that quietly starts meaning a lot. Thank you for the laughter, the conversations, and for simply being you.</p>
+    <p style="margin-top:14px">I hope this year gives you softer days, louder happiness, and every little thing your heart has been waiting for.</p>
+    <div class="signature">— Hemanth ✦</div>
+  </article>
+  <div class="hint" id="hint">tap anywhere to replay</div>
+<script>
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H, dpr, petals = [], growing = 0, finished = false, raf;
+function size(){ dpr=Math.min(devicePixelRatio||1,2); W=innerWidth; H=innerHeight; canvas.width=W*dpr; canvas.height=H*dpr; canvas.style.width=W+'px'; canvas.style.height=H+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); }
+addEventListener('resize', size); size();
+function rand(a,b){return a+Math.random()*(b-a)}
+function heart(t){ const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); return [x,y]; }
+function makePetals(){ petals=[]; const scale=Math.min(W,H)*0.019; const cx=W*.70, cy=H*.45; for(let i=0;i<1100;i++){ const t=rand(0,Math.PI*2); const [hx,hy]=heart(t); const radial=rand(.72,1.05); petals.push({x:cx+hx*scale*radial+rand(-7,7), y:cy-hy*scale*radial+rand(-7,7), r:rand(.8,2.8), a:rand(.30,.95), drift:rand(-.22,.22), phase:rand(0,6.28), reveal:Math.random()}); } }
+function line(x1,y1,x2,y2,w,alpha){ ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo(x1+(x2-x1)*.25+Math.sin(growing*6)*8,y1-(y1-y2)*.24,x2,y2);ctx.strokeStyle=`rgba(167,70,99,${alpha})`;ctx.lineWidth=w;ctx.stroke(); }
+function tree(){ const cx=W*.70, baseY=H*.84; const topY=H*.42; const p=Math.min(1,growing*1.35); line(cx,baseY,cx-4,baseY-(baseY-topY)*p,Math.max(1.5,8*p),.95); if(p>.28){let q=(p-.28)/.72; line(cx-2,baseY-(baseY-topY)*.40,cx-65,baseY-(baseY-topY)*.74*q,3.6*q,.8);line(cx+2,baseY-(baseY-topY)*.35,cx+67,baseY-(baseY-topY)*.72*q,3.6*q,.8);line(cx,baseY-(baseY-topY)*.57,cx-49,baseY-(baseY-topY)*.91*q,2.4*q,.75);line(cx,baseY-(baseY-topY)*.60,cx+49,baseY-(baseY-topY)*.91*q,2.4*q,.75);} }
+function draw(){ ctx.clearRect(0,0,W,H); const g=ctx.createRadialGradient(W*.7,H*.48,20,W*.7,H*.48,Math.max(W,H)*.62);g.addColorStop(0,'rgba(151,45,84,.15)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); tree(); const now=performance.now()/1000; for(const p of petals){if(p.reveal>growing) continue; ctx.save();ctx.translate(p.x+p.drift*now*15,p.y+Math.sin(now+p.phase)*1.7);ctx.rotate(Math.sin(now+p.phase)*.6);ctx.globalAlpha=p.a*Math.min(1,(growing-p.reveal)*6);ctx.fillStyle=Math.random()>.92?'#fff5f8':'#ff7fa9';ctx.beginPath();ctx.ellipse(0,0,p.r*1.7,p.r,0,0,Math.PI*2);ctx.fill();ctx.restore();}
+ if(growing<1){growing+=.007; raf=requestAnimationFrame(draw)} else {finished=true; document.getElementById('message').classList.add('show');document.getElementById('hint').classList.add('show');}
+}
+const lines=[
+  '<span class="accent">// birthday_protocol.js</span>',
+  '',
+  'const moukthika = {',
+  '  warmth: <span class="accent">Infinity</span>,',
+  '  smile: <span class="accent">"unfairly contagious"</span>,',
+  '  importance: <span class="accent">"more than she knows"</span>',
+  '};',
+  '',
+  '<span class="accent">celebrate(moukthika);</span>'
+];
+async function type(){ const out=document.getElementById('code');out.innerHTML=''; for(const line of lines){let temp=document.createElement('div');temp.innerHTML=line; const plain=temp.textContent; let current=''; for(let i=0;i<plain.length;i++){current+=plain[i]; let encoded=current.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); out.innerHTML += i===plain.length-1 ? `<div>${line}</div>` : ''; if(i<plain.length-1){out.lastElementChild?.remove(); out.innerHTML = out.innerHTML.replace(/<span class="cursor"><\\/span>$/,''); out.innerHTML += `<div>${encoded}<span class="cursor"></span></div>`;} await new Promise(r=>setTimeout(r,15)); } await new Promise(r=>setTimeout(r,75)); } await new Promise(r=>setTimeout(r,650)); document.getElementById('terminal').classList.remove('show'); setTimeout(()=>{ makePetals(); growing=0; draw(); },650); }
+function reset(){cancelAnimationFrame(raf);finished=false;growing=0;document.getElementById('message').classList.remove('show');document.getElementById('hint').classList.remove('show');document.getElementById('terminal').classList.add('show');setTimeout(type,350);}
+addEventListener('click',()=>{if(finished) reset()});
+reset();
+</script>
+</body>
+</html>
